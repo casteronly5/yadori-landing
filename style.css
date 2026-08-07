@@ -574,116 +574,183 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   07. EVERYDAY MOMENTS — [EXPRESSIVE] one thesis: daily-life scenes.
-   Photo-led composition: PHOTO = subject, COLOR = mood, TEXT = narrative.
-   Every photo frame is a plain 4:3 / 16:9 rectangle with only one arched
-   corner (a light asymmetric touch, not an organic mask), so it stays
-   compatible with ordinary, fairly-full lifestyle photography. The four
-   scenes alternate wide-left / wide-right / medium-with-whitespace /
-   wide-right-again, so the rhythm varies without needing a grid of
-   equal shape-based cells. Sanctioned overlap zone: the closing photo
-   is allowed to bleed slightly past the section's own bottom edge.
+   07. EVERYDAY MOMENTS — [EXPRESSIVE] one thesis: a quiet horizontal
+   sequence of everyday scenes, browsed one at a time. Editorial
+   carousel, not a product/SaaS slider: one active scene is always
+   centered and dominant (56vw), previous/next scenes only peek in
+   from the sides (19vw) at reduced opacity, no blur. Every photo
+   shares one 16:9 frame. Full typography only ever appears for the
+   active scene; the color shape behind it crossfades between scenes.
    ========================================================================== */
 .everyday-moments { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
+.moments-stage { position: relative; z-index: 1; max-width: var(--container-w); margin: 0 auto; }
 
-.moments-sequence {
+.moments-carousel {
   position: relative;
-  z-index: 1;
-  max-width: var(--container-w);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 128px;
-}
-.moment {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 56px;
-  align-items: center;
-}
-.moment-copy { position: relative; z-index: 1; }
-
-/* AFTER WORK — wide image left, text right */
-.moment--after-work .moment-visual { grid-column: 1; }
-.moment--after-work .moment-copy { grid-column: 2; }
-
-/* BEFORE SLEEP — mirrored: text left, wide image right */
-.moment--before-sleep { grid-template-columns: 1fr 1.4fr; }
-.moment--before-sleep .moment-copy { grid-column: 1; }
-.moment--before-sleep .moment-visual { grid-column: 2; }
-
-/* SLOW DAYS — medium image, more surrounding whitespace */
-.moment--slow-days {
-  grid-template-columns: 0.9fr 0.9fr;
-  max-width: 860px;
-  margin: 0 auto;
-  gap: 64px;
-}
-
-/* A TIRED MOMENT — text left, wide image right, the emotional close;
-   this photo carries the section's one sanctioned overlap */
-.moment--tired { grid-template-columns: 1fr 1.4fr; }
-.moment--tired .moment-copy { grid-column: 1; }
-.moment--tired .moment-visual { grid-column: 2; margin-bottom: -64px; }
-
-/* visual = a real photo frame with one pastel tint peeking out behind
-   it — the tint never wraps the whole photo and never carries text */
-.moment-visual { position: relative; }
-.moment-photo {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  border: none;
-  box-shadow: 0 18px 36px rgba(51, 46, 38, 0.1);
+  height: clamp(220px, 31.5vw, 405px);
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  outline: none;
 }
-.moment--after-work .moment-photo,
-.moment--before-sleep .moment-photo,
-.moment--tired .moment-photo { aspect-ratio: 16 / 9; }
-.moment--slow-days .moment-photo { aspect-ratio: 4 / 3; }
+.moments-carousel.is-dragging { cursor: grabbing; }
+.moments-carousel:focus-visible { box-shadow: 0 0 0 2px var(--c-line); }
 
-/* one light arched corner per scene — enough to feel hand-placed,
-   never enough to require a specially-shot, empty-around-the-subject photo */
-.moment--after-work .moment-photo { border-radius: 8px 96px 8px 8px; }
-.moment--before-sleep .moment-photo { border-radius: 8px 8px 8px 96px; }
-.moment--slow-days .moment-photo { border-radius: 96px 8px 8px 8px; }
-.moment--tired .moment-photo { border-radius: 8px 8px 96px 8px; }
-
-.moment-tint {
+/* one soft organic shape behind the active photo — offset, never a
+   frame, crossfades color as the active scene changes */
+.moments-shape {
   position: absolute;
   z-index: 0;
-  border-radius: 28px;
-  width: 58%;
-  height: 62%;
-}
-.moment--after-work .moment-tint { background: var(--sage-soft); right: -14%; bottom: -16%; }
-.moment--before-sleep .moment-tint { background: var(--blush-soft); left: -14%; top: -16%; }
-.moment--slow-days .moment-tint { background: var(--cream-yellow-pale); width: 68%; height: 74%; left: -18%; bottom: -18%; }
-.moment--tired .moment-tint { background: var(--blush-deep); right: -14%; top: -16%; }
-
-/* a short line that belongs to none of the four photos — it just
-   sits quietly in the gap between the first two scenes */
-.moments-float-caption {
-  max-width: 340px;
-  margin: 0 auto;
-  text-align: center;
-  font-family: var(--font-jp-brush);
-  font-size: 22px;
-  line-height: 1.5;
-  color: var(--c-deep-green);
-  opacity: 0.85;
+  top: 50%;
+  left: 50%;
+  width: clamp(360px, 64vw, 820px);
+  height: 72%;
+  transform: translate(-50%, -46%);
+  border-radius: 42% 58% 55% 45% / 50% 45% 55% 50%;
+  background: var(--sage-soft);
+  transition: background-color 0.9s ease;
+  pointer-events: none;
 }
 
-.moment-en {
+.moments-track { position: relative; z-index: 1; height: 100%; }
+
+.moment-slide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.7s ease;
+}
+.moment-slide-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(51, 46, 38, 0.12);
+}
+.moment-slide-label {
+  display: block;
+  margin-top: 12px;
   font-family: var(--font-en);
   font-style: italic;
-  font-size: 13px;
+  font-size: 11.5px;
   letter-spacing: 0.1em;
-  color: var(--c-blue-green);
-  margin-bottom: 14px;
+  color: var(--c-ink-soft);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
-.moment h3 { font-size: 19px; margin-bottom: 12px; }
-.moment p { font-size: var(--fs-body); color: var(--c-ink-soft); }
+
+/* slots: -1 previous / 0 active / 1 next / 2 off-stage (invisible,
+   ready to slide in) — active is largest and fully opaque, neighbors
+   are smaller and dimmed (no blur), off-stage is fully hidden */
+.moment-slide[data-slot="0"] {
+  width: clamp(320px, 56vw, 720px);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: 3;
+  cursor: default;
+}
+.moment-slide[data-slot="-1"] {
+  width: clamp(140px, 19vw, 240px);
+  transform: translate(calc(-50% - 38vw), -50%) scale(0.94);
+  opacity: 0.62;
+  z-index: 2;
+}
+.moment-slide[data-slot="1"] {
+  width: clamp(140px, 19vw, 240px);
+  transform: translate(calc(-50% + 38vw), -50%) scale(0.94);
+  opacity: 0.62;
+  z-index: 2;
+}
+.moment-slide[data-slot="2"] {
+  width: clamp(140px, 19vw, 240px);
+  transform: translate(calc(-50% + 60vw), -50%) scale(0.9);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.moment-slide[data-slot="-1"] .moment-slide-label,
+.moment-slide[data-slot="1"] .moment-slide-label { opacity: 0.75; }
+
+.moments-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--c-line);
+  background: rgba(255, 249, 243, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-ink);
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.moments-arrow:hover { background: var(--c-white); }
+.moments-arrow--prev { left: 1%; }
+.moments-arrow--next { right: 1%; }
+
+/* text only ever describes the active scene — asymmetric alignment
+   alternates left/right edge of the stage from scene to scene */
+.moments-text-wrap { display: flex; margin-top: 56px; }
+.moments-text-wrap[data-align="left"] { justify-content: flex-start; }
+.moments-text-wrap[data-align="right"] { justify-content: flex-end; }
+.moments-text {
+  position: relative;
+  max-width: 420px;
+  padding-top: 8px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.moments-text.is-swapping { opacity: 0; transform: translateY(10px); }
+.moments-number {
+  position: absolute;
+  top: -34px;
+  left: -6px;
+  z-index: -1;
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: clamp(64px, 8vw, 108px);
+  line-height: 1;
+  color: var(--c-ink);
+  opacity: 0.07;
+}
+.moments-text .moment-en {
+  display: block;
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--c-blue-green);
+  margin-bottom: 16px;
+}
+.moments-text h3 { font-size: clamp(30px, 3vw, 48px); margin-bottom: 16px; }
+.moments-text p { font-size: 16px; color: var(--c-ink-soft); }
+
+.moments-dots { display: flex; justify-content: center; gap: 10px; margin-top: 48px; }
+.moments-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: var(--c-line);
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.moments-dot.is-active { background: var(--c-deep-green); transform: scale(1.4); }
 
 /* ==========================================================================
    08. PRODUCT PERSONALITY — [EXPRESSIVE] one thesis: character.
@@ -1011,23 +1078,11 @@ section { position: relative; }
   .interaction-visual { position: relative; top: auto; height: auto; aspect-ratio: 1 / 1; width: 70%; margin: 0 auto 32px; }
   .interaction-step { min-height: auto; opacity: 1; padding: 28px 0; }
   .interaction-step:first-child, .interaction-step:last-child { padding-top: 28px; padding-bottom: 28px; min-height: auto; }
-  .moments-sequence { gap: 88px; }
-  .moment,
-  .moment--before-sleep,
-  .moment--slow-days,
-  .moment--tired {
-    grid-template-columns: 1fr;
-    max-width: none;
-    gap: 32px;
-  }
-  .moment--before-sleep .moment-copy,
-  .moment--before-sleep .moment-visual,
-  .moment--tired .moment-copy,
-  .moment--tired .moment-visual {
-    grid-column: 1;
-  }
-  .moment--tired .moment-visual { margin-bottom: 0; }
-  .moments-float-caption { font-size: 19px; }
+  .moments-carousel { height: 42vw; }
+  .moment-slide[data-slot="0"] { width: 64vw; }
+  .moment-slide[data-slot="-1"] { width: 14vw; transform: translate(calc(-50% - 34vw), -50%) scale(0.92); }
+  .moment-slide[data-slot="1"] { width: 14vw; transform: translate(calc(-50% + 34vw), -50%) scale(0.92); }
+  .moment-slide[data-slot="2"] { transform: translate(calc(-50% + 52vw), -50%) scale(0.88); }
   .personality-media { width: 130px; }
   .reviews-track { grid-template-columns: repeat(2, 1fr); }
   .review-quote:nth-child(n) { margin-top: 0; }
@@ -1083,24 +1138,16 @@ section { position: relative; }
   .story-media, .our-story-media { min-height: 320px; }
 
   .interaction-visual { width: 82%; }
-  .moments-sequence { gap: 64px; }
-  .moment,
-  .moment--before-sleep,
-  .moment--slow-days,
-  .moment--tired {
-    grid-template-columns: 1fr;
-    max-width: none;
-    gap: 24px;
-  }
-  .moment--before-sleep .moment-copy,
-  .moment--before-sleep .moment-visual,
-  .moment--tired .moment-copy,
-  .moment--tired .moment-visual {
-    grid-column: 1;
-  }
-  .moment--tired .moment-visual { margin-bottom: 0; }
-  .moments-float-caption { font-size: 18px; margin: 0 auto; }
-  .moment-tint { width: 70%; height: 70%; }
+  .moments-carousel { height: 60vw; }
+  .moments-shape { width: 88vw; }
+  .moment-slide[data-slot="0"] { width: 84vw; }
+  .moment-slide[data-slot="-1"] { width: 9vw; opacity: 0.5; transform: translate(calc(-50% - 46vw), -50%) scale(0.9); }
+  .moment-slide[data-slot="1"] { width: 9vw; opacity: 0.5; transform: translate(calc(-50% + 46vw), -50%) scale(0.9); }
+  .moment-slide[data-slot="2"] { transform: translate(calc(-50% + 60vw), -50%) scale(0.85); }
+  .moments-arrow { width: 34px; height: 34px; }
+  .moments-text-wrap[data-align="left"],
+  .moments-text-wrap[data-align="right"] { justify-content: flex-start; }
+  .moments-text { max-width: 100%; }
   .reviews-track { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
   .purchase-grid { grid-template-columns: 1fr; gap: 36px; padding: 0 20px; }
