@@ -149,13 +149,10 @@
       <p class="body-copy placeholder-copy"></p>
     </div>
     <div class="image-col reveal-fade">
-      <div class="img-placeholder placeholder-portrait">
-        <div class="placeholder-inner">
-          <span class="placeholder-tag">単体プロダクト画像</span>
-          <!-- Photo direction: front or 3/4 angle, clean single shot,
-               product resting softly / gently floating. -->
-        </div>
-      </div>
+      <!-- data-label: 単体プロダクト画像 — Photo direction: front or 3/4
+           angle, clean single shot, product resting softly / gently
+           floating. No visible label until real photography exists. -->
+      <div class="img-placeholder placeholder-portrait" data-label="単体プロダクト画像"></div>
     </div>
   </div>
 </section>
@@ -180,19 +177,15 @@ product actually mid-transition — no reusing one frame across states.
   <div class="interaction-stage reveal-fade">
     <span class="interaction-shape" id="interactionShape" aria-hidden="true"></span>
 
+    <!-- data-label per state: 触れた直後 / 丸くなる / 落ち着く / ひらく —
+         each needs its own photo of the product mid-transition, no
+         reusing one frame across states. No visible label until real
+         photography exists. -->
     <div class="interaction-visual" id="interactionVisual">
-      <div class="interaction-state is-active img-placeholder" data-state="1">
-        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（触れた直後）</span></div>
-      </div>
-      <div class="interaction-state img-placeholder" data-state="2">
-        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（丸くなる）</span></div>
-      </div>
-      <div class="interaction-state img-placeholder" data-state="3">
-        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（落ち着く）</span></div>
-      </div>
-      <div class="interaction-state img-placeholder" data-state="4">
-        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（ひらく）</span></div>
-      </div>
+      <div class="interaction-state is-active img-placeholder" data-state="1" data-label="YADORI（触れた直後）"></div>
+      <div class="interaction-state img-placeholder" data-state="2" data-label="YADORI（丸くなる）"></div>
+      <div class="interaction-state img-placeholder" data-state="3" data-label="YADORI（落ち着く）"></div>
+      <div class="interaction-state img-placeholder" data-state="4" data-label="YADORI（ひらく）"></div>
     </div>
 
     <div class="interaction-text" id="interactionText">
@@ -219,42 +212,43 @@ only its visual weight is quieter now that the shape carries the scene.
 No breakout layer here — the large cut shape itself, plus one floating
 word, is enough to carry the composition.
 ============================================================ -->
+<!-- Single relative canvas, not a two-column split: the shape is
+     absolutely positioned and allowed to bleed past the canvas's own
+     left edge; the copy block sits close to the shape's right-side
+     notch instead of occupying an equal-width opposite column. This is
+     the page's clearest HARUTA "big shape + big negative space + small
+     text" composition. Data-label only — no visible placeholder text;
+     the field is a flat color fill (real photography can replace the
+     fill later without changing this structure). -->
 <section class="emotional-story wave-top" id="emotional-story">
-  <div class="story-media">
+  <div class="story-canvas">
     <div class="haruta-scene story-haruta">
       <!-- outer wrapper handles the one-time scroll reveal (compressed →
            expand); the inner .haruta-field handles its own continuous
            breathing loop — kept on two elements so the two transforms
            never fight over the same property -->
       <div class="story-field-wrap reveal-mask">
-        <div class="haruta-field story-field">
-          <div class="img-placeholder haruta-field-media placeholder-wide">
-            <div class="placeholder-inner">
-              <span class="placeholder-tag">ライフスタイル画像（大・不規則窓）</span>
-              <!-- Scene direction: night, soft lamplight, person holding YADORI.
-                   Warm indirect light, intimate/quiet mood. -->
-            </div>
-          </div>
-        </div>
+        <span class="haruta-field story-field" aria-hidden="true" data-label="ライフスタイル画像（大・不規則窓）"></span>
       </div>
       <span class="haruta-float story-float">STAY</span>
     </div>
-  </div>
-  <div class="story-text reveal story-text--delayed">
-    <h2>何も話したくない夜もある。</h2>
-    <p>
-      誰かと話したいわけじゃない。<br>
-      スマホを見るのにも、少し疲れた。<br>
-      でも、ほんの少しだけ<br>
-      何かに触れていたい。<br>
-      そんなとき、<br>
-      この子にそっと手を伸ばしてみる。<br>
-      ただ触れる。<br>
-      そして、返ってくる。<br>
-      そんな小さなやりとりが、<br>
-      一日の終わりにあってもいい。
-    </p>
-    <p class="story-signature">— yadori.</p>
+
+    <div class="story-text reveal story-text--delayed">
+      <h2>何も話したくない夜もある。</h2>
+      <p>
+        誰かと話したいわけじゃない。<br>
+        スマホを見るのにも、少し疲れた。<br>
+        でも、ほんの少しだけ<br>
+        何かに触れていたい。<br>
+        そんなとき、<br>
+        この子にそっと手を伸ばしてみる。<br>
+        ただ触れる。<br>
+        そして、返ってくる。<br>
+        そんな小さなやりとりが、<br>
+        一日の終わりにあってもいい。
+        <span class="story-signature">— yadori.</span>
+      </p>
+    </div>
   </div>
 </section>
 
@@ -351,14 +345,11 @@ does YADORI exist", not "what does it do".
 ============================================================ -->
 <section class="our-story" id="our-story">
   <div class="our-story-media">
-    <div class="our-story-media-frame img-placeholder placeholder-wide yadori-mask--window reveal-mask">
-      <div class="placeholder-inner">
-        <span class="placeholder-tag">ライフスタイル画像（16:9）</span>
-        <!-- Scene: cafe or a quiet living room, someone with YADORI.
-             Documentary/natural mood. Leave clear space to overlay the
-             English line "a small companion, for what words can't hold". -->
-      </div>
-    </div>
+    <!-- data-label: ライフスタイル画像（16:9） — Scene: cafe or a quiet
+         living room, someone with YADORI. Documentary/natural mood.
+         Leave clear space to overlay the English line "a small
+         companion, for what words can't hold". -->
+    <div class="our-story-media-frame img-placeholder placeholder-wide yadori-mask--window reveal-mask" data-label="ライフスタイル画像（16:9）"></div>
   </div>
   <div class="our-story-text reveal our-story-text--delayed">
     <p class="eyebrow">OUR STORY</p>
@@ -387,14 +378,11 @@ it is never re-used as a card, panel or badge fill.
 <section class="purchase" id="purchase">
   <div class="purchase-grid">
     <div class="purchase-media reveal-fade">
-      <div class="img-placeholder purchase-visual">
-        <div class="placeholder-inner">
-          <span class="placeholder-tag">プロダクト画像（大）</span>
-          <!-- Large, dominant single-product shot — this is the first
-               thing the eye should land on in this section. Allowed to
-               bleed slightly past its own frame; no packaging clutter. -->
-        </div>
-      </div>
+      <!-- data-label: プロダクト画像（大） — Large, dominant single-product
+           shot — this is the first thing the eye should land on in this
+           section. Allowed to bleed slightly past its own frame; no
+           packaging clutter. -->
+      <div class="img-placeholder purchase-visual" data-label="プロダクト画像（大）"></div>
     </div>
 
     <div class="purchase-content reveal">
@@ -536,13 +524,10 @@ on the page.)
 13. FINAL CTA
 ============================================================ -->
 <section class="final-cta" id="final-cta">
-  <div class="final-cta-media img-placeholder placeholder-wide">
-    <div class="placeholder-inner">
-      <span class="placeholder-tag">クロージング画像</span>
-      <!-- One emotionally resonant frame, or a quiet product shot with
-           generous negative space. Do not introduce new product info here. -->
-    </div>
-  </div>
+  <!-- data-label: クロージング画像 — One emotionally resonant frame, or a
+       quiet product shot with generous negative space. Do not introduce
+       new product info here. -->
+  <div class="final-cta-media img-placeholder placeholder-wide" data-label="クロージング画像"></div>
   <div class="final-cta-content reveal">
     <h2>あなたが触れたくなったとき、<br>そっと、となりに。</h2>
     <a href="#purchase" class="btn btn-primary">この子を迎える</a>
@@ -774,11 +759,11 @@ on the page.)
     // the active slide only: its own CSS (scoped to [data-slot="0"]) adds
     // the one shared irregular window mask, a small floating word, and a
     // slow breathing pulse. Adjacent previews stay a plain simple frame.
+    // m.tag is a data-label only (photo-direction reference for whoever
+    // shoots real photography) — never rendered as visible page text.
     track.innerHTML = moments.map((m, i) => `
       <button type="button" class="moment-slide" data-i="${i}" aria-label="${m.en}">
-        <span class="moment-slide-image img-placeholder">
-          <span class="placeholder-inner"><span class="placeholder-tag">${m.tag}</span></span>
-        </span>
+        <span class="moment-slide-image img-placeholder" data-label="${m.tag}"></span>
         <span class="moment-slide-float" aria-hidden="true">そばに</span>
         <span class="moment-slide-label">${m.en}</span>
       </button>

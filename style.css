@@ -756,59 +756,80 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   06. EMOTIONAL STORY — [QUIET] one mood, one subject, one bg color
-   Clean column split, no overlap: this section is not one of the four
-   sanctioned overlap spots, so image and text keep a clear boundary.
+   06. EMOTIONAL STORY — [QUIET] the site's clearest HARUTA composition:
+   ONE big shape + big negative space + a little text, built as a single
+   relative canvas rather than a two-column split. The field is
+   absolutely positioned and bleeds past the canvas's own left edge
+   (and the viewport itself, via body's overflow-x:clip); the copy sits
+   close to the field's right-side notch with a deliberate small
+   bounding-box overlap instead of occupying a same-size opposite
+   column. Leftover room collects on the shape's outer/far-left side
+   and the viewport's right edge — never in a gap between shape and text.
    ========================================================================== */
-/* plain milk background — the emptiness around the field is deliberate,
-   not a canvas to be filled with color */
 .emotional-story {
   position: relative;
   background: var(--bg-main);
   color: var(--c-ink);
-  display: flex;
-  align-items: center;
-  /* was 40px — the gap between shape and text is the one place negative
-     space must NOT collect; it belongs outside the shape and at the
-     section edges instead (see .story-media justify-content below). */
-  gap: 16px;
-  padding: var(--section-pad-major) 32px;
+  padding: var(--section-pad-major) 0;
+  overflow: visible;
 }
-/* was justify-content:center — centering the shape inside its own flex
-   track left an empty band on both sides, one of which sat directly
-   between the shape and the text. flex-end pushes the shape to hug the
-   text column instead, so the leftover room collects on the shape's
-   outer/far side (correct negative space) rather than in the middle. */
-.story-media { flex: 1 1 60%; display: flex; align-items: center; justify-content: flex-end; min-width: 0; }
-.story-haruta { position: relative; width: min(68vw, 1280px); }
-.story-field-wrap { width: clamp(760px, 64vw, 1280px); aspect-ratio: 16 / 9; }
+.story-canvas {
+  position: relative;
+  width: 100%;
+  min-height: clamp(620px, 44vw, 820px);
+}
+/* left:-8vw bleeds the field past the canvas's own edge (and, on most
+   viewports, past the viewport itself); width sits in the 62-72vw band
+   requested for this section specifically (wider than the other two
+   HARUTA shapes on the page, since this is the strongest one). */
+.story-haruta {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: -8vw;
+  transform: translateY(-50%);
+  width: clamp(880px, 66vw, 1320px);
+}
+.story-field-wrap { width: 100%; aspect-ratio: 16 / 9; }
 /* field-b's own concave dimple sits on the right side of its box — with
-   the shape living on the LEFT half of this section, that notch already
-   faces directly toward the text column with no flip needed. */
-.story-field { width: 100%; height: 100%; clip-path: url(#mask-haruta-field-b); }
-/* pulled off the plain top-left corner and onto the shape's own notch,
-   rotated within the 4-8deg range instead of sitting in the text's own
-   vertical flow */
+   the shape leaning toward the LEFT of this canvas, that notch already
+   faces directly toward the text column with no flip needed. Flat
+   color fill only — no placeholder box/text; real photography can
+   replace this fill later without changing the structure. */
+.story-field {
+  display: block;
+  width: 100%;
+  height: 100%;
+  clip-path: url(#mask-haruta-field-b);
+  background: var(--bg-warm);
+}
+/* sits on the field's own notch, rotated within the 4-8deg range,
+   out of the text's own vertical flow */
 .story-float {
   --rot: 6deg;
   left: auto;
   top: auto;
-  right: 6%;
-  bottom: 12%;
+  right: 8%;
+  bottom: 10%;
 }
 
+/* left:56vw against the field's right edge (-8vw + 66vw ≈ 58vw) leaves
+   a real ~2-4vw bounding-box overlap — the headline sits inside the
+   field's own notch rather than beside it in a separate column. */
 .story-text {
-  position: relative;
+  position: absolute;
   z-index: 2;
-  flex: 0 1 340px;
-  /* asymmetric — tight on the shape-facing side (headline sits
-     20-60px from the shape's edge), generous on the outer side */
-  padding: 0 32px 0 12px;
+  top: 50%;
+  left: 56vw;
+  transform: translateY(-50%);
+  max-width: 400px;
+  padding: 0 32px 0 0;
 }
 .story-text--delayed.reveal { transition-delay: 0.22s; }
 .story-text h2 { color: var(--c-ink); font-size: var(--fs-subhead); margin-bottom: 28px; }
 .story-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 .story-signature {
+  display: block;
   margin-top: 28px;
   font-family: var(--font-jp-serif);
   font-size: 16px;
@@ -1035,19 +1056,18 @@ section { position: relative; }
 .moments-dot.is-active { background: var(--c-deep-green); transform: scale(1.4); }
 
 /* ==========================================================================
-   08. CHARACTER PORTRAIT — [EXPRESSIVE] HARUTA composition, simplified:
-   personality. Sanctioned overlap zone — a formal character introduction,
-   not a spec sheet. Text stays a narrow 35-40vw column; the entire right
-   side is carried by ONE huge flat-color irregular shape (no placeholder
-   image inside it) sized to counterbalance the oversized headline on its
-   own, extending past the section's own right edge.
+   08. CHARACTER PORTRAIT — [EXPRESSIVE] a brand poster, not an editorial
+   story section (that role belongs to Emotional Story above). Headline
+   sits top/center-left; the shape sits bottom/right — the two corners
+   are offset on the vertical axis via align-self, not lined up in a
+   single centered row, so this doesn't read as an ordinary "left text,
+   right image" split. The shape's own size is unchanged from the
+   sizing pass; only its position within the row moved.
    ========================================================================== */
 .personality {
   position: relative;
   display: flex;
-  align-items: center;
-  /* was 32px — tightened so the shape's own bounding box can actually
-     reach the headline instead of leaving a hole in the middle */
+  align-items: stretch;
   gap: 4px;
   min-height: 760px;
   padding: var(--section-pad-major) 0 var(--section-pad-major) 7vw;
@@ -1059,7 +1079,17 @@ section { position: relative; }
      actually bleed past its box the way the HARUTA reference does. */
   overflow: visible;
 }
-.personality-text { position: relative; z-index: 2; width: 38vw; max-width: 460px; flex-shrink: 0; }
+/* pinned to the top of the row instead of vertically centered — the
+   poster's headline anchor is top/center-left, not mid-row */
+.personality-text {
+  position: relative;
+  z-index: 2;
+  width: 38vw;
+  max-width: 460px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-top: clamp(20px, 4vw, 56px);
+}
 .personality-text h2 {
   font-size: clamp(52px, 6vw, 92px);
   line-height: 1.22;
@@ -1080,42 +1110,38 @@ section { position: relative; }
   margin-bottom: 0;
 }
 
-/* previously relied on height:100% of a flex row that only had
-   min-height (not height) with align-items:center — percentage heights
-   against an indefinite-height flex container resolve to auto, and
-   since this element's only content is position:absolute (out of
-   flow), that collapsed it to 0px. aspect-ratio gives it a real
-   intrinsic height derived from its own resolved width instead, so the
-   section actually reserves the vertical space the shape needs. */
+/* aspect-ratio (not height:100%) gives this a real intrinsic height
+   derived from its own resolved width, so the row reserves the vertical
+   space the shape needs even though the shape itself is absolutely
+   positioned inside it (see the note on the earlier height-collapse fix
+   below). align-self:flex-end drops this flex item toward the bottom of
+   the row — paired with the text's flex-start above, the two elements
+   sit on opposite corners instead of a single centered line. */
 .personality-portrait {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
   min-width: 0;
   aspect-ratio: 5 / 4;
+  align-self: flex-end;
 }
 /* the wrapper handles the one-time reveal, the inner .haruta-field
    handles its own continuous breathing loop — same split used
    everywhere in the HARUTA system so the two transforms never collide.
    Landscape-ish 5:4 (not the previous portrait-oriented 4:5) keeps the
    shape from becoming excessively tall once it's sized off the
-   viewport instead of a fixed pixel ceiling. */
-/* positioned from the LEFT edge (not right) on purpose: field-b's own
-   width is fixed (not being enlarged further), so pulling it in from
-   the left is what actually lets it reach toward the headline — an
-   equivalent right-side offset would just add empty space on the far
-   right instead of closing the gap that matters. left:-5vw lets the
-   shape's bounding box cross a little way into the gap the text column
-   left behind, a real (if modest) bounding-box overlap rather than a
-   visual approximation. */
+   viewport instead of a fixed pixel ceiling. Width/aspect-ratio are
+   UNCHANGED from the sizing pass — only anchored corner moved, from
+   left/vertically-centered to right/bottom, so the shape now genuinely
+   reads as "right / bottom-right" rather than filling the row's full
+   height through the middle. */
 .personality-field-wrap {
   position: absolute;
   z-index: 0;
   width: clamp(760px, 58vw, 1180px);
   aspect-ratio: 5 / 4;
-  left: -5vw;
-  top: 50%;
-  transform: translateY(-50%);
+  right: -6vw;
+  bottom: 0;
 }
 /* field-b's own notch sits on the right side of its box by default —
    scaleX(-1) mirrors it onto the left side instead, so the concave cut
@@ -1130,13 +1156,13 @@ section { position: relative; }
   transform: scaleX(-1) scale(var(--field-scale, 1));
 }
 
-/* moved onto the notch itself (now on the shape's left/lower area after
-   the mirror) instead of a generic corner, and out of the text's own
-   vertical flow */
+/* sits on the notch itself (shape's left/upper area after the mirror
+   and the bottom-right relocation), out of the text's own vertical flow */
 .personality-float {
   --rot: -5deg;
-  left: 6%;
-  bottom: 14%;
+  left: 4%;
+  top: 10%;
+  bottom: auto;
   right: auto;
   z-index: 2;
 }
@@ -1430,8 +1456,13 @@ section { position: relative; }
   .section-grid { grid-template-columns: 1fr 1fr; }
   .our-story { grid-template-columns: 1fr 1fr; }
   .our-story-text { padding: 72px 48px; }
-  .story-field-wrap { width: 54vw; }
-  .story-text { padding: 0 24px; }
+  /* canvas composition doesn't hold up below desktop widths — revert to
+     a plain stacked flow (shape, then text) rather than trying to keep
+     the absolute overlap/bleed positioning at a cramped width */
+  .story-canvas { min-height: auto; display: flex; flex-direction: column; gap: 32px; }
+  .story-haruta { position: relative; left: 0; top: 0; transform: none; width: 100%; }
+  .story-field-wrap { width: 100%; }
+  .story-text { position: relative; left: 0; top: 0; transform: none; max-width: 100%; padding: 0 24px; }
   .purchase-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
   .purchase-media .purchase-visual { width: 100%; margin: 0; }
 }
@@ -1469,9 +1500,8 @@ section { position: relative; }
   .our-story {
     grid-template-columns: 1fr;
   }
-  .emotional-story { flex-direction: column; gap: 32px; }
-  .story-field-wrap { width: 78vw; max-width: none; }
-  .story-text, .our-story-text { padding: 0 24px; }
+  .story-haruta { width: 92vw; }
+  .our-story-text { padding: 0 24px; }
   .our-story-media { padding: 24px; }
 
   .interaction-visual { width: 74vw; }
