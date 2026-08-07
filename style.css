@@ -585,8 +585,14 @@ section { position: relative; }
 .everyday-moments { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
 .moments-stage { position: relative; z-index: 1; max-width: var(--container-w); margin: 0 auto; }
 
+/* the carousel breaks out to the true viewport width (independent of
+   the section's normal max-width column) so the vw-based peeking math
+   for the adjacent slides is measured against the real viewport, not
+   a narrower centered container */
 .moments-carousel {
   position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   height: clamp(220px, 31.5vw, 405px);
   overflow: hidden;
   cursor: grab;
