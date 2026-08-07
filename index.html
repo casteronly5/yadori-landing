@@ -221,7 +221,7 @@ across states.
   </div>
 
   <div class="moments-grid">
-    <article class="moment reveal">
+    <article class="moment moment--hero reveal">
       <div class="moment-image img-placeholder placeholder-organic">
         <div class="placeholder-inner">
           <span class="placeholder-tag">MOMENT 01 画像</span>
@@ -232,6 +232,10 @@ across states.
       <h3>帰宅したあとに、<br>今日もおつかれさま。</h3>
       <p>玄関でひと呼吸。<br>今日いちにちの気持ちを、<br>そっと置いていく場所に。</p>
     </article>
+
+    <!-- independent floating caption — belongs to no single photo, just
+         drifts in the open whitespace of the collage -->
+    <p class="moments-float-caption reveal">そばにいる、<br>それだけで。</p>
 
     <article class="moment moment--overlay reveal">
       <div class="moment-image img-placeholder placeholder-organic">
@@ -279,9 +283,9 @@ across states.
 08. PRODUCT PERSONALITY
 ============================================================ -->
 <section class="personality" id="personality">
-  <!-- This section is a brand-personality statement, not a feature
-       callout — product feature tags (fur/eyes/touch-response/size) live
-       in the TOUCH / SIZE / COLOR section below instead of here. -->
+  <!-- Brand-personality statement first — the feature list is kept to a
+       few quiet, small-print tags near the product so it never competes
+       with the headline. The full spec lives in TOUCH / SIZE / COLOR. -->
   <div class="personality-text reveal">
     <h2>ちょっと、<br>臆病です。</h2>
     <p>
@@ -303,6 +307,11 @@ across states.
     <div class="img-placeholder placeholder-square personality-ball">
       <div class="placeholder-inner"><span class="placeholder-tag">プロダクト画像</span></div>
     </div>
+    <ul class="personality-notes" aria-label="プロダクトの特徴（補足）">
+      <li>やわらかい毛並み</li>
+      <li>触れると動く</li>
+      <li>手のひらサイズ</li>
+    </ul>
   </div>
 </section>
 
@@ -310,50 +319,61 @@ across states.
 09. COLLECTION
 ============================================================ -->
 <section class="collection wave-top" id="collection">
-  <div class="blob blob-tonal blob-collection-a float-slow float-slow-a" aria-hidden="true"></div>
-  <div class="blob blob-tonal blob-collection-b float-slow float-slow-b" aria-hidden="true"></div>
   <div class="section-head reveal">
     <h2>それぞれの気持ちに、<br>それぞれのYADORI。</h2>
   </div>
 
-  <!-- Photo direction for all 4 items below: approved product shot,
-       consistent angle/scale across the set. -->
-  <div class="collection-grid">
-    <article class="collection-item collection-item--mori reveal">
-      <span class="collection-accent collection-accent--dot" aria-hidden="true"></span>
-      <div class="collection-image img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">MORI</span></div>
+  <!-- Photo direction for all 4 worlds below: approved product shot,
+       consistent lighting quality across the set (composition/scale can
+       differ per world on purpose — see each band). -->
+  <div class="collection-sequence">
+
+    <!-- MORI — image right, text left -->
+    <article class="world world--mori">
+      <div class="world-text reveal">
+        <p class="world-name">MORI</p>
+        <p class="world-copy">森の奥にいるような、<br>静かなやすらぎ。</p>
       </div>
-      <h3>MORI</h3>
-      <p>森の奥にいるような、<br>静かなやすらぎ。</p>
+      <div class="world-media reveal-fade">
+        <div class="img-placeholder world-image"><div class="placeholder-inner"><span class="placeholder-tag">MORI 画像</span></div></div>
+        <span class="collection-accent collection-accent--dot" aria-hidden="true"></span>
+      </div>
     </article>
 
-    <article class="collection-item collection-item--kuri reveal">
-      <span class="collection-accent collection-accent--line" aria-hidden="true"></span>
-      <div class="collection-image img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">KURI</span></div>
+    <!-- KURI — mirrored: image left, text right -->
+    <article class="world world--kuri">
+      <div class="world-media reveal-fade">
+        <div class="img-placeholder world-image"><div class="placeholder-inner"><span class="placeholder-tag">KURI 画像</span></div></div>
+        <span class="collection-accent collection-accent--line" aria-hidden="true"></span>
       </div>
-      <h3>KURI</h3>
-      <p>木漏れ日のような、<br>あたたかな存在。</p>
+      <div class="world-text reveal">
+        <p class="world-name">KURI</p>
+        <p class="world-copy">木漏れ日のような、<br>あたたかな存在。</p>
+      </div>
     </article>
 
-    <article class="collection-item collection-item--milktea reveal">
-      <span class="collection-accent collection-accent--blob" aria-hidden="true"></span>
-      <div class="collection-image img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">MILK TEA</span></div>
+    <!-- MILK TEA — centered, stacked -->
+    <article class="world world--milktea">
+      <p class="world-name reveal">MILK TEA</p>
+      <div class="world-media reveal-fade">
+        <div class="img-placeholder world-image"><div class="placeholder-inner"><span class="placeholder-tag">MILK TEA 画像</span></div></div>
+        <span class="collection-accent collection-accent--blob" aria-hidden="true"></span>
       </div>
-      <h3>MILK TEA</h3>
-      <p>甘くやわらかな、<br>午後のひと休み。</p>
+      <p class="world-copy reveal">甘くやわらかな、<br>午後のひと休み。</p>
     </article>
 
-    <article class="collection-item collection-item--rainbow reveal">
-      <span class="collection-accent collection-accent--star" aria-hidden="true"></span>
-      <div class="collection-image img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">RAINBOW</span></div>
+    <!-- RAINBOW — full-bleed image, text overlaid in the corner -->
+    <article class="world world--rainbow">
+      <div class="world-media world-media--full reveal-fade">
+        <div class="img-placeholder world-image"><div class="placeholder-inner"><span class="placeholder-tag">RAINBOW 画像</span></div></div>
       </div>
-      <h3>RAINBOW</h3>
-      <p>少しだけ特別な、<br>夢のような時間。</p>
+      <div class="world-overlay reveal">
+        <span class="collection-accent collection-accent--star" aria-hidden="true"></span>
+        <p class="world-name">RAINBOW</p>
+        <p class="world-copy">少しだけ特別な、<br>夢のような時間。</p>
+      </div>
     </article>
+
   </div>
 </section>
 

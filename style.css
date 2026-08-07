@@ -538,24 +538,35 @@ section { position: relative; }
 
 .interaction-visual {
   position: sticky;
-  top: 14vh;
-  height: 66vh;
-  min-height: 380px;
+  top: 10vh;
+  height: 78vh;
+  min-height: 460px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+/* the same character occupies the same spot throughout — only its own
+   scale/rotation changes state to state, so it reads as one body
+   curling and opening, never as four separate pictures swapping in */
 .interaction-state {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 62%;
+  width: 76%;
   aspect-ratio: 1 / 1;
   opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.86) rotate(0deg) translateY(0);
+  transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.interaction-state.is-active { opacity: 1; transform: scale(1); }
+.interaction-state.is-active { opacity: 1; }
+/* 01 touched — neutral, full size */
+.interaction-state-1.is-active { transform: scale(1) rotate(0deg) translateY(0); }
+/* 02 curling — noticeably smaller and tucked down, a real compression */
+.interaction-state-2.is-active { transform: scale(0.86) rotate(-3deg) translateY(14px); }
+/* 03 fully round — smallest and tightest, held there */
+.interaction-state-3.is-active { transform: scale(0.72) rotate(1deg) translateY(6px); }
+/* 04 opening again — releases past neutral, calmer and slightly larger */
+.interaction-state-4.is-active { transform: scale(1.06) rotate(-1deg) translateY(-10px); }
 /* a soft thread linking the states — reinforces "this is one continuous
    motion", not four unrelated pictures */
 .interaction-thread {
@@ -649,10 +660,27 @@ section { position: relative; }
   gap: 32px;
   align-items: start;
 }
-.moment:nth-child(1) { grid-column: 1 / 8; margin-top: 0; }
-.moment:nth-child(2) { grid-column: 8 / 13; margin-top: 64px; }
-.moment:nth-child(3) { grid-column: 1 / 6; margin-top: 24px; }
-.moment:nth-child(4) { grid-column: 6 / 13; margin-top: 96px; }
+.moment--hero { grid-column: 1 / 8; margin-top: 0; }
+.moment--hero .moment-image { aspect-ratio: 4 / 5.4; }
+.moment--overlay { grid-column: 8 / 13; margin-top: 64px; }
+.moment--float { grid-column: 1 / 6; margin-top: 24px; }
+.moment:nth-last-child(1) { grid-column: 6 / 13; margin-top: 96px; }
+
+/* a short line that belongs to none of the four photos — it just
+   drifts in the collage's own negative space */
+.moments-float-caption {
+  position: absolute;
+  top: 4%;
+  left: 62%;
+  z-index: 2;
+  max-width: 200px;
+  font-family: var(--font-jp-brush);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--c-deep-green);
+  opacity: 0.8;
+  transform: rotate(-4deg);
+}
 
 /* organic image mask — a little living shape, not a spec card */
 .placeholder-organic {
@@ -735,57 +763,123 @@ section { position: relative; }
 .personality-ball .placeholder-inner { padding: 10px; }
 .personality-ball .placeholder-tag { font-size: 10.5px; padding: 4px 10px; }
 
+/* quiet secondary annotation — small print sitting under the character,
+   never competing with the headline for attention */
+.personality-notes {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 10px;
+  text-align: center;
+}
+.personality-notes li {
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--c-ink-soft);
+  opacity: 0.65;
+}
+.personality-notes li:not(:last-child)::after {
+  content: "・";
+  margin-left: 10px;
+  opacity: 0.6;
+}
+
 /* ==========================================================================
-   09. COLLECTION — the liveliest beat on the page
-   Four small self-contained worlds rather than four cells of one grid:
-   each variant gets its own pastel block, its own product breaking out
-   of the top edge, and exactly one small decorative mark. Kept to one
-   accent per item on purpose — more than that tips into a kids' site.
+   09. COLLECTION — four mini worlds, four different compositions
+   Each variant is its own near-full-height band with its own full-bleed
+   pastel field and an oversized product — not four cells of one grid.
+   The four bands deliberately use four different layout logics (split
+   right, split left/mirrored, centered/stacked, full-bleed with an
+   overlay caption) so the section reads as a sequence of distinct rooms,
+   not a repeated pattern with different colors.
    ========================================================================== */
-.collection { padding: var(--section-pad-y) 32px; background: var(--bg-main); text-align: center; }
+.collection { padding: var(--section-pad-y) 0; background: var(--bg-main); text-align: center; }
+.collection .section-head { padding: 0 32px; }
 .collection .section-head h2 { font-size: var(--fs-subhead); }
-.collection-grid {
-  max-width: var(--container-w);
-  margin: 64px auto 0;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+
+.collection-sequence { margin-top: 72px; }
+
+.world {
+  position: relative;
+  min-height: 82vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
   text-align: left;
 }
-.collection-item {
-  position: relative;
-  padding: 56px 28px 32px;
-  border-radius: 56px;
-  overflow: visible;
-}
-.collection-item:nth-child(2) { margin-top: 40px; }
-.collection-item:nth-child(3) { margin-top: 8px; }
-.collection-item:nth-child(4) { margin-top: 56px; }
 
-.collection-item .collection-image {
-  width: 88%;
-  margin: -84px auto 0;
-  animation: floatBreath 7.2s ease-in-out infinite;
+/* MORI / KURI — split composition, mirrored between the two */
+.world--mori, .world--kuri {
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  align-items: center;
+  gap: 40px;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 90px 48px;
 }
-.collection-item:nth-child(2n) .collection-image { animation-duration: 8.4s; animation-delay: -3s; }
+.world--mori   { background: var(--sage-soft); }
+.world--kuri   { background: linear-gradient(160deg, var(--cream-yellow-pale) 0%, var(--peach-soft) 100%); grid-template-columns: 1fr 0.85fr; }
 
-.collection-item h3 {
+.world-text { position: relative; z-index: 1; max-width: 380px; }
+.world-name {
   font-family: var(--font-en);
   font-style: italic;
-  font-size: 19px;
-  margin: 26px 0 8px;
+  font-size: clamp(30px, 3.4vw, 44px);
   letter-spacing: 0.02em;
+  margin-bottom: 18px;
 }
-.collection-item p { font-size: 14px; color: var(--c-ink-soft); }
+.world--mori .world-name { color: var(--c-deep-green); }
+.world--kuri .world-name { color: #9C6B3E; }
+.world--milktea .world-name { color: #B5677A; }
+.world-copy { font-size: var(--fs-body); color: var(--c-ink-soft); }
 
-.collection-item--mori   { background: var(--sage-soft); }
-.collection-item--mori h3 { color: var(--c-deep-green); }
-.collection-item--kuri   { background: linear-gradient(160deg, var(--cream-yellow-pale) 0%, var(--peach-soft) 100%); }
-.collection-item--kuri h3 { color: #9C6B3E; }
-.collection-item--milktea { background: var(--blush-soft); }
-.collection-item--milktea h3 { color: #B5677A; }
-.collection-item--rainbow { background: linear-gradient(135deg, var(--lavender-soft) 0%, var(--sky-soft) 100%); }
-.collection-item--rainbow h3 { color: #6E6693; }
+.world-media { position: relative; display: flex; justify-content: center; }
+.world-image {
+  width: 78%;
+  aspect-ratio: 1 / 1;
+  animation: floatBreath 7.6s ease-in-out infinite;
+}
+.world--kuri .world-image { animation-duration: 8.6s; animation-delay: -3s; }
+
+/* MILK TEA — centered / stacked, the odd one out on purpose */
+.world--milktea {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background: var(--blush-soft);
+  padding: 90px 32px;
+  gap: 28px;
+}
+.world--milktea .world-image { width: min(52vw, 460px); animation-duration: 7s; }
+.world--milktea .world-copy { max-width: 360px; }
+
+/* RAINBOW — full-bleed image with the caption living in one corner */
+.world--rainbow {
+  padding: 0;
+  background: linear-gradient(135deg, var(--lavender-soft) 0%, var(--sky-soft) 100%);
+}
+.world-media--full { position: absolute; inset: 0; width: 100%; height: 100%; justify-content: center; }
+.world-media--full .world-image {
+  width: 60%;
+  height: 76%;
+  aspect-ratio: auto;
+  animation-duration: 8s;
+}
+.world-overlay {
+  position: relative;
+  z-index: 1;
+  margin: auto 8% 10% auto;
+  max-width: 320px;
+  padding: 28px 30px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(6px);
+  border-radius: 32px;
+}
+.world--rainbow .world-overlay .world-name,
+.world--rainbow .world-overlay .world-copy { color: var(--c-ink); }
+.world--rainbow .world-overlay .world-name { color: #6E6693; margin-bottom: 10px; }
 
 /* one quiet decorative mark per world — restrained, never a cluster */
 .collection-accent { position: absolute; pointer-events: none; }
@@ -1098,11 +1192,18 @@ section { position: relative; }
   .moments-grid { grid-template-columns: repeat(2, 1fr); }
   .moment:nth-child(n) { grid-column: auto; margin-top: 0; }
   .moment:nth-child(2n) { margin-top: 40px; }
+  .moment--hero { grid-column: auto; }
+  .moment--hero .moment-image { aspect-ratio: 4 / 5; }
   .moment--float { flex-direction: column; align-items: stretch; }
   .moment--float .moment-image { width: 100%; }
-  .collection-grid { grid-template-columns: repeat(2, 1fr); }
-  .collection-item:nth-child(n) { margin-top: 0; }
-  .collection-item:nth-child(2n) { margin-top: 32px; }
+  .moments-float-caption { position: static; max-width: none; transform: none; margin: 24px 0; font-size: 19px; }
+  .world--mori, .world--kuri { grid-template-columns: 1fr; padding: 64px 40px; text-align: center; }
+  .world--mori .world-media, .world--kuri .world-media { order: -1; }
+  .world-text { max-width: 480px; margin: 0 auto; }
+  .world-image { width: 60%; margin: 0 auto; }
+  .world--milktea .world-image { width: 68vw; }
+  .world { min-height: auto; padding-top: 72px; padding-bottom: 72px; }
+  .world--rainbow { padding: 0; min-height: 80vh; }
   .personality-media { width: 130px; }
   .reviews-track { grid-template-columns: repeat(2, 1fr); }
   .review-quote:nth-child(n) { margin-top: 0; }
@@ -1180,11 +1281,17 @@ section { position: relative; }
   .interaction-visual { width: 82%; }
   .moments-grid { grid-template-columns: 1fr; gap: 48px; }
   .moment:nth-child(n) { grid-column: auto; margin-top: 0; }
+  .moment--hero .moment-image { aspect-ratio: 4 / 5; }
   .moment--float { flex-direction: column; align-items: stretch; }
   .moment--float .moment-image { width: 100%; }
+  .moments-float-caption { position: static; max-width: none; transform: none; margin: 8px 0 24px; font-size: 18px; }
   .placeholder-organic { border-radius: var(--radius-soft); }
   .moment--overlay .moment-image { aspect-ratio: 4 / 5; }
-  .collection-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .world--mori, .world--kuri { padding: 56px 24px; }
+  .world-image { width: 74%; }
+  .world--milktea { padding: 56px 24px; }
+  .world--milktea .world-image { width: 78vw; }
+  .world-overlay { margin: auto 6% 8% auto; max-width: 260px; padding: 22px 22px; }
   .reviews-track { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
   .purchase { grid-template-columns: 1fr; gap: 40px; border-radius: var(--radius-card); }
