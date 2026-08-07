@@ -44,14 +44,16 @@
       <path d="M0.09,0.02 C0.32,-0.03 0.68,-0.02 0.9,0.05 C1.02,0.09 1,0.28 0.99,0.5 C1,0.72 1.02,0.9 0.9,0.95 C0.68,1.02 0.32,1.03 0.1,0.96 C-0.02,0.92 0,0.72 0.01,0.5 C0,0.28 -0.02,0.07 0.09,0.02 Z" />
     </clipPath>
 
-    <!-- HARUTA-reference "field" shape — one large, asymmetric, irregular
-         landscape window (not a photo-crop family, a distinct compositional
-         device used only in the handful of sections listed in the HARUTA
-         system: the shape itself IS the composition, large enough that a
-         subject can be layered breaking out past its edge). Reused as-is
-         everywhere it appears — never redrawn per section. -->
+    <!-- HARUTA-reference "field" shape — one large graphic cutout with
+         deliberate large-scale geometry, not a randomly-melted blob:
+         a big soft arc across the top, a wide convex curve on the left,
+         one intentional concave (inward) cut at the bottom-left, a large
+         outward curve along the bottom, and a right edge that reads as
+         if it keeps going past its own box. Reused as-is everywhere it
+         appears — never redrawn per section, and used with a flat color
+         fill only (no image required) until real photography exists. -->
     <clipPath id="mask-haruta-field" clipPathUnits="objectBoundingBox">
-      <path d="M0.08,0.22 C0.14,0.02 0.42,-0.04 0.64,0.04 C0.88,0.13 1,0.28 0.96,0.5 C1.02,0.7 0.92,0.92 0.68,0.98 C0.42,1.05 0.15,0.96 0.04,0.76 C-0.04,0.58 0.01,0.38 0.08,0.22 Z" />
+      <path d="M0.05,0.34 C0.01,0.54 0.02,0.72 0.11,0.83 C0.16,0.9 0.23,0.93 0.3,0.88 C0.4,0.83 0.44,0.97 0.6,1.02 C0.76,1.07 0.89,0.97 0.95,0.84 C1,0.75 1,0.58 0.99,0.44 C0.98,0.27 0.91,0.09 0.74,0.03 C0.54,-0.05 0.29,-0.03 0.15,0.08 C0.08,0.14 0.05,0.21 0.05,0.34 Z" />
     </clipPath>
   </defs>
 </svg>
@@ -200,7 +202,9 @@ is part of the design, not something to fill. YADORI (or the person
 holding it) is layered as a separate element that physically breaks
 past the field's own clipped edge, and one small floating word sits
 near the contour instead of a caption. Copy stays exactly as approved;
-only its visual weight is quieter now that the image carries the scene.
+only its visual weight is quieter now that the shape carries the scene.
+No breakout layer here — the large cut shape itself, plus one floating
+word, is enough to carry the composition.
 ============================================================ -->
 <section class="emotional-story wave-top" id="emotional-story">
   <div class="story-media">
@@ -215,16 +219,10 @@ only its visual weight is quieter now that the image carries the scene.
             <div class="placeholder-inner">
               <span class="placeholder-tag">ライフスタイル画像（大・不規則窓）</span>
               <!-- Scene direction: night, soft lamplight, person holding YADORI.
-                   Warm indirect light, intimate/quiet mood. Frame the shot so
-                   the person/YADORI naturally sits near the lower edge — the
-                   breakout layer below is meant to visually continue them past
-                   the clipped window, so the two images should line up. -->
+                   Warm indirect light, intimate/quiet mood. -->
             </div>
           </div>
         </div>
-      </div>
-      <div class="haruta-subject story-subject img-placeholder placeholder-square" aria-hidden="true">
-        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（はみ出す）</span></div>
       </div>
       <span class="haruta-float story-float">STAY</span>
     </div>
@@ -291,13 +289,14 @@ script at the bottom of this file — see #momentsCarousel init.
 </section>
 
 <!-- ============================================================
-08. CHARACTER PORTRAIT — [EXPRESSIVE] HARUTA composition: personality.
-Sanctioned overlap zone, and the character's formal introduction, not
-a spec sheet. The atmospheric shape is now a real irregular image field
-(texture/light, not a flat color blob); YADORI itself is the breakout
-subject sitting on top of it and physically exceeding its edge and the
-section's own edge; the headline stays on the opposite (left) side;
-one small rotated word floats near the contour instead of a feature list.
+08. CHARACTER PORTRAIT — [EXPRESSIVE] HARUTA composition, simplified:
+personality. Sanctioned overlap zone, and the character's formal
+introduction, not a spec sheet. LEFT = headline + body copy. RIGHT =
+one huge irregular flat-color YADORI shape (40-55vw), extending past
+the section's own right edge — no placeholder image inside it, no
+small circle. The shape alone, at this scale, is what balances the
+oversized headline; a real product photo can replace the fill later
+without changing this structure. One floating word sits on its contour.
 ============================================================ -->
 <section class="personality" id="personality">
   <div class="personality-text reveal personality-text--delayed">
@@ -318,21 +317,15 @@ one small rotated word floats near the contour instead of a feature list.
     </p>
   </div>
 
-  <!-- staged reveal: 1) atmospheric field opens through its own mask,
-       2) YADORI (the breakout subject) appears ~200ms behind it, 3) the
-       headline/copy on the left follows last (.personality-text--delayed) -->
+  <!-- staged reveal: the wrapper handles the one-time scroll reveal
+       (compressed → expand); the inner .haruta-field handles its own
+       continuous breathing loop, then the headline/copy on the left
+       follows last (.personality-text--delayed) -->
   <div class="personality-portrait haruta-scene">
     <div class="personality-field-wrap reveal-mask">
-      <div class="haruta-field personality-field">
-        <div class="img-placeholder haruta-field-media placeholder-wide">
-          <div class="placeholder-inner"><span class="placeholder-tag">雰囲気画像（不規則窓）</span></div>
-        </div>
-      </div>
+      <span class="haruta-field personality-field" aria-hidden="true"></span>
     </div>
-    <div class="img-placeholder personality-portrait-image reveal-mask personality-portrait-image--delayed">
-      <div class="placeholder-inner"><span class="placeholder-tag">YADORI ポートレート（大・はみ出す）</span></div>
-    </div>
-    <span class="haruta-float personality-float">そっと、そばに。</span>
+    <span class="haruta-float personality-float">YADORI</span>
   </div>
 </section>
 
