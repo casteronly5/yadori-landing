@@ -649,20 +649,30 @@ on the page.)
     const titleEl = document.getElementById('interactionStepTitle');
     const bodyEl = document.getElementById('interactionStepBody');
 
+    // shapeScaleX/shapeScaleY are independent so each state reads as a
+    // genuinely different silhouette (open+wide vs. tight+round), not
+    // the same proportions at a different size. 04 deliberately reuses
+    // 01's mask but at a different scale/rotation so it echoes rather
+    // than repeats the opening state.
     const data = [
-      // 01 touch — open, relaxed, at rest
+      // 01 touch — open, relaxed, noticeably WIDE/horizontal
       { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
-        shapeScale: 1, shapeRotate: '0deg', shapeMask: 'mask-haruta-field', breathing: false },
-      // 02 curl — pulls in tighter, a real compression, and a genuinely
-      // different contour (not the same shape rotated) to sell the change
+        shapeScaleX: 1.18, shapeScaleY: 0.86, shapeRotate: '0deg', shapeMask: 'mask-haruta-field', breathing: false },
+      // 02 curl — a real compression toward round, not just "smaller":
+      // scaleX drops hard while scaleY barely moves, plus a different
+      // contour (field-b) so the change is unmistakable even in a
+      // static screenshot
       { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
-        shapeScale: 0.8, shapeRotate: '-4deg', shapeMask: 'mask-haruta-field-b', breathing: false },
-      // 03 calm — holds the tighter form, only a slow breathing pulse moves
+        shapeScaleX: 0.62, shapeScaleY: 0.98, shapeRotate: '-8deg', shapeMask: 'mask-haruta-field-b', breathing: false },
+      // 03 calm — settled, balanced proportions between 01's wide and
+      // 02's round, only the slow breathing pulse moves
       { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)',
-        shapeScale: 0.84, shapeRotate: '-2deg', shapeMask: 'mask-haruta-field-c', breathing: true },
-      // 04 reopen — loosens back open, contour eases back toward 01's shape
+        shapeScaleX: 0.88, shapeScaleY: 0.9, shapeRotate: '2deg', shapeMask: 'mask-haruta-field-c', breathing: true },
+      // 04 reopen — wide again like 01, but a different rotation and a
+      // slightly smaller, less extreme stretch so it echoes 01 without
+      // being a literal repeat of it
       { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)',
-        shapeScale: 1.08, shapeRotate: '3deg', shapeMask: 'mask-haruta-field', breathing: false }
+        shapeScaleX: 1.05, shapeScaleY: 0.96, shapeRotate: '6deg', shapeMask: 'mask-haruta-field', breathing: false }
     ];
 
     data.forEach((s, i) => {
@@ -695,7 +705,7 @@ on the page.)
       });
       shape.style.background = s.shape;
       shape.style.clipPath = 'url(#' + s.shapeMask + ')';
-      shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(' + s.shapeScale + ') scale(var(--shape-pulse, 1))';
+      shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(' + s.shapeScaleX + ', ' + s.shapeScaleY + ') scale(var(--shape-pulse, 1))';
       shape.classList.toggle('is-breathing', !!s.breathing);
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
       numEl.textContent = s.num;

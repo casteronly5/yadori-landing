@@ -768,28 +768,42 @@ section { position: relative; }
   color: var(--c-ink);
   display: flex;
   align-items: center;
-  gap: 40px;
+  /* was 40px — the gap between shape and text is the one place negative
+     space must NOT collect; it belongs outside the shape and at the
+     section edges instead (see .story-media justify-content below). */
+  gap: 16px;
   padding: var(--section-pad-major) 32px;
 }
-.story-media { flex: 1 1 60%; display: flex; align-items: center; justify-content: center; min-width: 0; }
-/* the visual composition is intentionally allowed to outgrow the text
-   column's own reading width — it is a HARUTA-scale field, not a
-   content-column image, so it is sized off the viewport, not off any
-   max-width ceiling. */
+/* was justify-content:center — centering the shape inside its own flex
+   track left an empty band on both sides, one of which sat directly
+   between the shape and the text. flex-end pushes the shape to hug the
+   text column instead, so the leftover room collects on the shape's
+   outer/far side (correct negative space) rather than in the middle. */
+.story-media { flex: 1 1 60%; display: flex; align-items: center; justify-content: flex-end; min-width: 0; }
 .story-haruta { position: relative; width: min(68vw, 1280px); }
 .story-field-wrap { width: clamp(760px, 64vw, 1280px); aspect-ratio: 16 / 9; }
-.story-field { width: 100%; height: 100%; }
+/* field-b's own concave dimple sits on the right side of its box — with
+   the shape living on the LEFT half of this section, that notch already
+   faces directly toward the text column with no flip needed. */
+.story-field { width: 100%; height: 100%; clip-path: url(#mask-haruta-field-b); }
+/* pulled off the plain top-left corner and onto the shape's own notch,
+   rotated within the 4-8deg range instead of sitting in the text's own
+   vertical flow */
 .story-float {
-  --rot: -7deg;
-  left: 4%;
-  top: -6%;
+  --rot: 6deg;
+  left: auto;
+  top: auto;
+  right: 6%;
+  bottom: 12%;
 }
 
 .story-text {
   position: relative;
   z-index: 2;
   flex: 0 1 340px;
-  padding: 0 32px;
+  /* asymmetric — tight on the shape-facing side (headline sits
+     20-60px from the shape's edge), generous on the outer side */
+  padding: 0 32px 0 12px;
 }
 .story-text--delayed.reveal { transition-delay: 0.22s; }
 .story-text h2 { color: var(--c-ink); font-size: var(--fs-subhead); margin-bottom: 28px; }
@@ -1032,7 +1046,9 @@ section { position: relative; }
   position: relative;
   display: flex;
   align-items: center;
-  gap: 32px;
+  /* was 32px — tightened so the shape's own bounding box can actually
+     reach the headline instead of leaving a hole in the middle */
+  gap: 4px;
   min-height: 760px;
   padding: var(--section-pad-major) 0 var(--section-pad-major) 7vw;
   background: var(--sage-soft);
@@ -1084,25 +1100,44 @@ section { position: relative; }
    Landscape-ish 5:4 (not the previous portrait-oriented 4:5) keeps the
    shape from becoming excessively tall once it's sized off the
    viewport instead of a fixed pixel ceiling. */
+/* positioned from the LEFT edge (not right) on purpose: field-b's own
+   width is fixed (not being enlarged further), so pulling it in from
+   the left is what actually lets it reach toward the headline — an
+   equivalent right-side offset would just add empty space on the far
+   right instead of closing the gap that matters. left:-5vw lets the
+   shape's bounding box cross a little way into the gap the text column
+   left behind, a real (if modest) bounding-box overlap rather than a
+   visual approximation. */
 .personality-field-wrap {
   position: absolute;
   z-index: 0;
   width: clamp(760px, 58vw, 1180px);
   aspect-ratio: 5 / 4;
-  right: -6vw;
+  left: -5vw;
   top: 50%;
   transform: translateY(-50%);
 }
-/* deliberately a different HARUTA silhouette than the Emotional Story
-   field (mask-haruta-field) — same design language, distinct contour,
-   so the site's irregular shapes actually vary rather than repeating
-   one path with rotate()/scale(). */
-.personality-field { display: block; width: 100%; height: 100%; clip-path: url(#mask-haruta-field-b); background: var(--cream-yellow-pale); }
+/* field-b's own notch sits on the right side of its box by default —
+   scaleX(-1) mirrors it onto the left side instead, so the concave cut
+   actually opens toward the headline rather than away from it. Safe to
+   mirror here: this element has no text content, only a flat fill. */
+.personality-field {
+  display: block;
+  width: 100%;
+  height: 100%;
+  clip-path: url(#mask-haruta-field-b);
+  background: var(--cream-yellow-pale);
+  transform: scaleX(-1) scale(var(--field-scale, 1));
+}
 
+/* moved onto the notch itself (now on the shape's left/lower area after
+   the mirror) instead of a generic corner, and out of the text's own
+   vertical flow */
 .personality-float {
-  --rot: 6deg;
-  right: 12%;
-  bottom: 8%;
+  --rot: -5deg;
+  left: 6%;
+  bottom: 14%;
+  right: auto;
   z-index: 2;
 }
 
