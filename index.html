@@ -43,6 +43,16 @@
     <clipPath id="mask-organic-window" clipPathUnits="objectBoundingBox">
       <path d="M0.09,0.02 C0.32,-0.03 0.68,-0.02 0.9,0.05 C1.02,0.09 1,0.28 0.99,0.5 C1,0.72 1.02,0.9 0.9,0.95 C0.68,1.02 0.32,1.03 0.1,0.96 C-0.02,0.92 0,0.72 0.01,0.5 C0,0.28 -0.02,0.07 0.09,0.02 Z" />
     </clipPath>
+
+    <!-- HARUTA-reference "field" shape — one large, asymmetric, irregular
+         landscape window (not a photo-crop family, a distinct compositional
+         device used only in the handful of sections listed in the HARUTA
+         system: the shape itself IS the composition, large enough that a
+         subject can be layered breaking out past its edge). Reused as-is
+         everywhere it appears — never redrawn per section. -->
+    <clipPath id="mask-haruta-field" clipPathUnits="objectBoundingBox">
+      <path d="M0.08,0.22 C0.14,0.02 0.42,-0.04 0.64,0.04 C0.88,0.13 1,0.28 0.96,0.5 C1.02,0.7 0.92,0.92 0.68,0.98 C0.42,1.05 0.15,0.96 0.04,0.76 C-0.04,0.58 0.01,0.38 0.08,0.22 Z" />
+    </clipPath>
   </defs>
 </svg>
 
@@ -183,17 +193,40 @@ product actually mid-transition — no reusing one frame across states.
 </section>
 
 <!-- ============================================================
-06. EMOTIONAL STORY
+06. EMOTIONAL STORY — [QUIET] HARUTA composition: one large irregular
+night-scene window defines the whole section, not a card or a colored
+panel. The section background stays plain milk/white — that emptiness
+is part of the design, not something to fill. YADORI (or the person
+holding it) is layered as a separate element that physically breaks
+past the field's own clipped edge, and one small floating word sits
+near the contour instead of a caption. Copy stays exactly as approved;
+only its visual weight is quieter now that the image carries the scene.
 ============================================================ -->
 <section class="emotional-story wave-top" id="emotional-story">
   <div class="story-media">
-    <div class="story-media-frame img-placeholder placeholder-wide yadori-mask--arch reveal-mask">
-      <div class="placeholder-inner">
-        <span class="placeholder-tag">ライフスタイル画像（16:9）</span>
-        <!-- Scene direction: night, soft lamplight, person holding YADORI.
-             Warm indirect light, intimate/quiet mood. Product visible but
-             avoid an e-commerce product-shot pose. -->
+    <div class="haruta-scene story-haruta">
+      <!-- outer wrapper handles the one-time scroll reveal (compressed →
+           expand); the inner .haruta-field handles its own continuous
+           breathing loop — kept on two elements so the two transforms
+           never fight over the same property -->
+      <div class="story-field-wrap reveal-mask">
+        <div class="haruta-field story-field">
+          <div class="img-placeholder haruta-field-media placeholder-wide">
+            <div class="placeholder-inner">
+              <span class="placeholder-tag">ライフスタイル画像（大・不規則窓）</span>
+              <!-- Scene direction: night, soft lamplight, person holding YADORI.
+                   Warm indirect light, intimate/quiet mood. Frame the shot so
+                   the person/YADORI naturally sits near the lower edge — the
+                   breakout layer below is meant to visually continue them past
+                   the clipped window, so the two images should line up. -->
+            </div>
+          </div>
+        </div>
       </div>
+      <div class="haruta-subject story-subject img-placeholder placeholder-square" aria-hidden="true">
+        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（はみ出す）</span></div>
+      </div>
+      <span class="haruta-float story-float">STAY</span>
     </div>
   </div>
   <div class="story-text reveal story-text--delayed">
@@ -258,14 +291,13 @@ script at the bottom of this file — see #momentsCarousel init.
 </section>
 
 <!-- ============================================================
-08. CHARACTER PORTRAIT — [EXPRESSIVE] one thesis: personality.
-Sanctioned overlap zone. This is the character's formal introduction,
-not a spec sheet — so the product is no longer a small circular
-placeholder tucked in a corner. It's a large, direct portrait that
-occupies most of the right side and can partially run past the
-section edge, sized to counterbalance the oversized headline. A
-single offset organic shape breaks the sage field toward the right
-so the section never reads as one flat colored box.
+08. CHARACTER PORTRAIT — [EXPRESSIVE] HARUTA composition: personality.
+Sanctioned overlap zone, and the character's formal introduction, not
+a spec sheet. The atmospheric shape is now a real irregular image field
+(texture/light, not a flat color blob); YADORI itself is the breakout
+subject sitting on top of it and physically exceeding its edge and the
+section's own edge; the headline stays on the opposite (left) side;
+one small rotated word floats near the contour instead of a feature list.
 ============================================================ -->
 <section class="personality" id="personality">
   <div class="personality-text reveal personality-text--delayed">
@@ -286,19 +318,21 @@ so the section never reads as one flat colored box.
     </p>
   </div>
 
-  <!-- staged reveal: 1) atmospheric shape opens through its own mask,
-       2) the product appears ~200ms behind it, 3) the headline/copy
-       above follows last (see .personality-text--delayed) -->
-  <div class="personality-portrait">
-    <span class="personality-portrait-shape yadori-mask--window reveal-mask" aria-hidden="true"></span>
-    <div class="img-placeholder personality-portrait-image reveal-mask personality-portrait-image--delayed">
-      <div class="placeholder-inner"><span class="placeholder-tag">YADORI ポートレート（大）</span></div>
+  <!-- staged reveal: 1) atmospheric field opens through its own mask,
+       2) YADORI (the breakout subject) appears ~200ms behind it, 3) the
+       headline/copy on the left follows last (.personality-text--delayed) -->
+  <div class="personality-portrait haruta-scene">
+    <div class="personality-field-wrap reveal-mask">
+      <div class="haruta-field personality-field">
+        <div class="img-placeholder haruta-field-media placeholder-wide">
+          <div class="placeholder-inner"><span class="placeholder-tag">雰囲気画像（不規則窓）</span></div>
+        </div>
+      </div>
     </div>
-    <ul class="personality-notes" aria-label="プロダクトの特徴（補足）">
-      <li>やわらかい毛並み —</li>
-      <li>触れると動く —</li>
-      <li>手のひらサイズ —</li>
-    </ul>
+    <div class="img-placeholder personality-portrait-image reveal-mask personality-portrait-image--delayed">
+      <div class="placeholder-inner"><span class="placeholder-tag">YADORI ポートレート（大・はみ出す）</span></div>
+    </div>
+    <span class="haruta-float personality-float">そっと、そばに。</span>
   </div>
 </section>
 
@@ -610,18 +644,18 @@ on the page.)
     const bodyEl = document.getElementById('interactionStepBody');
 
     const data = [
-      // 01 touch — open, relaxed, irregular form
+      // 01 touch — open, relaxed, at rest
       { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
-        shapeScale: 1, shapeRadius: '46% 54% 58% 42% / 52% 46% 54% 48%', breathing: false },
-      // 02 curl — rounds into a tight, compact near-circle
+        shapeScale: 1, shapeRotate: '0deg', breathing: false },
+      // 02 curl — pulls in tighter, a real compression
       { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
-        shapeScale: 0.82, shapeRadius: '50% 50% 50% 50% / 50% 50% 50% 50%', breathing: false },
-      // 03 calm — holds the near-circle, only a slow breathing pulse moves
+        shapeScale: 0.8, shapeRotate: '-4deg', breathing: false },
+      // 03 calm — holds the tighter form, only a slow breathing pulse moves
       { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)',
-        shapeScale: 0.86, shapeRadius: '48% 52% 50% 50% / 50% 48% 52% 50%', breathing: true },
-      // 04 reopen — loosens back into an open, larger irregular form
+        shapeScale: 0.84, shapeRotate: '-2deg', breathing: true },
+      // 04 reopen — loosens back open, slightly larger than at rest
       { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)',
-        shapeScale: 1.1, shapeRadius: '44% 56% 60% 40% / 54% 44% 56% 46%', breathing: false }
+        shapeScale: 1.08, shapeRotate: '3deg', breathing: false }
     ];
 
     data.forEach((s, i) => {
@@ -653,8 +687,7 @@ on the page.)
         }
       });
       shape.style.background = s.shape;
-      shape.style.borderRadius = s.shapeRadius;
-      shape.style.transform = 'translate(-58%, -52%) scale(' + s.shapeScale + ') scale(var(--shape-pulse, 1))';
+      shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(' + s.shapeScale + ') scale(var(--shape-pulse, 1))';
       shape.classList.toggle('is-breathing', !!s.breathing);
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
       numEl.textContent = s.num;
@@ -696,39 +729,39 @@ on the page.)
         num: '01', en: 'AFTER WORK',
         title: '帰宅したあとに、<br>今日もおつかれさま。',
         body: '玄関でひと呼吸。<br>今日いちにちの気持ちを、<br>そっと置いていく場所に。',
-        tag: 'MOMENT 01 画像（16:9）', color: 'var(--sage-soft)', mask: 'arch'
+        tag: 'MOMENT 01 画像（16:9）', color: 'var(--sage-soft)'
       },
       {
         num: '02', en: 'BEFORE SLEEP',
         title: '眠るまえに、<br>一緒に、ほっとひと息。',
         body: '灯りを落として、<br>明日のことは明日に。<br>今夜はこの子と、ゆっくり。',
-        tag: 'MOMENT 02 画像（16:9）', color: 'var(--lavender-soft)', mask: 'diagonal'
+        tag: 'MOMENT 02 画像（16:9）', color: 'var(--lavender-soft)'
       },
       {
         num: '03', en: 'SLOW DAYS',
         title: 'ぼーっとしたい<br>休日に。',
         body: '何もしない時間も、悪くない。<br>静かな午後を、いっしょに過ごす。',
-        tag: 'MOMENT 03 画像（16:9）', color: 'var(--peach-soft)', mask: 'window'
+        tag: 'MOMENT 03 画像（16:9）', color: 'var(--peach-soft)'
       },
       {
         num: '04', en: 'A TIRED MOMENT',
         title: 'ちょっと<br>疲れたときに。',
         body: '言葉にしなくていい。<br>ぎゅっと抱きしめたくなる、<br>そんな存在。',
-        tag: 'MOMENT 04 画像（16:9）', color: 'var(--cream-yellow-pale)', mask: 'diagonal-reverse'
+        tag: 'MOMENT 04 画像（16:9）', color: 'var(--cream-yellow-pale)'
       }
     ];
     const total = moments.length;
 
-    // build the 4 slide elements once — each reuses one of the 3 YADORI
-    // mask families (never a bespoke shape per photo); "diagonal-reverse"
-    // is the same diagonal family cut on the opposite corner at the shape
-    // level, so 02/04 read as variants without ever mirroring the photo
-    // content itself (a CSS transform:scaleX(-1) would flip the image too)
+    // build the 4 slide elements once — HARUTA treatment is reserved for
+    // the active slide only: its own CSS (scoped to [data-slot="0"]) adds
+    // the one shared irregular window mask, a small floating word, and a
+    // slow breathing pulse. Adjacent previews stay a plain simple frame.
     track.innerHTML = moments.map((m, i) => `
       <button type="button" class="moment-slide" data-i="${i}" aria-label="${m.en}">
-        <span class="moment-slide-image img-placeholder yadori-mask--${m.mask}">
+        <span class="moment-slide-image img-placeholder">
           <span class="placeholder-inner"><span class="placeholder-tag">${m.tag}</span></span>
         </span>
+        <span class="moment-slide-float" aria-hidden="true">そばに</span>
         <span class="moment-slide-label">${m.en}</span>
       </button>
     `).join('');
