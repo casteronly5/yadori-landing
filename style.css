@@ -434,11 +434,12 @@ section { position: relative; }
 }
 .hero-heading {
   font-size: var(--fs-headline);
+  font-weight: 700;
   color: var(--c-white);
   margin-bottom: 26px;
   line-height: 1.18;
   letter-spacing: normal;
-  max-width: 760px;
+  max-width: 900px;
 }
 .hero-copy {
   font-size: var(--fs-body);
