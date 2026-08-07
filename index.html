@@ -611,7 +611,7 @@ on the page.)
         el.classList.toggle('is-active', diff === 0);
         if (diff === 0) {
           el.removeAttribute('data-slot');
-          el.style.transform = 'translate(-50%, -50%) ' + s.transform;
+          el.style.transform = 'translate(-50%, -50%) ' + s.transform + ' translateY(var(--breath-y))';
         } else {
           el.setAttribute('data-slot', diff);
           el.style.transform = '';

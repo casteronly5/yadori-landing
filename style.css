@@ -252,6 +252,21 @@ section { position: relative; }
 }
 .float-breath { animation: floatBreath 7s ease-in-out infinite; }
 .float-breath-slow { animation-duration: 8.5s; animation-delay: -3s; }
+
+/* variable-driven variant of the same breath, for elements that also
+   carry their own static or JS-driven transform (a CSS animation
+   always wins the `transform` property over any other declaration on
+   the same element, so those elements animate a custom property
+   instead and fold it into their own transform via calc/var) */
+@property --breath-y {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes floatBreathVar {
+  0%, 100% { --breath-y: 0px; }
+  50% { --breath-y: -4px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .float-breath, .float-breath-slow { animation: none; }
 }
@@ -518,7 +533,7 @@ section { position: relative; }
 .interaction-state.is-active {
   opacity: 1;
   z-index: 3;
-  animation: floatBreath 7s ease-in-out infinite;
+  animation: floatBreathVar 7s ease-in-out infinite;
 }
 .interaction-state[data-slot="1"] {
   width: 32%;
@@ -885,11 +900,11 @@ section { position: relative; }
   max-width: 900px;
   aspect-ratio: 4 / 5;
   margin-right: -3vw;
-  transform: rotate(-2deg);
+  transform: rotate(-2deg) translateY(var(--breath-y));
   border: none;
   border-radius: 28px;
   box-shadow: 0 30px 60px rgba(51, 46, 38, 0.12);
-  animation: floatBreath 8s ease-in-out infinite;
+  animation: floatBreathVar 8s ease-in-out infinite;
 }
 
 /* small floating annotations, not a bullet list — a compositional aid
