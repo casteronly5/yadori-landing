@@ -1,27 +1,44 @@
 /* ==========================================================================
    yadori. — landing page
    Design language: soft editorial Japanese brand site (organic blobs,
-   curved transitions, serif JP headings + light EN editorial labels,
-   generous whitespace) inspired by premium J-brand storytelling sites
-   such as Lotte "Lady Borden" — reinterpreted in the approved YADORI palette.
+   curved transitions, JP headings + light EN editorial labels, generous
+   whitespace), rebuilt on a high-brightness, low-saturation warm cream
+   palette — tender / soft / warm / tiny rather than the muted, cooler,
+   more "mature lifestyle brand" gray tones of the previous pass.
+   Structure, section order, copy and layout are unchanged from before —
+   this revision only touches color, surface, radius, button and type
+   tokens, applied through shared variables/classes (not per-element
+   patches), per the DESIGN GOAL brief.
    ========================================================================== */
 
 :root {
-  /* ---- approved YADORI palette ---- */
-  --c-ivory: #F7F2E9;
-  --c-ivory-deep: #EFE6D3;
-  --c-blue-green: #7E9C90;
-  --c-pale-blue: #C9DEE3;
-  --c-mauve: #C6A7A9;
-  --c-taupe: #B89B7D;
-  --c-deep-green: #33463A;
-  --c-ink: #2E2A22;
-  --c-ink-soft: #565148;
-  --c-white: #FFFFFF;
-  --c-line: rgba(46, 42, 34, 0.12);
+  /* ---- warm cream palette ---- */
+  --bg-main: #FFF9F3;
+  --bg-soft: #F7F0E8;
+  --bg-warm: #F3EEE8;
+  --lavender-soft: #E9E4F4;
+  --sage-soft: #E4EDDF;
+  --peach-soft: #F3DFD8;
+  --cream-yellow: #F2E8D3;
 
-  /* ---- type ---- */
-  --font-jp-serif: "Zen Maru Gothic", sans-serif; /* used for all large JP/EN headings + brand marks */
+  /* ---- legacy semantic aliases ----
+     every existing var(--c-*) reference throughout this file resolves
+     through here, so the whole site re-skins from these few tokens
+     instead of being patched element by element. */
+  --c-ivory: var(--bg-main);
+  --c-ivory-deep: var(--bg-soft);
+  --c-blue-green: #7E9C90;   /* brand green — unchanged */
+  --c-pale-blue: var(--sage-soft);
+  --c-mauve: var(--peach-soft);
+  --c-taupe: #C6A47E;        /* warmed slightly */
+  --c-deep-green: #33463A;   /* brand green — unchanged, just no longer used as large fills */
+  --c-ink: #332E26;
+  --c-ink-soft: #5C5548;
+  --c-white: #FFFFFF;
+  --c-line: rgba(51, 46, 38, 0.07);
+
+  /* ---- type (families unchanged) ---- */
+  --font-jp-serif: "Zen Maru Gothic", sans-serif;
   --font-jp-sans: "Zen Kaku Gothic New", sans-serif;
   --font-en: "EB Garamond", serif;
   --font-jp-brush: "Yuji Syuku", serif;
@@ -31,7 +48,8 @@
   --section-pad-y-mobile: 72px;
   --container-w: 1180px;
   --radius-pill: 999px;
-  --radius-soft: 32px;
+  --radius-card: 32px;   /* normal cards: 24 → 32 */
+  --radius-soft: 40px;   /* large image containers: 32 → 40 */
 }
 
 /* ---- reset ---- */
@@ -40,7 +58,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-jp-sans);
   color: var(--c-ink);
-  background: var(--c-ivory);
+  background: var(--bg-main);
   line-height: 1.9;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
@@ -49,46 +67,55 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 ul, ol { list-style: none; }
-h1, h2, h3 { font-family: var(--font-jp-serif); font-weight: 700; color: var(--c-ink); line-height: 1.6; }
+h1, h2, h3 { font-family: var(--font-jp-serif); font-weight: 700; color: var(--c-ink); line-height: 1.45; }
 section { position: relative; }
 
 .eyebrow {
   font-family: var(--font-en);
   font-style: italic;
-  font-size: 14px;
-  letter-spacing: 0.18em;
+  font-size: 13.5px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--c-blue-green);
+  opacity: 0.9;
   margin-bottom: 18px;
   display: block;
 }
 .eyebrow-light { color: var(--c-white); opacity: 0.9; }
 
+/* ---- button ----
+   44–48px tall, generous horizontal padding, fully rounded pill,
+   very light shadow, restrained hover (no scale). */
 .btn {
-  display: inline-block;
-  padding: 18px 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 42px;
   border-radius: var(--radius-pill);
   font-family: var(--font-jp-sans);
-  font-size: 15px;
-  letter-spacing: 0.08em;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  font-size: 14.5px;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
   border: 1px solid transparent;
 }
 .btn-primary {
   background: var(--c-deep-green);
-  color: var(--c-ivory);
+  color: var(--bg-main);
+  box-shadow: 0 4px 12px rgba(51, 70, 58, 0.1);
 }
 .btn-primary:hover {
   background: var(--c-blue-green);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(51, 70, 58, 0.22);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(51, 70, 58, 0.14);
 }
 
 /* ---- image placeholder system ---- */
 .img-placeholder {
   position: relative;
   width: 100%;
-  background: linear-gradient(135deg, var(--c-ivory-deep), var(--c-pale-blue) 140%);
+  background: linear-gradient(135deg, var(--bg-soft), var(--sage-soft) 140%);
   border: 1.5px dashed var(--c-taupe);
   border-radius: var(--radius-soft);
   display: flex;
@@ -106,7 +133,7 @@ section { position: relative; }
   font-family: var(--font-en);
   font-style: italic;
   font-size: 13px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--c-deep-green);
   background: var(--c-white);
   padding: 6px 16px;
@@ -125,10 +152,8 @@ section { position: relative; }
 .placeholder-landscape { aspect-ratio: 4 / 3; }
 
 /* ---- decorative organic blobs ----
-   Tonal / low-contrast, layered in a single warm-neutral family
-   (soft cream-on-cream, echoing the whisper-quiet blob backdrops
-   of premium J-brand editorial sites) with only a faint whisper
-   of the accent hues — never saturated confetti shapes. */
+   Tonal / low-contrast, warm cream family with only a faint whisper of
+   the accent hues — never saturated confetti shapes. */
 .blob {
   position: absolute;
   border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%;
@@ -136,18 +161,17 @@ section { position: relative; }
   opacity: 0.4;
   z-index: 0;
 }
-.blob-mauve { background: var(--c-mauve); opacity: 0.22; }
-.blob-blue  { background: var(--c-pale-blue); opacity: 0.28; }
-.blob-green { background: var(--c-blue-green); opacity: 0.16; }
-.blob-tonal { background: var(--c-taupe); opacity: 0.14; }
+.blob-mauve { background: var(--c-mauve); opacity: 0.35; }
+.blob-blue  { background: var(--c-pale-blue); opacity: 0.4; }
+.blob-green { background: var(--c-blue-green); opacity: 0.14; }
+.blob-tonal { background: var(--c-taupe); opacity: 0.16; }
 
 .blob-collection-a { width: 320px; height: 320px; top: -100px; left: -80px; }
 .blob-collection-b { width: 240px; height: 240px; bottom: -80px; right: -60px; }
 
 /* ---- large blob-backdrop cards ----
    A single product shot floating in front of two oversized, closely
-   toned organic shapes — the "storybook card" treatment seen in the
-   reference's History / Recipe blocks, rebuilt in the YADORI palette. */
+   toned organic shapes. */
 .blob-backdrop {
   position: relative;
   padding: 8%;
@@ -172,15 +196,12 @@ section { position: relative; }
   position: relative;
   z-index: 1;
 }
-.blob-backdrop--blue::before  { background: var(--c-ivory-deep); }
-.blob-backdrop--blue::after   { background: var(--c-pale-blue); opacity: 0.55; }
-.blob-backdrop--mauve::before { background: var(--c-ivory-deep); }
-.blob-backdrop--mauve::after  { background: var(--c-mauve); opacity: 0.4; }
+.blob-backdrop--blue::before  { background: var(--bg-soft); }
+.blob-backdrop--blue::after   { background: var(--sage-soft); opacity: 0.7; }
+.blob-backdrop--mauve::before { background: var(--bg-soft); }
+.blob-backdrop--mauve::after  { background: var(--peach-soft); opacity: 0.7; }
 
-/* ---- brush accent type ----
-   Reserved for very short emotional phrases only — a handwritten
-   counterpoint to the serif headings, echoing the mixed
-   calligraphy + bold-serif typographic collage of the reference. */
+/* ---- brush accent type ---- */
 .brush-accent {
   font-family: var(--font-jp-brush);
   font-weight: 400;
@@ -194,7 +215,7 @@ section { position: relative; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(247, 242, 233, 0.9);
+  background: rgba(255, 249, 243, 0.86);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--c-line);
 }
@@ -219,7 +240,7 @@ section { position: relative; }
 }
 .nav a {
   font-size: 14px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: var(--c-ink);
   position: relative;
   padding-bottom: 4px;
@@ -234,7 +255,7 @@ section { position: relative; }
   transition: transform 0.3s ease;
 }
 .nav a:hover::after { transform: scaleX(1); }
-.header-cta { padding: 12px 28px; font-size: 13px; }
+.header-cta { height: 42px; padding: 0 26px; font-size: 13px; }
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -282,7 +303,7 @@ section { position: relative; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(46,42,34,0.05) 0%, rgba(46,42,34,0.55) 100%);
+  background: linear-gradient(180deg, rgba(51,46,38,0.05) 0%, rgba(51,46,38,0.52) 100%);
 }
 .hero-content {
   position: relative;
@@ -329,7 +350,7 @@ section { position: relative; }
 .philosophy {
   padding: var(--section-pad-y) 32px;
   text-align: center;
-  background: var(--c-ivory);
+  background: var(--bg-main);
 }
 .philosophy-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
 .philosophy-heading { font-size: clamp(24px, 3.4vw, 38px); }
@@ -340,7 +361,7 @@ section { position: relative; }
 /* ==========================================================================
    04. WHAT IS YADORI
    ========================================================================== */
-.what-is { padding: var(--section-pad-y) 32px; background: var(--c-white); }
+.what-is { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
 .section-grid {
   max-width: var(--container-w);
   margin: 0 auto;
@@ -355,15 +376,15 @@ section { position: relative; }
 .body-copy { font-size: 15px; color: var(--c-ink-soft); }
 .placeholder-copy {
   border: 1.5px dashed var(--c-taupe);
-  background: var(--c-ivory-deep);
-  border-radius: 20px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-card);
   padding: 22px;
 }
 
 /* ==========================================================================
    05. HOW IT RESPONDS
    ========================================================================== */
-.how-it-responds { padding: var(--section-pad-y) 32px; background: var(--c-ivory-deep); }
+.how-it-responds { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
 .section-head { max-width: var(--container-w); margin: 0 auto 64px; text-align: center; }
 .section-head h2 { font-size: clamp(26px, 3.4vw, 40px); }
 .steps {
@@ -379,7 +400,7 @@ section { position: relative; }
   font-style: italic;
   font-size: 14px;
   color: var(--c-blue-green);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 .step-text h3 { font-size: 18px; margin: 8px 0 8px; }
 .step-text p { font-size: 14px; color: var(--c-ink-soft); }
@@ -393,10 +414,12 @@ section { position: relative; }
 
 /* ==========================================================================
    06. EMOTIONAL STORY
+   A soft warm pause rather than a heavy solid block of brand green —
+   text flips to dark ink since the background is now light.
    ========================================================================== */
 .emotional-story {
-  background: var(--c-deep-green);
-  color: var(--c-ivory);
+  background: linear-gradient(155deg, var(--peach-soft) 0%, var(--bg-warm) 100%);
+  color: var(--c-ink);
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   align-items: stretch;
@@ -408,18 +431,19 @@ section { position: relative; }
   flex-direction: column;
   justify-content: center;
 }
-.story-text h2 { color: var(--c-ivory); font-size: clamp(24px, 3vw, 32px); margin-bottom: 28px; }
-.story-text p { font-size: 15px; opacity: 0.92; }
+.story-text h2 { color: var(--c-ink); font-size: clamp(24px, 3vw, 32px); margin-bottom: 28px; }
+.story-text p { font-size: 15px; color: var(--c-ink-soft); }
 .story-signature {
   margin-top: 28px;
   font-family: var(--font-jp-serif);
   font-size: 16px;
+  color: var(--c-deep-green);
 }
 
 /* ==========================================================================
    07. EVERYDAY MOMENTS
    ========================================================================== */
-.everyday-moments { padding: var(--section-pad-y) 32px; background: var(--c-white); }
+.everyday-moments { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
 
 /* one shared backdrop of large tonal blobs spanning the whole section,
    instead of each card carrying its own separate box */
@@ -442,24 +466,24 @@ section { position: relative; }
 .moment:nth-child(3) { margin-top: 20px; }
 .moment:nth-child(4) { margin-top: 72px; }
 
-/* organic image mask replacing the plain rounded-rect card */
+/* organic image mask — a little living shape, not a spec card */
 .placeholder-organic {
   aspect-ratio: 3 / 4;
   border: none;
   border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
-  box-shadow: 0 18px 36px rgba(46,42,34,0.14);
-  background: linear-gradient(150deg, var(--c-ivory-deep), var(--c-pale-blue) 130%);
+  box-shadow: 0 14px 28px rgba(51,46,38,0.08);
+  background: linear-gradient(150deg, var(--bg-soft), var(--sage-soft) 130%);
 }
 .moment:nth-child(2n) .placeholder-organic {
   border-radius: 58% 42% 37% 63% / 55% 60% 40% 45%;
-  background: linear-gradient(150deg, var(--c-ivory-deep), var(--c-mauve) 130%);
+  background: linear-gradient(150deg, var(--bg-soft), var(--peach-soft) 130%);
 }
 
 .moment-en {
   font-family: var(--font-en);
   font-style: italic;
   font-size: 13px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--c-blue-green);
   margin: 20px 0 10px;
 }
@@ -473,7 +497,7 @@ section { position: relative; }
   max-width: var(--container-w);
   margin: 0 auto;
   padding: var(--section-pad-y) 32px;
-  background: var(--c-pale-blue);
+  background: var(--sage-soft);
   display: grid;
   grid-template-columns: 1fr 0.85fr;
   gap: 56px;
@@ -483,18 +507,16 @@ section { position: relative; }
 .callouts { position: absolute; inset: 0; pointer-events: none; }
 
 /* organic speech-bubble callouts with a dotted leader line pointing
-   back toward the product, echoing the reference's caption bubbles.
-   Bubbles now sit close to the image edge (not deep negative offsets)
-   so they never drift into the text column next to them. */
+   back toward the product — like a small creature's little tags. */
 .callout {
   position: absolute;
   background: var(--c-white);
   padding: 12px 22px;
   border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%;
   font-size: 13px;
-  letter-spacing: 0.04em;
-  box-shadow: 0 10px 24px rgba(46,42,34,0.14);
-  border: 1px solid rgba(184,155,125,0.35);
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 18px rgba(51,46,38,0.08);
+  border: 1px solid rgba(198,164,126,0.3);
   white-space: nowrap;
 }
 .callout-1 { top: 4%;  left: -2%; }
@@ -503,7 +525,7 @@ section { position: relative; }
 .callout-4 { bottom: 2%; right: -2%; }
 
 /* thicker, rounder "cute" dotted leader line — a row of big soft dots
-   rather than a thin dash, ending in a clear landing dot on the bubble */
+   ending in a clear landing dot on the bubble */
 .callout-line {
   position: absolute;
   height: 4px;
@@ -511,7 +533,7 @@ section { position: relative; }
   background-size: 13px 4px;
   background-repeat: repeat-x;
   background-position: left center;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 .callout-line::after {
   content: "";
@@ -539,7 +561,7 @@ section { position: relative; }
 /* ==========================================================================
    09. COLLECTION
    ========================================================================== */
-.collection { padding: var(--section-pad-y) 32px; background: var(--c-ivory); text-align: center; }
+.collection { padding: var(--section-pad-y) 32px; background: var(--bg-main); text-align: center; }
 .collection .section-head h2 { font-size: clamp(26px, 3.2vw, 38px); }
 .collection-grid {
   max-width: var(--container-w);
@@ -555,14 +577,14 @@ section { position: relative; }
   font-size: 18px;
   color: var(--c-deep-green);
   margin: 22px 0 8px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
 }
 .collection-item p { font-size: 14px; color: var(--c-ink-soft); }
 
 /* ==========================================================================
    10. TOUCH / SIZE / COLOR
    ========================================================================== */
-.details { padding: var(--section-pad-y) 32px; background: var(--c-white); }
+.details { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
 .detail-block {
   max-width: var(--container-w);
   margin: 0 auto 96px;
@@ -598,7 +620,7 @@ section { position: relative; }
 .our-story {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: var(--c-ivory-deep);
+  background: var(--lavender-soft);
 }
 .our-story-media { border-radius: 0; aspect-ratio: auto; min-height: 560px; }
 .our-story-text {
@@ -617,6 +639,8 @@ section { position: relative; }
   max-width: var(--container-w);
   margin: 0 auto;
   padding: var(--section-pad-y) 32px;
+  background: var(--cream-yellow);
+  border-radius: var(--radius-soft);
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   gap: 72px;
@@ -626,29 +650,30 @@ section { position: relative; }
   font-family: var(--font-en);
   font-style: italic;
   font-size: 34px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   margin: 14px 0 32px;
 }
 .badge {
   display: inline-block;
-  background: var(--c-mauve);
-  color: var(--c-white);
+  background: var(--peach-soft);
+  color: var(--c-ink);
   padding: 6px 18px;
   border-radius: var(--radius-pill);
   font-size: 12.5px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 .offer-cards { display: flex; gap: 20px; margin-bottom: 28px; }
 .offer-card {
   flex: 1;
-  border: 1.5px solid var(--c-line);
-  border-radius: var(--radius-soft);
+  border: none;
+  border-radius: var(--radius-card);
   padding: 24px;
   background: var(--c-white);
+  box-shadow: 0 6px 18px rgba(51,46,38,0.06);
   text-align: center;
 }
-.offer-card--top { border-color: var(--c-deep-green); background: var(--c-ivory-deep); }
-.offer-label { font-size: 13px; letter-spacing: 0.08em; color: var(--c-ink-soft); margin-bottom: 8px; }
+.offer-card--top { background: var(--bg-warm); box-shadow: 0 8px 22px rgba(51,70,58,0.1); }
+.offer-label { font-size: 13px; letter-spacing: 0.06em; color: var(--c-ink-soft); margin-bottom: 8px; }
 .offer-discount { font-family: var(--font-jp-serif); font-size: 24px; color: var(--c-deep-green); margin-bottom: 6px; }
 .offer-price { font-size: 15px; }
 .regular-price { font-size: 13.5px; color: var(--c-ink-soft); margin-bottom: 6px; text-decoration: line-through; }
@@ -656,15 +681,18 @@ section { position: relative; }
 
 /* ==========================================================================
    13. REVIEWS
+   A soft warm pause rather than a heavy solid block of brand green —
+   text flips to dark ink since the background is now light.
    ========================================================================== */
-.reviews { padding: var(--section-pad-y) 32px; background: var(--c-deep-green); }
+.reviews { padding: var(--section-pad-y) 32px; background: var(--sage-soft); }
 .reviews-warning {
   max-width: var(--container-w);
   margin: 0 auto 48px;
   font-size: 13px;
-  color: var(--c-mauve);
-  border: 1px dashed var(--c-mauve);
-  border-radius: 16px;
+  color: var(--c-ink-soft);
+  background: var(--cream-yellow);
+  border: 1.5px dashed var(--c-taupe);
+  border-radius: var(--radius-card);
   padding: 18px 24px;
   line-height: 1.8;
 }
@@ -678,8 +706,7 @@ section { position: relative; }
 .review-quote {
   font-family: var(--font-jp-serif);
   font-size: 15px;
-  color: var(--c-ivory);
-  opacity: 0.9;
+  color: var(--c-ink-soft);
   border-left: 2px solid var(--c-taupe);
   padding-left: 18px;
   line-height: 1.9;
@@ -688,7 +715,7 @@ section { position: relative; }
 /* ==========================================================================
    14. PRODUCT INFORMATION
    ========================================================================== */
-.product-info { padding: var(--section-pad-y) 32px; background: var(--c-white); }
+.product-info { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
 .product-info-grid {
   max-width: var(--container-w);
   margin: 0 auto;
@@ -722,8 +749,8 @@ section { position: relative; }
   display: inline-flex; align-items: center; justify-content: center;
   width: 22px; height: 22px;
   border-radius: 50%;
-  border: 1px solid var(--c-mauve);
-  color: var(--c-mauve);
+  border: 1px solid var(--c-taupe);
+  color: var(--c-taupe);
   font-size: 11px;
 }
 .faq-row { padding: 14px 0; border-bottom: 1px solid var(--c-line); }
@@ -733,7 +760,7 @@ section { position: relative; }
   display: inline-block;
   margin-top: 20px;
   font-size: 13.5px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--c-deep-green);
   border-bottom: 1px solid var(--c-deep-green);
   padding-bottom: 2px;
@@ -747,7 +774,7 @@ section { position: relative; }
 .final-cta-media::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(46,42,34,0.2), rgba(46,42,34,0.55));
+  background: linear-gradient(180deg, rgba(51,46,38,0.18), rgba(51,46,38,0.5));
 }
 .final-cta-content {
   position: relative;
@@ -763,7 +790,7 @@ section { position: relative; }
 /* ==========================================================================
    16. FOOTER
    ========================================================================== */
-.site-footer { position: relative; background: var(--c-ink); color: var(--c-ivory); padding: 88px 32px 32px; }
+.site-footer { position: relative; background: var(--c-ink); color: var(--bg-main); padding: 88px 32px 32px; }
 .footer-top {
   max-width: var(--container-w);
   margin: 0 auto;
@@ -771,7 +798,7 @@ section { position: relative; }
   grid-template-columns: 1.2fr 2fr;
   gap: 64px;
   padding-bottom: 56px;
-  border-bottom: 1px solid rgba(247,242,233,0.15);
+  border-bottom: 1px solid rgba(255,249,243,0.14);
 }
 .footer-logo { font-family: var(--font-jp-serif); font-size: 24px; margin-bottom: 16px; }
 .footer-tagline { font-size: 13.5px; opacity: 0.75; }
@@ -780,7 +807,7 @@ section { position: relative; }
   font-family: var(--font-en);
   font-style: italic;
   font-size: 12.5px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   opacity: 0.6;
   margin-bottom: 18px;
 }
@@ -834,7 +861,7 @@ section { position: relative; }
     position: fixed;
     inset: 0;
     top: 72px;
-    background: var(--c-ivory);
+    background: var(--bg-main);
     padding: 40px 32px;
     z-index: 99;
   }
@@ -869,7 +896,7 @@ section { position: relative; }
   .collection-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .reviews-track { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
-  .purchase { grid-template-columns: 1fr; gap: 40px; }
+  .purchase { grid-template-columns: 1fr; gap: 40px; border-radius: var(--radius-card); }
   .offer-cards { flex-direction: column; }
   .what-is, .how-it-responds, .everyday-moments,
   .collection, .details, .product-info, .personality,
@@ -897,12 +924,8 @@ section { position: relative; }
 
    The clip shape itself is the smooth bezier curve defined once in the
    <svg><clipPath id="wave-clip-top"> sprite near the top of <body>
-   (clipPathUnits="objectBoundingBox"), NOT a polygon() — a polygon can
-   only draw straight segments between points, which is what produced
-   the faceted / angular look last time. Referencing the SVG clipPath
-   keeps every corner a true curve, and it still scales responsively
-   with each section's own width and height since objectBoundingBox
-   coordinates are 0–1 fractions of the element's own box. */
+   (clipPathUnits="objectBoundingBox"), so every corner is a true curve
+   and it scales responsively with each section's own width and height. */
 .wave-top {
   position: relative;
   margin-top: -96px;
