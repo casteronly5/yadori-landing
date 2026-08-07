@@ -437,7 +437,8 @@ section { position: relative; }
   color: var(--c-white);
   margin-bottom: 26px;
   line-height: 1.18;
-  max-width: 720px;
+  letter-spacing: normal;
+  max-width: 760px;
 }
 .hero-copy {
   font-size: var(--fs-body);
