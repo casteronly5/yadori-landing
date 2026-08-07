@@ -23,6 +23,20 @@
     <clipPath id="wave-clip-top" clipPathUnits="objectBoundingBox">
       <path d="M0,0.055 C0.167,0.12 0.333,0 0.5,0.04 C0.667,0.08 0.833,0.135 1,0.065 L1,1 L0,1 Z" />
     </clipPath>
+
+    <!-- Three reusable YADORI mask families — soft, large-radius, warm,
+         organic shapes applied as clip-path only. They never touch the
+         image's own aspect-ratio (always 16:9 on the frame underneath);
+         the mask is a purely visual crop on top of that fixed frame. -->
+    <clipPath id="mask-soft-arch" clipPathUnits="objectBoundingBox">
+      <path d="M0,1 L0,0.34 C0,0.1 0.22,0 0.5,0 C0.78,0 1,0.1 1,0.34 L1,1 Z" />
+    </clipPath>
+    <clipPath id="mask-soft-diagonal" clipPathUnits="objectBoundingBox">
+      <path d="M0.2,0 L1,0 L1,1 L0,1 L0,0.2 C0,0.07 0.07,0 0.2,0 Z" />
+    </clipPath>
+    <clipPath id="mask-organic-window" clipPathUnits="objectBoundingBox">
+      <path d="M0.09,0.02 C0.32,-0.03 0.68,-0.02 0.9,0.05 C1.02,0.09 1,0.28 0.99,0.5 C1,0.72 1.02,0.9 0.9,0.95 C0.68,1.02 0.32,1.03 0.1,0.96 C-0.02,0.92 0,0.72 0.01,0.5 C0,0.28 -0.02,0.07 0.09,0.02 Z" />
+    </clipPath>
   </defs>
 </svg>
 
@@ -166,15 +180,17 @@ product actually mid-transition — no reusing one frame across states.
 06. EMOTIONAL STORY
 ============================================================ -->
 <section class="emotional-story wave-top" id="emotional-story">
-  <div class="story-media img-placeholder placeholder-wide reveal">
-    <div class="placeholder-inner">
-      <span class="placeholder-tag">ライフスタイル画像（大）</span>
-      <!-- Scene direction: night, soft lamplight, person holding YADORI.
-           Warm indirect light, intimate/quiet mood. Product visible but
-           avoid an e-commerce product-shot pose. -->
+  <div class="story-media">
+    <div class="story-media-frame img-placeholder placeholder-wide yadori-mask--arch reveal-mask">
+      <div class="placeholder-inner">
+        <span class="placeholder-tag">ライフスタイル画像（16:9）</span>
+        <!-- Scene direction: night, soft lamplight, person holding YADORI.
+             Warm indirect light, intimate/quiet mood. Product visible but
+             avoid an e-commerce product-shot pose. -->
+      </div>
     </div>
   </div>
-  <div class="story-text reveal">
+  <div class="story-text reveal story-text--delayed">
     <h2>何も話したくない夜もある。</h2>
     <p>
       誰かと話したいわけじゃない。<br>
@@ -246,7 +262,7 @@ single offset organic shape breaks the sage field toward the right
 so the section never reads as one flat colored box.
 ============================================================ -->
 <section class="personality" id="personality">
-  <div class="personality-text reveal">
+  <div class="personality-text reveal personality-text--delayed">
     <h2>ちょっと、<br>臆病です。</h2>
     <p class="personality-group personality-group--1">
       触れると、少し丸くなる。<br>
@@ -264,9 +280,12 @@ so the section never reads as one flat colored box.
     </p>
   </div>
 
-  <div class="personality-portrait reveal-fade">
-    <span class="personality-portrait-shape" aria-hidden="true"></span>
-    <div class="img-placeholder personality-portrait-image">
+  <!-- staged reveal: 1) atmospheric shape opens through its own mask,
+       2) the product appears ~200ms behind it, 3) the headline/copy
+       above follows last (see .personality-text--delayed) -->
+  <div class="personality-portrait">
+    <span class="personality-portrait-shape yadori-mask--window reveal-mask" aria-hidden="true"></span>
+    <div class="img-placeholder personality-portrait-image reveal-mask personality-portrait-image--delayed">
       <div class="placeholder-inner"><span class="placeholder-tag">YADORI ポートレート（大）</span></div>
     </div>
     <ul class="personality-notes" aria-label="プロダクトの特徴（補足）">
@@ -285,15 +304,17 @@ stacked panels, no extra pastel blocks: this screen answers "why
 does YADORI exist", not "what does it do".
 ============================================================ -->
 <section class="our-story" id="our-story">
-  <div class="our-story-media img-placeholder placeholder-wide reveal">
-    <div class="placeholder-inner">
-      <span class="placeholder-tag">ライフスタイル画像（大）</span>
-      <!-- Scene: cafe or a quiet living room, someone with YADORI.
-           Documentary/natural mood. Leave clear space to overlay the
-           English line "a small companion, for what words can't hold". -->
+  <div class="our-story-media">
+    <div class="our-story-media-frame img-placeholder placeholder-wide yadori-mask--window reveal-mask">
+      <div class="placeholder-inner">
+        <span class="placeholder-tag">ライフスタイル画像（16:9）</span>
+        <!-- Scene: cafe or a quiet living room, someone with YADORI.
+             Documentary/natural mood. Leave clear space to overlay the
+             English line "a small companion, for what words can't hold". -->
+      </div>
     </div>
   </div>
-  <div class="our-story-text reveal">
+  <div class="our-story-text reveal our-story-text--delayed">
     <p class="eyebrow">OUR STORY</p>
     <h2>言葉にならない気持ちにも、<br>居場所があっていいと思った。</h2>
     <p>
@@ -553,7 +574,7 @@ on the page.)
   // translateY + opacity, 0.8–1.4s ease-out, no parallax). Each .reveal /
   // .reveal-fade element fades and settles into place once as it enters
   // the viewport; it is never re-hidden on scroll-out.
-  const revealTargets = document.querySelectorAll('.reveal, .reveal-fade');
+  const revealTargets = document.querySelectorAll('.reveal, .reveal-fade, .reveal-mask');
   if ('IntersectionObserver' in window && revealTargets.length) {
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -583,10 +604,18 @@ on the page.)
     const bodyEl = document.getElementById('interactionStepBody');
 
     const data = [
-      { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)' },
-      { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)' },
-      { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)' },
-      { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)' }
+      // 01 touch — open, relaxed, irregular form
+      { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
+        shapeScale: 1, shapeRadius: '46% 54% 58% 42% / 52% 46% 54% 48%', breathing: false },
+      // 02 curl — rounds into a tight, compact near-circle
+      { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
+        shapeScale: 0.82, shapeRadius: '50% 50% 50% 50% / 50% 50% 50% 50%', breathing: false },
+      // 03 calm — holds the near-circle, only a slow breathing pulse moves
+      { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)',
+        shapeScale: 0.86, shapeRadius: '48% 52% 50% 50% / 50% 48% 52% 50%', breathing: true },
+      // 04 reopen — loosens back into an open, larger irregular form
+      { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)',
+        shapeScale: 1.1, shapeRadius: '44% 56% 60% 40% / 54% 44% 56% 46%', breathing: false }
     ];
 
     data.forEach((s, i) => {
@@ -618,6 +647,9 @@ on the page.)
         }
       });
       shape.style.background = s.shape;
+      shape.style.borderRadius = s.shapeRadius;
+      shape.style.transform = 'translate(-58%, -52%) scale(' + s.shapeScale + ') scale(var(--shape-pulse, 1))';
+      shape.classList.toggle('is-breathing', !!s.breathing);
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
       numEl.textContent = s.num;
       titleEl.textContent = s.title;
@@ -658,38 +690,44 @@ on the page.)
         num: '01', en: 'AFTER WORK',
         title: '帰宅したあとに、<br>今日もおつかれさま。',
         body: '玄関でひと呼吸。<br>今日いちにちの気持ちを、<br>そっと置いていく場所に。',
-        tag: 'MOMENT 01 画像（16:9）', color: 'var(--sage-soft)'
+        tag: 'MOMENT 01 画像（16:9）', color: 'var(--sage-soft)', mask: 'arch'
       },
       {
         num: '02', en: 'BEFORE SLEEP',
         title: '眠るまえに、<br>一緒に、ほっとひと息。',
         body: '灯りを落として、<br>明日のことは明日に。<br>今夜はこの子と、ゆっくり。',
-        tag: 'MOMENT 02 画像（16:9）', color: 'var(--lavender-soft)'
+        tag: 'MOMENT 02 画像（16:9）', color: 'var(--lavender-soft)', mask: 'diagonal'
       },
       {
         num: '03', en: 'SLOW DAYS',
         title: 'ぼーっとしたい<br>休日に。',
         body: '何もしない時間も、悪くない。<br>静かな午後を、いっしょに過ごす。',
-        tag: 'MOMENT 03 画像（16:9）', color: 'var(--peach-soft)'
+        tag: 'MOMENT 03 画像（16:9）', color: 'var(--peach-soft)', mask: 'window'
       },
       {
         num: '04', en: 'A TIRED MOMENT',
         title: 'ちょっと<br>疲れたときに。',
         body: '言葉にしなくていい。<br>ぎゅっと抱きしめたくなる、<br>そんな存在。',
-        tag: 'MOMENT 04 画像（16:9）', color: 'var(--cream-yellow-pale)'
+        tag: 'MOMENT 04 画像（16:9）', color: 'var(--cream-yellow-pale)', mask: 'diagonal reverse'
       }
     ];
     const total = moments.length;
 
-    // build the 4 slide elements once
-    track.innerHTML = moments.map((m, i) => `
+    // build the 4 slide elements once — each reuses one of the 3 YADORI
+    // mask families (never a bespoke shape per photo); "reverse" mirrors
+    // the diagonal family so 02/04 don't read as identical
+    track.innerHTML = moments.map((m, i) => {
+      const maskParts = m.mask.split(' ');
+      const maskClass = 'yadori-mask--' + maskParts[0] + (maskParts[1] === 'reverse' ? ' yadori-mask--reverse' : '');
+      return `
       <button type="button" class="moment-slide" data-i="${i}" aria-label="${m.en}">
-        <span class="moment-slide-image img-placeholder">
+        <span class="moment-slide-image img-placeholder ${maskClass}">
           <span class="placeholder-inner"><span class="placeholder-tag">${m.tag}</span></span>
         </span>
         <span class="moment-slide-label">${m.en}</span>
       </button>
-    `).join('');
+    `;
+    }).join('');
     const slideEls = [...track.querySelectorAll('.moment-slide')];
 
     const dotsEl = document.getElementById('momentsDots');
