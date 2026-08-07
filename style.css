@@ -193,41 +193,6 @@ section { position: relative; }
 .blob-green { background: var(--c-blue-green); opacity: 0.14; }
 .blob-tonal { background: var(--c-taupe); opacity: 0.16; }
 
-.blob-collection-a { width: 320px; height: 320px; top: -100px; left: -80px; }
-.blob-collection-b { width: 240px; height: 240px; bottom: -80px; right: -60px; }
-
-/* ---- large blob-backdrop cards ----
-   A single product shot floating in front of two oversized, closely
-   toned organic shapes. */
-.blob-backdrop {
-  position: relative;
-  padding: 8%;
-}
-.blob-backdrop::before,
-.blob-backdrop::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-}
-.blob-backdrop::before {
-  top: 0; left: 4%;
-  width: 92%; height: 92%;
-  border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
-}
-.blob-backdrop::after {
-  bottom: -2%; right: -2%;
-  width: 74%; height: 74%;
-  border-radius: 55% 45% 40% 60% / 60% 55% 45% 40%;
-}
-.blob-backdrop .img-placeholder {
-  position: relative;
-  z-index: 1;
-}
-.blob-backdrop--blue::before  { background: var(--bg-soft); }
-.blob-backdrop--blue::after   { background: var(--sage-soft); opacity: 0.7; }
-.blob-backdrop--mauve::before { background: var(--bg-soft); }
-.blob-backdrop--mauve::after  { background: var(--peach-soft); opacity: 0.7; }
-
 /* ---- brush accent type ---- */
 .brush-accent {
   font-family: var(--font-jp-brush);
@@ -291,37 +256,13 @@ section { position: relative; }
   .float-breath, .float-breath-slow { animation: none; }
 }
 
-/* composed breathing keyframes for elements that already carry a static
-   positional transform (floating-composition offset) — the animation
-   bakes that offset in as its baseline so the two never fight over the
-   `transform` property. */
-@keyframes floatBreathPurchase {
-  0%, 100% { transform: translateY(-32px); }
-  50%      { transform: translateY(-37px); }
-}
-@keyframes floatBreathWhatIs {
-  0%, 100% { transform: translate(-4vw, -18px); }
-  50%      { transform: translate(-4vw, -22px); }
-}
 @media (prefers-reduced-motion: reduce) {
-  /* !important: these three selectors are re-declared later in the file
-     with their own `animation` property (composed breathing keyframes),
-     which would otherwise win the cascade by source order and silently
-     re-enable motion for users who asked for less of it. */
+  /* !important: these selectors are re-declared later in the file with
+     their own `animation` property (product breathing), which would
+     otherwise win the cascade by source order and silently re-enable
+     motion for users who asked for less of it. */
   .personality-media, .purchase-media, .section-grid--reverse .image-col { animation: none !important; }
 }
-
-/* off-canvas organic color panels — support content, never contain it */
-.color-panel {
-  position: absolute;
-  z-index: 0;
-  border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%;
-  pointer-events: none;
-}
-.color-panel--sage { background: var(--sage-soft); }
-.color-panel--peach { background: var(--peach-soft); }
-.color-panel--lavender { background: var(--lavender-soft); }
-.color-panel--cream { background: var(--cream-yellow); }
 
 /* narrow, editorial body-copy column */
 .copy-narrow { max-width: var(--copy-narrow); }
@@ -394,7 +335,7 @@ section { position: relative; }
 .nav-mobile-cta { display: none; }
 
 /* ==========================================================================
-   02. HERO
+   02. HERO — [QUIET] one subject, full-bleed video, sanctioned overlap
    ========================================================================== */
 .hero {
   position: relative;
@@ -468,7 +409,7 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   03. BRAND PHILOSOPHY
+   03. BRAND PHILOSOPHY — [QUIET] a single centered line, no decoration
    ========================================================================== */
 .philosophy {
   padding: var(--section-pad-major) 32px;
@@ -477,15 +418,14 @@ section { position: relative; }
 }
 .philosophy-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
 .philosophy-heading { font-size: var(--fs-subhead); line-height: 1.4; }
-.philosophy .blob-a { width: 260px; height: 260px; top: -60px; left: 6%; }
-.philosophy .blob-b { width: 200px; height: 200px; bottom: -40px; right: 10%; }
-.philosophy .blob-c { width: 160px; height: 160px; top: 30%; right: 30%; }
 
 /* ==========================================================================
-   04. WHAT IS YADORI
+   04. WHAT IS YADORI — [QUIET]
+   One subject only: the intro copy and a single clean product image,
+   side by side. No supporting color panel behind the image — the
+   section's own background carries the mood, nothing else needs to.
    ========================================================================== */
 .what-is { position: relative; padding: var(--section-pad-y) 32px; background: var(--bg-main); }
-.what-is-panel { width: 52vw; height: 62vw; max-height: 640px; top: 8%; right: -14vw; }
 .section-grid {
   position: relative;
   max-width: var(--container-w);
@@ -500,8 +440,7 @@ section { position: relative; }
   order: 2;
   position: relative;
   z-index: 1;
-  transform: translate(-4vw, -18px);
-  animation: floatBreathWhatIs 7.5s ease-in-out infinite;
+  animation: floatBreath 7.5s ease-in-out infinite;
 }
 .what-is h2 { font-size: var(--fs-subhead); margin-bottom: 28px; }
 .body-copy { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
@@ -513,7 +452,7 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   05. HOW IT RESPONDS — sequential interaction
+   05. HOW IT RESPONDS — [EXPRESSIVE] one thesis: motion
    A single pinned product visual crossfades through 4 states while the
    step copy scrolls past beside it; the section's own background tints
    very gently (cream → pink → green → cream) so the page visibly
@@ -604,24 +543,23 @@ section { position: relative; }
 .interaction-step p { font-size: var(--fs-body); color: var(--c-ink-soft); }
 
 /* ==========================================================================
-   06. EMOTIONAL STORY
-   A soft warm pause rather than a heavy solid block of brand green —
-   text flips to dark ink since the background is now light.
+   06. EMOTIONAL STORY — [QUIET] one mood, one subject, one bg color
+   Clean column split, no overlap: this section is not one of the four
+   sanctioned overlap spots, so image and text keep a clear boundary.
    ========================================================================== */
 .emotional-story {
   position: relative;
-  background: linear-gradient(155deg, var(--peach-soft) 0%, var(--bg-warm) 100%);
+  background: var(--peach-soft);
   color: var(--c-ink);
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   align-items: stretch;
 }
-.story-media { border-radius: 0 96px 96px 0; aspect-ratio: auto; min-height: 560px; }
+.story-media { border-radius: 0; aspect-ratio: auto; min-height: 560px; }
 .story-text {
   position: relative;
   z-index: 2;
-  margin-left: -64px;
-  padding: var(--section-pad-major) 64px var(--section-pad-major) 96px;
+  padding: var(--section-pad-major) 64px var(--section-pad-major) 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -636,15 +574,11 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   07. EVERYDAY MOMENTS
+   07. EVERYDAY MOMENTS — [EXPRESSIVE] one thesis: daily-life collage.
+   Sanctioned overlap zone — no added color panels or blobs needed;
+   the staggered grid itself carries the "expressive" feeling.
    ========================================================================== */
 .everyday-moments { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
-
-/* one shared backdrop of large tonal blobs spanning the whole section,
-   instead of each card carrying its own separate box */
-.moments-bg-a { width: 620px; height: 620px; top: -10%;  left: -12%; }
-.moments-bg-b { width: 420px; height: 420px; top: 30%;   right: -8%; }
-.moments-bg-c { width: 360px; height: 360px; bottom: -14%; left: 30%; }
 
 /* editorial collage, not a card grid: four different widths, two
    naturally-wrapping rows, mixed caption treatments (below / overlaid on
@@ -728,7 +662,8 @@ section { position: relative; }
 .moment--float .moment-en { margin-top: 0; }
 
 /* ==========================================================================
-   08. PRODUCT PERSONALITY — brand statement, not a spec sheet
+   08. PRODUCT PERSONALITY — [EXPRESSIVE] one thesis: character.
+   Sanctioned overlap zone — brand statement, not a spec sheet
    The line "ちょっと、臆病です。" carries the whole section: it reads as
    a near-half-screen graphic headline. The product itself shrinks down
    to a small round presence tucked in a corner — a character sitting
@@ -786,183 +721,21 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   09. COLLECTION — four mini worlds, four different compositions
-   Each variant is its own near-full-height band with its own full-bleed
-   pastel field and an oversized product — not four cells of one grid.
-   The four bands deliberately use four different layout logics (split
-   right, split left/mirrored, centered/stacked, full-bleed with an
-   overlay caption) so the section reads as a sequence of distinct rooms,
-   not a repeated pattern with different colors.
-   ========================================================================== */
-.collection { padding: var(--section-pad-y) 0; background: var(--bg-main); text-align: center; }
-.collection .section-head { padding: 0 32px; }
-.collection .section-head h2 { font-size: var(--fs-subhead); }
-
-.collection-sequence { margin-top: 72px; }
-
-.world {
-  position: relative;
-  min-height: 82vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  text-align: left;
-}
-
-/* MORI / KURI — split composition, mirrored between the two */
-.world--mori, .world--kuri {
-  display: grid;
-  grid-template-columns: 0.85fr 1fr;
-  align-items: center;
-  gap: 40px;
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: 90px 48px;
-}
-.world--mori   { background: var(--sage-soft); }
-.world--kuri   { background: linear-gradient(160deg, var(--cream-yellow-pale) 0%, var(--peach-soft) 100%); grid-template-columns: 1fr 0.85fr; }
-
-.world-text { position: relative; z-index: 1; max-width: 380px; }
-.world-name {
-  font-family: var(--font-en);
-  font-style: italic;
-  font-size: clamp(30px, 3.4vw, 44px);
-  letter-spacing: 0.02em;
-  margin-bottom: 18px;
-}
-.world--mori .world-name { color: var(--c-deep-green); }
-.world--kuri .world-name { color: #9C6B3E; }
-.world--milktea .world-name { color: #B5677A; }
-.world-copy { font-size: var(--fs-body); color: var(--c-ink-soft); }
-
-.world-media { position: relative; display: flex; justify-content: center; }
-.world-image {
-  width: 78%;
-  aspect-ratio: 1 / 1;
-  animation: floatBreath 7.6s ease-in-out infinite;
-}
-.world--kuri .world-image { animation-duration: 8.6s; animation-delay: -3s; }
-
-/* MILK TEA — centered / stacked, the odd one out on purpose */
-.world--milktea {
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  background: var(--blush-soft);
-  padding: 90px 32px;
-  gap: 28px;
-}
-.world--milktea .world-image { width: min(52vw, 460px); animation-duration: 7s; }
-.world--milktea .world-copy { max-width: 360px; }
-
-/* RAINBOW — full-bleed image with the caption living in one corner */
-.world--rainbow {
-  padding: 0;
-  background: linear-gradient(135deg, var(--lavender-soft) 0%, var(--sky-soft) 100%);
-}
-.world-media--full { position: absolute; inset: 0; width: 100%; height: 100%; justify-content: center; }
-.world-media--full .world-image {
-  width: 60%;
-  height: 76%;
-  aspect-ratio: auto;
-  animation-duration: 8s;
-}
-.world-overlay {
-  position: relative;
-  z-index: 1;
-  margin: auto 8% 10% auto;
-  max-width: 320px;
-  padding: 28px 30px;
-  background: rgba(255,255,255,0.28);
-  backdrop-filter: blur(6px);
-  border-radius: 32px;
-}
-.world--rainbow .world-overlay .world-name,
-.world--rainbow .world-overlay .world-copy { color: var(--c-ink); }
-.world--rainbow .world-overlay .world-name { color: #6E6693; margin-bottom: 10px; }
-
-/* one quiet decorative mark per world — restrained, never a cluster */
-.collection-accent { position: absolute; pointer-events: none; }
-.collection-accent--dot {
-  top: 28px; right: 32px;
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: var(--c-deep-green);
-  opacity: 0.4;
-}
-.collection-accent--line {
-  top: 34px; left: 30px;
-  width: 34px; height: 2px;
-  background: var(--c-taupe);
-  opacity: 0.5;
-  transform: rotate(-8deg);
-}
-.collection-accent--blob {
-  top: 22px; right: 26px;
-  width: 30px; height: 26px;
-  border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%;
-  background: var(--blush-deep);
-  opacity: 0.55;
-}
-.collection-accent--star {
-  top: 30px; left: 28px;
-  width: 16px; height: 16px;
-  background: var(--sky-soft);
-  opacity: 0.7;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-}
-
-/* ==========================================================================
-   10. TOUCH / SIZE / COLOR
-   ========================================================================== */
-.details { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
-.detail-block {
-  max-width: var(--container-w);
-  margin: 0 auto 112px;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 56px;
-  align-items: center;
-}
-.detail-block:last-of-type { margin-bottom: 24px; }
-.detail-block--reverse { grid-template-columns: 0.85fr 1.15fr; }
-.detail-block--reverse .detail-image { order: 2; }
-.detail-block--reverse .detail-text { order: 1; }
-.detail-text h3 { font-size: var(--fs-subhead); line-height: 1.4; }
-.detail-image { border-radius: 140px; overflow: hidden; }
-.detail-image .img-placeholder { border-radius: 140px; }
-.color-list { display: flex; flex-direction: column; gap: 10px; font-size: 16px; }
-.color-list li::before {
-  content: "";
-  display: inline-block;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--c-taupe);
-  margin-right: 12px;
-}
-.details-note {
-  max-width: var(--container-w);
-  margin: 0 auto;
-  font-size: 12.5px;
-  color: var(--c-ink-soft);
-  text-align: right;
-}
-
-/* ==========================================================================
-   11. OUR STORY
+   09. OUR STORY — [QUIET] the closing emotional beat
+   One real photo, one paragraph, generous whitespace. Single section
+   background, no floating panel behind the image, no overlap: this is
+   not one of the four sanctioned overlap spots.
    ========================================================================== */
 .our-story {
   position: relative;
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
+  grid-template-columns: 0.9fr 1.1fr;
   background: var(--lavender-soft);
 }
-.our-story-panel { width: 46vw; height: 46vw; max-height: 520px; bottom: -18%; right: -12vw; z-index: 1; }
-.our-story-media { border-radius: 0 96px 96px 0; aspect-ratio: auto; min-height: 580px; }
+.our-story-media { border-radius: 0; aspect-ratio: auto; min-height: 580px; }
 .our-story-text {
   position: relative;
-  z-index: 2;
-  margin-left: -56px;
+  z-index: 1;
   padding: var(--section-pad-major) 96px var(--section-pad-major) 72px;
   display: flex;
   flex-direction: column;
@@ -972,28 +745,25 @@ section { position: relative; }
 .our-story-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 
 /* ==========================================================================
-   12. PURCHASE
+   10. PRICE / PRE-ORDER — [FUNCTIONAL] the conversion line
+   Full-width functional section background (no floating card, no
+   pill radius, no decorative panel) with a plain centered grid inside.
+   From here on: fewer colors, less motion, more information density.
    ========================================================================== */
-.purchase {
-  position: relative;
+.purchase { position: relative; padding: var(--section-pad-y) 32px; background: var(--cream-yellow-pale); }
+.purchase-grid {
   max-width: var(--container-w);
   margin: 0 auto;
-  padding: var(--section-pad-y) 32px;
-  background: var(--cream-yellow);
-  border-radius: 100px;
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
   gap: 56px;
   align-items: center;
-  overflow: visible;
 }
 .purchase-media {
   position: relative;
   z-index: 1;
-  transform: translateY(-32px);
-  animation: floatBreathPurchase 8s ease-in-out infinite;
+  animation: floatBreath 8s ease-in-out infinite;
 }
-.purchase-panel { width: 42vw; height: 42vw; max-height: 460px; top: -12%; left: -16vw; z-index: 0; }
 .purchase-content h2 {
   font-family: var(--font-en);
   font-style: italic;
@@ -1003,7 +773,7 @@ section { position: relative; }
 }
 .badge {
   display: inline-block;
-  background: var(--peach-soft);
+  background: var(--c-white);
   color: var(--c-ink);
   padding: 6px 18px;
   border-radius: var(--radius-pill);
@@ -1013,8 +783,8 @@ section { position: relative; }
 .offer-cards { display: flex; gap: 20px; margin-bottom: 28px; }
 .offer-card {
   flex: 1;
-  border: none;
-  border-radius: 48px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-card);
   padding: 26px 22px;
   background: var(--c-white);
   box-shadow: none;
@@ -1028,22 +798,50 @@ section { position: relative; }
 .delivery { font-size: 13.5px; color: var(--c-ink-soft); margin-bottom: 32px; }
 
 /* ==========================================================================
-   13. REVIEWS
-   A soft warm pause rather than a heavy solid block of brand green —
-   text flips to dark ink since the background is now light.
+   11. COLOR SELECT — [FUNCTIONAL] purchase-aid, not a fifth art-direction moment
+   Four small swatches in a single row. No per-color background block,
+   no full-bleed sections: this is information density, not a showcase.
+   ========================================================================== */
+.color-select { padding: 96px 32px; background: var(--bg-main); text-align: center; }
+.color-select-inner { max-width: var(--container-w); margin: 0 auto; }
+.color-select .eyebrow { justify-content: center; }
+.color-select-list {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+.color-select-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 160px;
+}
+.color-swatch {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--c-line);
+}
+.color-swatch--mori { background: var(--sage-soft); }
+.color-swatch--kuri { background: var(--peach-soft); }
+.color-swatch--milktea { background: var(--blush-soft); }
+.color-swatch--rainbow { background: linear-gradient(135deg, var(--lavender-soft) 0%, var(--sky-soft) 100%); }
+.color-select-name {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  color: var(--c-ink);
+}
+.color-select-desc { font-size: 12.5px; color: var(--c-ink-soft); }
+
+/* ==========================================================================
+   12. REVIEWS — [FUNCTIONAL] trust block, single background
    ========================================================================== */
 .reviews { padding: var(--section-pad-y) 32px; background: var(--sage-soft); }
-.reviews-warning {
-  max-width: var(--container-w);
-  margin: 0 auto 48px;
-  font-size: 13px;
-  color: var(--c-ink-soft);
-  background: var(--cream-yellow);
-  border: 1.5px dashed var(--c-taupe);
-  border-radius: var(--radius-card);
-  padding: 18px 24px;
-  line-height: 1.8;
-}
 .reviews-track {
   max-width: var(--container-w);
   margin: 0 auto;
@@ -1065,7 +863,7 @@ section { position: relative; }
 .review-quote:nth-child(5) { margin-top: 16px; }
 
 /* ==========================================================================
-   14. PRODUCT INFORMATION
+   13. PRODUCT SPEC / CARE / FAQ — [FUNCTIONAL] grid, single background
    ========================================================================== */
 .product-info { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
 .product-info-grid {
@@ -1119,7 +917,7 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   15. FINAL CTA
+   14. FINAL CTA — [QUIET] sanctioned overlap: image edge-bleeds under text
    ========================================================================== */
 .final-cta { position: relative; min-height: 60vh; display: flex; align-items: center; overflow: hidden; }
 .final-cta-media { position: absolute; inset: 0; border-radius: 0; aspect-ratio: auto; }
@@ -1140,7 +938,7 @@ section { position: relative; }
 .final-cta-content h2 { color: var(--c-white); font-size: var(--fs-subhead); margin-bottom: 36px; }
 
 /* ==========================================================================
-   16. FOOTER
+   15. FOOTER
    ========================================================================== */
 .site-footer { position: relative; background: var(--c-ink); color: var(--bg-main); padding: 88px 32px 32px; }
 .footer-top {
@@ -1197,36 +995,21 @@ section { position: relative; }
   .moment--float { flex-direction: column; align-items: stretch; }
   .moment--float .moment-image { width: 100%; }
   .moments-float-caption { position: static; max-width: none; transform: none; margin: 24px 0; font-size: 19px; }
-  .world--mori, .world--kuri { grid-template-columns: 1fr; padding: 64px 40px; text-align: center; }
-  .world--mori .world-media, .world--kuri .world-media { order: -1; }
-  .world-text { max-width: 480px; margin: 0 auto; }
-  .world-image { width: 60%; margin: 0 auto; }
-  .world--milktea .world-image { width: 68vw; }
-  .world { min-height: auto; padding-top: 72px; padding-bottom: 72px; }
-  .world--rainbow { padding: 0; min-height: 80vh; }
   .personality-media { width: 130px; }
   .reviews-track { grid-template-columns: repeat(2, 1fr); }
   .review-quote:nth-child(n) { margin-top: 0; }
   .product-info-grid { grid-template-columns: 1fr; gap: 56px; }
   .footer-top { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
+  .color-select-list { gap: 32px; }
 
   /* floating asymmetric compositions: even out for tablet width */
   .section-grid { grid-template-columns: 1fr 1fr; }
-  .section-grid--reverse .image-col { transform: none; }
-  .detail-block, .detail-block--reverse { grid-template-columns: 1fr 1fr; }
-  .detail-image { border-radius: var(--radius-soft); }
   .our-story { grid-template-columns: 1fr 1fr; }
-  .our-story-text { margin-left: 0; padding: 72px 48px; }
-  .our-story-media { border-radius: 0; }
+  .our-story-text { padding: 72px 48px; }
   .emotional-story { grid-template-columns: 1fr 1fr; }
-  .story-text { margin-left: 0; padding: 72px 48px; }
-  .story-media { border-radius: 0; }
-  .purchase { grid-template-columns: 1fr 1fr; border-radius: var(--radius-soft); }
-  .purchase-media { transform: none; }
-  .what-is-panel { width: 60vw; height: 60vw; right: -22vw; }
-  .our-story-panel { width: 56vw; height: 56vw; right: -18vw; }
-  .purchase-panel { width: 50vw; height: 50vw; left: -22vw; }
+  .story-text { padding: 72px 48px; }
+  .purchase-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* ==========================================================================
@@ -1259,24 +1042,12 @@ section { position: relative; }
   .hero-heading { font-size: 30px; }
 
   .section-grid,
-  .detail-block,
-  .detail-block--reverse,
   .our-story,
   .emotional-story {
     grid-template-columns: 1fr;
   }
-  .section-grid--reverse .text-col,
-  .section-grid--reverse .image-col,
-  .detail-block--reverse .detail-image,
-  .detail-block--reverse .detail-text {
-    order: initial;
-  }
-  .story-text, .our-story-text { padding: 56px 24px; margin-left: 0; }
-  .story-media, .our-story-media { min-height: 320px; border-radius: 0; }
-  .detail-image { border-radius: var(--radius-card); }
-  .purchase-media { transform: none; }
-  .section-grid--reverse .image-col { transform: none; }
-  .what-is-panel, .our-story-panel, .purchase-panel { display: none; }
+  .story-text, .our-story-text { padding: 56px 24px; }
+  .story-media, .our-story-media { min-height: 320px; }
 
   .interaction-visual { width: 82%; }
   .moments-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -1287,18 +1058,14 @@ section { position: relative; }
   .moments-float-caption { position: static; max-width: none; transform: none; margin: 8px 0 24px; font-size: 18px; }
   .placeholder-organic { border-radius: var(--radius-soft); }
   .moment--overlay .moment-image { aspect-ratio: 4 / 5; }
-  .world--mori, .world--kuri { padding: 56px 24px; }
-  .world-image { width: 74%; }
-  .world--milktea { padding: 56px 24px; }
-  .world--milktea .world-image { width: 78vw; }
-  .world-overlay { margin: auto 6% 8% auto; max-width: 260px; padding: 22px 22px; }
   .reviews-track { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
-  .purchase { grid-template-columns: 1fr; gap: 40px; border-radius: var(--radius-card); }
+  .purchase-grid { grid-template-columns: 1fr; gap: 40px; }
   .offer-cards { flex-direction: column; }
+  .color-select-list { gap: 28px 20px; }
   .what-is, .interaction, .everyday-moments,
-  .collection, .details, .product-info, .personality,
-  .purchase, .philosophy, .reviews {
+  .product-info, .personality,
+  .purchase, .color-select, .philosophy, .reviews {
     padding-left: 20px;
     padding-right: 20px;
   }
