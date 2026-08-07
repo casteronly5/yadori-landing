@@ -242,6 +242,17 @@ section { position: relative; }
 .yadori-mask--diagonal { clip-path: url(#mask-soft-diagonal); }
 .yadori-mask--diagonal-reverse { clip-path: url(#mask-soft-diagonal-reverse); }
 .yadori-mask--window { clip-path: url(#mask-organic-window); }
+/* an organic clip-path only clips the rectangular .img-placeholder
+   border's paint, it doesn't reshape it — the straight dashed edges
+   still cut across the interior of the shape wherever the mask
+   silhouette runs close to the original box edge. Any masked element
+   must never carry that rectangular border. */
+.yadori-mask--arch,
+.yadori-mask--diagonal,
+.yadori-mask--diagonal-reverse,
+.yadori-mask--window {
+  border: none;
+}
 
 /* reveal-through-mask: images enter via their own shape compressing and
    expanding, never a flat opacity fade. Caption/label text is a sibling
@@ -932,6 +943,7 @@ section { position: relative; }
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  border: none;
   border-radius: 0;
   overflow: visible;
   clip-path: url(#mask-organic-window);
