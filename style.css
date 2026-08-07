@@ -574,59 +574,104 @@ section { position: relative; }
 }
 
 /* ==========================================================================
-   07. EVERYDAY MOMENTS — [EXPRESSIVE] one thesis: daily-life collage.
-   Sanctioned overlap zone — no added color panels or blobs needed;
-   the staggered grid itself carries the "expressive" feeling.
+   07. EVERYDAY MOMENTS — [EXPRESSIVE] one thesis: daily-life scenes.
+   Photo-led composition: PHOTO = subject, COLOR = mood, TEXT = narrative.
+   Every photo frame is a plain 4:3 / 16:9 rectangle with only one arched
+   corner (a light asymmetric touch, not an organic mask), so it stays
+   compatible with ordinary, fairly-full lifestyle photography. The four
+   scenes alternate wide-left / wide-right / medium-with-whitespace /
+   wide-right-again, so the rhythm varies without needing a grid of
+   equal shape-based cells. Sanctioned overlap zone: the closing photo
+   is allowed to bleed slightly past the section's own bottom edge.
    ========================================================================== */
 .everyday-moments { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
 
-/* editorial collage, not a card grid: four different widths, two
-   naturally-wrapping rows, mixed caption treatments (below / overlaid on
-   the image / floating beside it) — every item still belongs to the
-   same soft YADORI world, but no two are built the same way. */
-.moments-grid {
+.moments-sequence {
   position: relative;
   z-index: 1;
   max-width: var(--container-w);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 32px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 128px;
 }
-.moment--hero { grid-column: 1 / 8; margin-top: 0; }
-.moment--hero .moment-image { aspect-ratio: 4 / 5.4; }
-.moment--overlay { grid-column: 8 / 13; margin-top: 64px; }
-.moment--float { grid-column: 1 / 6; margin-top: 24px; }
-.moment:nth-last-child(1) { grid-column: 6 / 13; margin-top: 96px; }
+.moment {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.moment-copy { position: relative; z-index: 1; }
+
+/* AFTER WORK — wide image left, text right */
+.moment--after-work .moment-visual { grid-column: 1; }
+.moment--after-work .moment-copy { grid-column: 2; }
+
+/* BEFORE SLEEP — mirrored: text left, wide image right */
+.moment--before-sleep { grid-template-columns: 1fr 1.4fr; }
+.moment--before-sleep .moment-copy { grid-column: 1; }
+.moment--before-sleep .moment-visual { grid-column: 2; }
+
+/* SLOW DAYS — medium image, more surrounding whitespace */
+.moment--slow-days {
+  grid-template-columns: 0.9fr 0.9fr;
+  max-width: 860px;
+  margin: 0 auto;
+  gap: 64px;
+}
+
+/* A TIRED MOMENT — text left, wide image right, the emotional close;
+   this photo carries the section's one sanctioned overlap */
+.moment--tired { grid-template-columns: 1fr 1.4fr; }
+.moment--tired .moment-copy { grid-column: 1; }
+.moment--tired .moment-visual { grid-column: 2; margin-bottom: -64px; }
+
+/* visual = a real photo frame with one pastel tint peeking out behind
+   it — the tint never wraps the whole photo and never carries text */
+.moment-visual { position: relative; }
+.moment-photo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border: none;
+  box-shadow: 0 18px 36px rgba(51, 46, 38, 0.1);
+  overflow: hidden;
+}
+.moment--after-work .moment-photo,
+.moment--before-sleep .moment-photo,
+.moment--tired .moment-photo { aspect-ratio: 16 / 9; }
+.moment--slow-days .moment-photo { aspect-ratio: 4 / 3; }
+
+/* one light arched corner per scene — enough to feel hand-placed,
+   never enough to require a specially-shot, empty-around-the-subject photo */
+.moment--after-work .moment-photo { border-radius: 8px 96px 8px 8px; }
+.moment--before-sleep .moment-photo { border-radius: 8px 8px 8px 96px; }
+.moment--slow-days .moment-photo { border-radius: 96px 8px 8px 8px; }
+.moment--tired .moment-photo { border-radius: 8px 8px 96px 8px; }
+
+.moment-tint {
+  position: absolute;
+  z-index: 0;
+  border-radius: 28px;
+  width: 58%;
+  height: 62%;
+}
+.moment--after-work .moment-tint { background: var(--sage-soft); right: -14%; bottom: -16%; }
+.moment--before-sleep .moment-tint { background: var(--blush-soft); left: -14%; top: -16%; }
+.moment--slow-days .moment-tint { background: var(--cream-yellow-pale); width: 68%; height: 74%; left: -18%; bottom: -18%; }
+.moment--tired .moment-tint { background: var(--blush-deep); right: -14%; top: -16%; }
 
 /* a short line that belongs to none of the four photos — it just
-   drifts in the collage's own negative space */
+   sits quietly in the gap between the first two scenes */
 .moments-float-caption {
-  position: absolute;
-  top: 4%;
-  left: 62%;
-  z-index: 2;
-  max-width: 200px;
+  max-width: 340px;
+  margin: 0 auto;
+  text-align: center;
   font-family: var(--font-jp-brush);
   font-size: 22px;
   line-height: 1.5;
   color: var(--c-deep-green);
-  opacity: 0.8;
-  transform: rotate(-4deg);
-}
-
-/* organic image mask — a little living shape, not a spec card */
-.placeholder-organic {
-  aspect-ratio: 4 / 5;
-  border: none;
-  border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
-  box-shadow: 0 14px 28px rgba(51,46,38,0.08);
-  background: linear-gradient(150deg, var(--bg-soft), var(--sage-soft) 130%);
-}
-.moment:nth-child(2n) .placeholder-organic {
-  border-radius: 58% 42% 37% 63% / 55% 60% 40% 45%;
-  background: linear-gradient(150deg, var(--bg-soft), var(--blush-soft) 130%);
+  opacity: 0.85;
 }
 
 .moment-en {
@@ -635,31 +680,10 @@ section { position: relative; }
   font-size: 13px;
   letter-spacing: 0.1em;
   color: var(--c-blue-green);
-  margin: 20px 0 10px;
+  margin-bottom: 14px;
 }
-.moment h3 { font-size: 19px; margin-bottom: 10px; }
+.moment h3 { font-size: 19px; margin-bottom: 12px; }
 .moment p { font-size: var(--fs-body); color: var(--c-ink-soft); }
-
-/* moment 2 — caption floats on top of the image itself, over a soft
-   scrim, instead of sitting underneath it */
-.moment--overlay .moment-image { aspect-ratio: 3 / 4.4; position: relative; }
-.moment--overlay .moment-caption {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 28px 26px 26px;
-  background: linear-gradient(180deg, rgba(51,46,38,0) 0%, rgba(51,46,38,0.5) 100%);
-  border-radius: 0 0 42% 42% / 0 0 30% 30%;
-}
-.moment--overlay .moment-caption .moment-en { color: rgba(255,249,243,0.85); margin: 0 0 8px; }
-.moment--overlay .moment-caption h3 { color: var(--c-white); margin-bottom: 0; }
-.moment--overlay > p { margin-top: 18px; }
-
-/* moment 3 — a smaller image floating in extra whitespace, caption
-   sitting beside it rather than stacked underneath */
-.moment--float { display: flex; align-items: flex-end; gap: 22px; }
-.moment--float .moment-image { width: 58%; flex-shrink: 0; aspect-ratio: 1 / 1; }
-.moment--float .moment-copy { padding-bottom: 6px; }
-.moment--float .moment-en { margin-top: 0; }
 
 /* ==========================================================================
    08. PRODUCT PERSONALITY — [EXPRESSIVE] one thesis: character.
@@ -987,14 +1011,23 @@ section { position: relative; }
   .interaction-visual { position: relative; top: auto; height: auto; aspect-ratio: 1 / 1; width: 70%; margin: 0 auto 32px; }
   .interaction-step { min-height: auto; opacity: 1; padding: 28px 0; }
   .interaction-step:first-child, .interaction-step:last-child { padding-top: 28px; padding-bottom: 28px; min-height: auto; }
-  .moments-grid { grid-template-columns: repeat(2, 1fr); }
-  .moment:nth-child(n) { grid-column: auto; margin-top: 0; }
-  .moment:nth-child(2n) { margin-top: 40px; }
-  .moment--hero { grid-column: auto; }
-  .moment--hero .moment-image { aspect-ratio: 4 / 5; }
-  .moment--float { flex-direction: column; align-items: stretch; }
-  .moment--float .moment-image { width: 100%; }
-  .moments-float-caption { position: static; max-width: none; transform: none; margin: 24px 0; font-size: 19px; }
+  .moments-sequence { gap: 88px; }
+  .moment,
+  .moment--before-sleep,
+  .moment--slow-days,
+  .moment--tired {
+    grid-template-columns: 1fr;
+    max-width: none;
+    gap: 32px;
+  }
+  .moment--before-sleep .moment-copy,
+  .moment--before-sleep .moment-visual,
+  .moment--tired .moment-copy,
+  .moment--tired .moment-visual {
+    grid-column: 1;
+  }
+  .moment--tired .moment-visual { margin-bottom: 0; }
+  .moments-float-caption { font-size: 19px; }
   .personality-media { width: 130px; }
   .reviews-track { grid-template-columns: repeat(2, 1fr); }
   .review-quote:nth-child(n) { margin-top: 0; }
@@ -1050,14 +1083,24 @@ section { position: relative; }
   .story-media, .our-story-media { min-height: 320px; }
 
   .interaction-visual { width: 82%; }
-  .moments-grid { grid-template-columns: 1fr; gap: 48px; }
-  .moment:nth-child(n) { grid-column: auto; margin-top: 0; }
-  .moment--hero .moment-image { aspect-ratio: 4 / 5; }
-  .moment--float { flex-direction: column; align-items: stretch; }
-  .moment--float .moment-image { width: 100%; }
-  .moments-float-caption { position: static; max-width: none; transform: none; margin: 8px 0 24px; font-size: 18px; }
-  .placeholder-organic { border-radius: var(--radius-soft); }
-  .moment--overlay .moment-image { aspect-ratio: 4 / 5; }
+  .moments-sequence { gap: 64px; }
+  .moment,
+  .moment--before-sleep,
+  .moment--slow-days,
+  .moment--tired {
+    grid-template-columns: 1fr;
+    max-width: none;
+    gap: 24px;
+  }
+  .moment--before-sleep .moment-copy,
+  .moment--before-sleep .moment-visual,
+  .moment--tired .moment-copy,
+  .moment--tired .moment-visual {
+    grid-column: 1;
+  }
+  .moment--tired .moment-visual { margin-bottom: 0; }
+  .moments-float-caption { font-size: 18px; margin: 0 auto; }
+  .moment-tint { width: 70%; height: 70%; }
   .reviews-track { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
   .purchase-grid { grid-template-columns: 1fr; gap: 36px; padding: 0 20px; }
