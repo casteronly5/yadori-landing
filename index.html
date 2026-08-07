@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yadori. | 気持ちのとなり。</title>
+<meta name="description" content="触れたら、そっと返してくれる。言葉はいらない、ただ触れるだけの小さなやりとり。yadori. 気持ちのとなり。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Yuji+Syuku&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Shared clip-path definition for the smooth wave section transitions.
+     clipPathUnits="objectBoundingBox" makes this a single bezier curve
+     that scales proportionally to whatever element it's applied to
+     (0-1 on both axes), so the curve stays perfectly smooth at any
+     section width/height instead of the faceted look a plain
+     polygon() clip-path gives. Not visible itself — never remove. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <clipPath id="wave-clip-top" clipPathUnits="objectBoundingBox">
+      <path d="M0,0.055 C0.167,0.12 0.333,0 0.5,0.04 C0.667,0.08 0.833,0.135 1,0.065 L1,1 L0,1 Z" />
+    </clipPath>
+  </defs>
+</svg>
+
+<!-- ============================================================
+01. HEADER
+============================================================ -->
+<header class="site-header" id="header">
+  <div class="header-inner">
+    <a href="#hero" class="logo">yadori.</a>
+
+    <nav class="nav" id="nav" aria-label="メインナビゲーション">
+      <ul>
+        <li><a href="#how-it-responds">つかいかた</a></li>
+        <li><a href="#our-story">ブランドストーリー</a></li>
+        <li><a href="#spec">仕様・お手入れ</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+      </ul>
+      <a href="#purchase" class="btn btn-primary nav-mobile-cta">この子を迎える</a>
+    </nav>
+
+    <a href="#purchase" class="btn btn-primary header-cta">この子を迎える</a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================
+02. HERO
+============================================================ -->
+<section class="hero" id="hero">
+  <div class="hero-media">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="assets/video/hero-poster.jpg"
+      aria-label="手がYADORIにそっと触れる様子（無音・ループ再生）">
+      <source src="assets/video/hero.webm" type="video/webm">
+      <source src="assets/video/hero.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="hero-content">
+    <p class="eyebrow eyebrow-light">A QUIET FRIEND FOR FEELINGS</p>
+    <h1 class="hero-heading">触れたら、<br>そっと返してくれる。</h1>
+    <p class="hero-copy">言葉はいらない。<br>ただ触れるだけの、小さなやりとり。</p>
+    <p class="hero-brandline">yadori.<br><span class="brush-accent">気持ちのとなり。</span></p>
+    <a href="#purchase" class="btn btn-primary">この子を迎える</a>
+  </div>
+</section>
+
+<!-- ============================================================
+03. BRAND PHILOSOPHY
+============================================================ -->
+<section class="philosophy wave-top" id="philosophy">
+  <div class="blob blob-mauve blob-a" aria-hidden="true"></div>
+  <div class="blob blob-blue blob-b" aria-hidden="true"></div>
+  <div class="blob blob-green blob-c" aria-hidden="true"></div>
+  <div class="philosophy-inner">
+    <p class="eyebrow">feelings find a place</p>
+    <h2 class="philosophy-heading">言えなかった言葉も、<br>こぼれなかった涙も。</h2>
+  </div>
+</section>
+
+<!-- ============================================================
+04. WHAT IS YADORI
+============================================================ -->
+<section class="what-is" id="what-is">
+  <div class="section-grid section-grid--reverse">
+    <div class="text-col">
+      <h2>YADORIという、<br>小さな居場所。</h2>
+      <p class="body-copy placeholder-copy">
+        【CLIENT TO PROVIDE】既存サイトで承認済みのYADORI紹介文をここに掲載してください。
+        添付データ内に該当テキストが見つからなかったため、本文は未確定です。
+        ブランドとして「YADORIとは何か」を一段落で説明する、承認済みのコピーをご支給ください。
+      </p>
+    </div>
+    <div class="image-col blob-backdrop blob-backdrop--blue">
+      <div class="img-placeholder placeholder-portrait">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">単体プロダクト画像</span>
+          <p class="placeholder-label">
+            正面、または斜め45度からのクリーンな一枚。<br>
+            プロダクトがふわっと置かれている、<br>
+            あるいは静かに浮いているような柔らかい印象で。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+05. HOW IT RESPONDS
+============================================================ -->
+<section class="how-it-responds" id="how-it-responds">
+  <div class="section-head">
+    <p class="eyebrow">HOW IT RESPONDS</p>
+    <h2>触れると、<br>どうなるの？</h2>
+  </div>
+
+  <ol class="steps">
+    <li class="step">
+      <div class="step-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">STEP 01 画像</span>
+          <p class="placeholder-label">手がプロダクトに触れている瞬間の画像。</p>
+        </div>
+      </div>
+      <div class="step-text">
+        <span class="step-number">01</span>
+        <h3>そっと触れると…</h3>
+        <p>少しだけ身体を丸めます。</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">STEP 02 画像</span>
+          <p class="placeholder-label">プロダクトが丸まり始めている状態の画像。</p>
+        </div>
+      </div>
+      <div class="step-text">
+        <span class="step-number">02</span>
+        <h3>もう一度触れると…</h3>
+        <p>きゅっと、まんまるに。</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">STEP 03 画像</span>
+          <p class="placeholder-label">完全に丸まり、落ち着いた状態の画像。</p>
+        </div>
+      </div>
+      <div class="step-text">
+        <span class="step-number">03</span>
+        <h3>しばらくすると…</h3>
+        <p>ゆっくり落ち着きます。</p>
+      </div>
+    </li>
+
+    <li class="step">
+      <div class="step-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">STEP 04 画像</span>
+          <p class="placeholder-label">再びひらいていく途中の状態の画像。</p>
+        </div>
+      </div>
+      <div class="step-text">
+        <span class="step-number">04</span>
+        <h3>また、ひらいていきます</h3>
+        <p>この子には、この子のペースがあります。</p>
+      </div>
+    </li>
+  </ol>
+  <p class="steps-note">※4枚はそれぞれ異なる状態を示す画像を使用し、同一画像の使い回しは不可。</p>
+</section>
+
+<!-- ============================================================
+06. EMOTIONAL STORY
+============================================================ -->
+<section class="emotional-story wave-top" id="emotional-story">
+  <div class="story-media img-placeholder placeholder-wide">
+    <div class="placeholder-inner">
+      <span class="placeholder-tag">ライフスタイル画像（大）</span>
+      <p class="placeholder-label">
+        シーン：夜、やわらかな照明の部屋でYADORIを抱く人物。<br>
+        暖かい間接照明、親密で静かな空気感。<br>
+        プロダクトは写っているが、ECの物撮りのようなポーズは避ける。
+      </p>
+    </div>
+  </div>
+  <div class="story-text">
+    <h2>何も話したくない夜もある。</h2>
+    <p>
+      誰かと話したいわけじゃない。<br>
+      スマホを見るのにも、少し疲れた。<br>
+      でも、ほんの少しだけ<br>
+      何かに触れていたい。<br>
+      そんなとき、<br>
+      この子にそっと手を伸ばしてみる。<br>
+      ただ触れる。<br>
+      そして、返ってくる。<br>
+      そんな小さなやりとりが、<br>
+      一日の終わりにあってもいい。
+    </p>
+    <p class="story-signature">— yadori.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+07. EVERYDAY MOMENTS
+============================================================ -->
+<section class="everyday-moments wave-top" id="everyday-moments">
+  <div class="blob blob-tonal moments-bg-a" aria-hidden="true"></div>
+  <div class="blob blob-blue moments-bg-b" aria-hidden="true"></div>
+  <div class="blob blob-mauve moments-bg-c" aria-hidden="true"></div>
+
+  <div class="section-head">
+    <p class="eyebrow">IN EVERYDAY MOMENTS</p>
+    <h2>いつもの時間の、<br>そばに。</h2>
+  </div>
+
+  <div class="moments-grid">
+    <article class="moment">
+      <div class="moment-image img-placeholder placeholder-organic">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">MOMENT 01 画像</span>
+          <p class="placeholder-label">帰宅するシーン。キャンペーン全体で統一感のあるトーン。</p>
+        </div>
+      </div>
+      <p class="moment-en">AFTER WORK</p>
+      <h3>帰宅したあとに、<br>今日もおつかれさま。</h3>
+      <p>玄関でひと呼吸。<br>今日いちにちの気持ちを、<br>そっと置いていく場所に。</p>
+    </article>
+
+    <article class="moment">
+      <div class="moment-image img-placeholder placeholder-organic">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">MOMENT 02 画像</span>
+          <p class="placeholder-label">夜、ベッドサイドでのシーン。</p>
+        </div>
+      </div>
+      <p class="moment-en">BEFORE SLEEP</p>
+      <h3>眠るまえに、<br>一緒に、ほっとひと息。</h3>
+      <p>灯りを落として、<br>明日のことは明日に。<br>今夜はこの子と、ゆっくり。</p>
+    </article>
+
+    <article class="moment">
+      <div class="moment-image img-placeholder placeholder-organic">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">MOMENT 03 画像</span>
+          <p class="placeholder-label">静かなソファ、またはコーヒーブレイクのシーン。</p>
+        </div>
+      </div>
+      <p class="moment-en">SLOW DAYS</p>
+      <h3>ぼーっとしたい<br>休日に。</h3>
+      <p>何もしない時間も、悪くない。<br>静かな午後を、いっしょに過ごす。</p>
+    </article>
+
+    <article class="moment">
+      <div class="moment-image img-placeholder placeholder-organic">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">MOMENT 04 画像</span>
+          <p class="placeholder-label">YADORIを抱きしめる様子のクローズアップ。</p>
+        </div>
+      </div>
+      <p class="moment-en">A TIRED MOMENT</p>
+      <h3>ちょっと<br>疲れたときに。</h3>
+      <p>言葉にしなくていい。<br>ぎゅっと抱きしめたくなる、<br>そんな存在。</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================
+08. PRODUCT PERSONALITY
+============================================================ -->
+<section class="personality" id="personality">
+  <div class="personality-media img-placeholder placeholder-wide">
+    <div class="placeholder-inner">
+      <span class="placeholder-tag">プロダクト大画像</span>
+      <p class="placeholder-label">
+        手に持った状態、または正面向きのプロダクト画像。<br>
+        コールアウト（吹き出しテキスト）を配置するため、<br>
+        プロダクト周囲に十分な余白を残すこと。
+      </p>
+    </div>
+    <ul class="callouts" aria-label="プロダクトの特徴">
+      <li class="callout callout-1">やわらかい毛並み</li>
+      <span class="callout-line callout-line-1" aria-hidden="true"></span>
+      <li class="callout callout-2">つぶらな瞳</li>
+      <span class="callout-line callout-line-2" aria-hidden="true"></span>
+      <li class="callout callout-3">触れると動く</li>
+      <span class="callout-line callout-line-3" aria-hidden="true"></span>
+      <li class="callout callout-4">手のひらサイズ</li>
+      <span class="callout-line callout-line-4" aria-hidden="true"></span>
+    </ul>
+  </div>
+
+  <div class="personality-text">
+    <h2>ちょっと、<br>臆病です。</h2>
+    <p>
+      触れると、少し丸くなる。<br>
+      もう少し触れると、<br>
+      きゅっと身体を小さくする。<br>
+      でも、<br>
+      ずっと丸まっているわけではありません。<br>
+      少し待つと、<br>
+      またゆっくり、<br>
+      ひらいていきます。<br>
+      急がなくていい。<br>
+      この子には、<br>
+      この子のペースがあるから。
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+09. COLLECTION
+============================================================ -->
+<section class="collection wave-top" id="collection">
+  <div class="blob blob-tonal blob-collection-a" aria-hidden="true"></div>
+  <div class="blob blob-tonal blob-collection-b" aria-hidden="true"></div>
+  <div class="section-head">
+    <h2>それぞれの気持ちに、<br>それぞれのYADORI。</h2>
+  </div>
+
+  <div class="collection-grid">
+    <article class="collection-item">
+      <div class="collection-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">MORI 画像</span>
+          <p class="placeholder-label">承認済みプロダクト画像を使用。アングル・スケールは他3種と統一。</p>
+        </div>
+      </div>
+      <h3>MORI</h3>
+      <p>森の奥にいるような、<br>静かなやすらぎ。</p>
+    </article>
+
+    <article class="collection-item">
+      <div class="collection-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">KURI 画像</span>
+          <p class="placeholder-label">承認済みプロダクト画像を使用。アングル・スケールは他3種と統一。</p>
+        </div>
+      </div>
+      <h3>KURI</h3>
+      <p>木漏れ日のような、<br>あたたかな存在。</p>
+    </article>
+
+    <article class="collection-item">
+      <div class="collection-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">MILK TEA 画像</span>
+          <p class="placeholder-label">承認済みプロダクト画像を使用。アングル・スケールは他3種と統一。</p>
+        </div>
+      </div>
+      <h3>MILK TEA</h3>
+      <p>甘くやわらかな、<br>午後のひと休み。</p>
+    </article>
+
+    <article class="collection-item">
+      <div class="collection-image img-placeholder placeholder-square">
+        <div class="placeholder-inner">
+          <span class="placeholder-tag">RAINBOW 画像</span>
+          <p class="placeholder-label">承認済みプロダクト画像を使用。アングル・スケールは他3種と統一。</p>
+        </div>
+      </div>
+      <h3>RAINBOW</h3>
+      <p>少しだけ特別な、<br>夢のような時間。</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============================================================
+10. TOUCH / SIZE / COLOR
+============================================================ -->
+<section class="details" id="details">
+  <div class="detail-block">
+    <div class="detail-image img-placeholder placeholder-landscape">
+      <div class="placeholder-inner">
+        <span class="placeholder-tag">マクロ画像</span>
+        <p class="placeholder-label">毛並みに触れている手元のマクロクローズアップ画像。</p>
+      </div>
+    </div>
+    <div class="detail-text">
+      <p class="eyebrow">触り心地</p>
+      <h3>何度でも触れたくなる、<br>やわらかな毛並み。</h3>
+    </div>
+  </div>
+
+  <div class="detail-block detail-block--reverse">
+    <div class="detail-image img-placeholder placeholder-landscape">
+      <div class="placeholder-inner">
+        <span class="placeholder-tag">サイズ感画像</span>
+        <p class="placeholder-label">プロダクトを片手または両手で持っている画像。もしくはカップや鞄と並べたスケール比較画像。</p>
+      </div>
+    </div>
+    <div class="detail-text">
+      <p class="eyebrow">サイズ感</p>
+      <h3>手のひらにぴったりの、<br>ちょうどいいサイズ。</h3>
+    </div>
+  </div>
+
+  <div class="detail-block">
+    <div class="detail-image img-placeholder placeholder-landscape">
+      <div class="placeholder-inner">
+        <span class="placeholder-tag">カラー展開画像</span>
+        <p class="placeholder-label">3色のプロダクトを並べた画像。アングル・照明を統一すること。</p>
+      </div>
+    </div>
+    <div class="detail-text">
+      <p class="eyebrow">カラー展開</p>
+      <ul class="color-list">
+        <li>ベージュ</li>
+        <li>ブラウン</li>
+        <li>グレー</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="details-note">※画像はイメージです。</p>
+</section>
+
+<!-- ============================================================
+11. OUR STORY
+============================================================ -->
+<section class="our-story" id="our-story">
+  <div class="our-story-media img-placeholder placeholder-wide">
+    <div class="placeholder-inner">
+      <span class="placeholder-tag">ライフスタイル画像（大）</span>
+      <p class="placeholder-label">
+        シーン：カフェ、または落ち着いたリビングでYADORIと過ごす人物。<br>
+        ドキュメンタリー的で自然な雰囲気。<br>
+        英文コピーを重ねる余白を確保：<br>
+        「a small companion, for what words can't hold」
+      </p>
+    </div>
+  </div>
+  <div class="our-story-text">
+    <p class="eyebrow">OUR STORY</p>
+    <h2>言葉にならない気持ちにも、<br>居場所があっていいと思った。</h2>
+    <p>
+      私たちは、誰もが心の中に持っている<br>
+      「言葉にできない気持ち」に寄り添える存在を<br>
+      つくりたいと考えました。<br>
+      話しかけなくても、<br>
+      何かをしてあげなくても、<br>
+      触れたときにそっと応えてくれる。<br>
+      そんな小さなやりとりが、<br>
+      毎日の支えになれば嬉しい。<br>
+      それが、yadori. に込めた想いです。
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+12. PURCHASE
+============================================================ -->
+<section class="purchase" id="purchase">
+  <div class="purchase-media blob-backdrop blob-backdrop--mauve">
+    <div class="img-placeholder placeholder-square">
+      <div class="placeholder-inner">
+        <span class="placeholder-tag">プロダクト画像</span>
+        <p class="placeholder-label">
+          クリーンなプロダクト単体画像。<br>
+          可能であればパッケージ画像も追加。<br>
+          汎用的なプレースホルダー画像は最終版で使用不可。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="purchase-content">
+    <span class="badge">数量限定</span>
+    <h2>YADORI</h2>
+
+    <div class="offer-cards">
+      <div class="offer-card offer-card--top">
+        <p class="offer-label">超早割</p>
+        <p class="offer-discount">20%OFF</p>
+        <p class="offer-price">¥7,120（税込）</p>
+      </div>
+      <div class="offer-card">
+        <p class="offer-label">早割</p>
+        <p class="offer-discount">15%OFF</p>
+        <p class="offer-price">¥7,565（税込）</p>
+      </div>
+    </div>
+
+    <p class="regular-price">一般販売価格：¥8,900（税込）</p>
+    <p class="delivery">お届け予定：2025年12月頃</p>
+
+    <a href="#" class="btn btn-primary">この子を迎える</a>
+  </div>
+</section>
+
+<!-- ============================================================
+13. REVIEWS — CLIENT TO CONFIRM REVIEWS
+============================================================ -->
+<section class="reviews wave-top" id="reviews">
+  <p class="reviews-warning">
+    【CLIENT TO CONFIRM REVIEWS】以下のテキストは既存ソースに記載されていたものですが、
+    実際の購入者によるレビューであると確認が取れていません。クライアントによる確認・承認が得られるまで、
+    お客様の声として公開しないでください。
+  </p>
+
+  <div class="reviews-track" aria-label="未承認レビュー引用（要確認）">
+    <blockquote class="review-quote">
+      言葉にできない日ほど、そばに置いています。
+    </blockquote>
+    <blockquote class="review-quote">
+      触れるとゆっくり丸くなる感じが、<br>想像より自然でした。
+    </blockquote>
+    <blockquote class="review-quote">
+      デスクの隅に置いて、<br>疲れたときにそっと触れています。
+    </blockquote>
+    <blockquote class="review-quote">
+      子どもより先に、<br>私がこの子に触れる時間を取っています。
+    </blockquote>
+    <blockquote class="review-quote">
+      梱包から手触りまで、<br>想いが伝わってくる作りでした。
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+14. PRODUCT INFORMATION
+============================================================ -->
+<section class="product-info wave-top" id="product-info">
+  <div class="product-info-grid">
+
+    <div class="info-col" id="spec">
+      <h3>製品仕様</h3>
+      <dl class="spec-list">
+        <div class="spec-row"><dt>サイズ</dt><dd>約 W18 × D14 × H10 cm</dd></div>
+        <div class="spec-row"><dt>重量</dt><dd>約280g</dd></div>
+        <div class="spec-row"><dt>素材</dt><dd>ポリエステル、ABS樹脂、他</dd></div>
+        <div class="spec-row"><dt>電源</dt><dd>リチウムイオン電池内蔵</dd></div>
+        <div class="spec-row"><dt>充電時間</dt><dd>約2.5時間</dd></div>
+        <div class="spec-row"><dt>稼働時間</dt><dd>約3〜4時間<br>（使用状況により変動）</dd></div>
+        <div class="spec-row"><dt>付属品</dt><dd>USB Type-Cケーブル、取扱説明書</dd></div>
+      </dl>
+    </div>
+
+    <div class="info-col" id="care">
+      <h3>お手入れ方法</h3>
+      <p>
+        毛並みが汚れた場合は、<br>
+        乾いた布でやさしく拭き取ってください。<br>
+        水洗いはできませんので、<br>
+        ご注意ください。
+      </p>
+      <ul class="care-icons">
+        <li><span class="care-icon" aria-hidden="true">✕</span>水洗い不可</li>
+        <li><span class="care-icon" aria-hidden="true">✕</span>洗濯機不可</li>
+      </ul>
+    </div>
+
+    <div class="info-col" id="faq">
+      <h3>よくあるご質問</h3>
+      <dl class="faq-list">
+        <div class="faq-row">
+          <dt>Q. 充電しながら使えますか？</dt>
+          <dd>A. 安全のため、<br>充電中のご使用は推奨しておりません。</dd>
+        </div>
+        <div class="faq-row">
+          <dt>Q. どのくらいの力で触れれば反応しますか？</dt>
+          <dd>A. 強く押す必要はありません。<br>そっと触れるだけで反応します。</dd>
+        </div>
+        <div class="faq-row">
+          <dt>Q. 子どもでも使えますか？</dt>
+          <dd>A. 小さなお子さまは、<br>大人の方と一緒にご使用ください。</dd>
+        </div>
+        <div class="faq-row">
+          <dt>Q. 洗えますか？</dt>
+          <dd>A. 本体の水洗いおよび<br>洗濯機の使用はできません。</dd>
+        </div>
+      </dl>
+      <a href="#" class="faq-link">すべての質問を見る +</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+15. FINAL CTA
+============================================================ -->
+<section class="final-cta" id="final-cta">
+  <div class="final-cta-media img-placeholder placeholder-wide">
+    <div class="placeholder-inner">
+      <span class="placeholder-tag">クロージング画像</span>
+      <p class="placeholder-label">
+        感情的な余韻を残す一枚。あるいは大きな余白を持つ静かなプロダクト画像。<br>
+        ここで新しい製品情報は追加しない。
+      </p>
+    </div>
+  </div>
+  <div class="final-cta-content">
+    <h2>あなたが触れたくなったとき、<br>そっと、となりに。</h2>
+    <a href="#purchase" class="btn btn-primary">この子を迎える</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+16. FOOTER
+============================================================ -->
+<footer class="site-footer wave-top" id="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <p class="footer-logo">yadori.</p>
+      <p class="footer-tagline">気持ちが、宿る。小さな相棒。<br>今日も、おかえり。</p>
+    </div>
+
+    <div class="footer-nav">
+      <div class="footer-col">
+        <p class="footer-col-title">ABOUT</p>
+        <ul>
+          <li><a href="#our-story">ブランドストーリー</a></li>
+          <li><a href="#">プレスリリース</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">SHOP</p>
+        <ul>
+          <li><a href="#purchase">この子を迎える</a></li>
+          <li><a href="#spec">仕様・お手入れ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">SUPPORT</p>
+        <ul>
+          <li><a href="#faq">よくある質問</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-title">FOLLOW</p>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">X（Twitter）</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="copyright">© 2026 yadori. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">利用規約</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const nav = document.getElementById('nav');
+  navToggle.addEventListener('click', () => {
+    const isOpen = document.body.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.body.classList.remove('nav-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>
