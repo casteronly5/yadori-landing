@@ -606,8 +606,17 @@ on the page.)
 
     function render() {
       const s = data[current];
-      states.forEach((el, i) => el.classList.toggle('is-active', i === current));
-      states[current].style.transform = s.transform;
+      states.forEach((el, i) => {
+        const diff = (i - current + states.length) % states.length;
+        el.classList.toggle('is-active', diff === 0);
+        if (diff === 0) {
+          el.removeAttribute('data-slot');
+          el.style.transform = 'translate(-50%, -50%) ' + s.transform;
+        } else {
+          el.setAttribute('data-slot', diff);
+          el.style.transform = '';
+        }
+      });
       shape.style.background = s.shape;
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
       numEl.textContent = s.num;
