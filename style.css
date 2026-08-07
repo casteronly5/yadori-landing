@@ -745,83 +745,91 @@ section { position: relative; }
 .our-story-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 
 /* ==========================================================================
-   10. PRICE / PRE-ORDER — [FUNCTIONAL] the conversion line
-   Full-width functional section background (no floating card, no
-   pill radius, no decorative panel) with a plain centered grid inside.
-   From here on: fewer colors, less motion, more information density.
+   10. PRICE / PRE-ORDER — [FUNCTIONAL] one thesis: この子を迎える
+   Yellow serves ONE role — section background — nothing is re-drawn as
+   a card, panel or badge on top of it. Left 55% is one dominant product
+   visual (allowed to bleed slightly past its own frame, the section's
+   own sanctioned overlap). Right 45% is a single linear reading path:
+   name → tagline → price → color → CTA, built with type hierarchy and
+   dividers instead of nested containers.
    ========================================================================== */
-.purchase { position: relative; padding: var(--section-pad-y) 32px; background: var(--cream-yellow-pale); }
+.purchase { position: relative; padding: var(--section-pad-y) 0; background: var(--cream-yellow-pale); overflow: hidden; }
 .purchase-grid {
   max-width: var(--container-w);
   margin: 0 auto;
+  padding: 0 32px;
   display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 56px;
+  grid-template-columns: 55fr 45fr;
+  gap: 72px;
   align-items: center;
 }
-.purchase-media {
-  position: relative;
-  z-index: 1;
+
+/* product visual — the section's one sanctioned overlap: it runs past
+   its own frame at top/bottom and reaches toward the section's left
+   edge, so it reads as the dominant object, not a photo in a box. */
+.purchase-media { position: relative; z-index: 1; }
+.purchase-media .purchase-visual {
+  width: 112%;
+  max-width: none;
+  margin: -56px 0 -56px -12%;
+  aspect-ratio: 4 / 5;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--bg-soft), var(--sage-soft) 140%);
+  box-shadow: 0 32px 64px rgba(51, 46, 38, 0.14);
   animation: floatBreath 8s ease-in-out infinite;
+}
+
+.purchase-content { position: relative; z-index: 1; }
+.purchase-eyebrow {
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  color: var(--c-ink-soft);
+  margin-bottom: 10px;
 }
 .purchase-content h2 {
   font-family: var(--font-en);
   font-style: italic;
   font-size: 34px;
   letter-spacing: 0.04em;
-  margin: 14px 0 32px;
+  margin-bottom: 12px;
 }
-.badge {
-  display: inline-block;
-  background: var(--c-white);
-  color: var(--c-ink);
-  padding: 6px 18px;
-  border-radius: var(--radius-pill);
-  font-size: 12.5px;
-  letter-spacing: 0.06em;
-}
-.offer-cards { display: flex; gap: 20px; margin-bottom: 28px; }
-.offer-card {
-  flex: 1;
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-card);
-  padding: 26px 22px;
-  background: var(--c-white);
-  box-shadow: none;
-  text-align: center;
-}
-.offer-card--top { background: var(--bg-warm); }
-.offer-label { font-size: 13px; letter-spacing: 0.06em; color: var(--c-ink-soft); margin-bottom: 8px; }
-.offer-discount { font-family: var(--font-jp-serif); font-size: 24px; color: var(--c-deep-green); margin-bottom: 6px; }
-.offer-price { font-size: 15px; }
-.regular-price { font-size: 13.5px; color: var(--c-ink-soft); margin-bottom: 6px; text-decoration: line-through; }
-.delivery { font-size: 13.5px; color: var(--c-ink-soft); margin-bottom: 32px; }
+.purchase-tagline { font-size: var(--fs-body); color: var(--c-ink-soft); margin-bottom: 40px; }
 
-/* ==========================================================================
-   11. COLOR SELECT — [FUNCTIONAL] purchase-aid, not a fifth art-direction moment
-   Four small swatches in a single row. No per-color background block,
-   no full-bleed sections: this is information density, not a showcase.
-   ========================================================================== */
-.color-select { padding: 96px 32px; background: var(--bg-main); text-align: center; }
-.color-select-inner { max-width: var(--container-w); margin: 0 auto; }
-.color-select .eyebrow { justify-content: center; }
-.color-select-list {
-  margin-top: 40px;
+/* price hierarchy through type/spacing/dividers, not card shapes */
+.purchase-price { border-top: 1px solid var(--c-line); }
+.purchase-price-row {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 48px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--c-line);
 }
-.color-select-item {
+.purchase-price-row dt { font-size: 13px; letter-spacing: 0.04em; color: var(--c-ink-soft); }
+.purchase-price-row dd { display: flex; align-items: baseline; gap: 14px; }
+.price-discount { font-family: var(--font-jp-serif); font-size: 19px; color: var(--c-deep-green); }
+.purchase-price-row--top .price-discount { font-size: 25px; }
+.price-amount { font-size: 14.5px; color: var(--c-ink); }
+.purchase-price-regular {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  max-width: 160px;
+  justify-content: space-between;
+  padding: 12px 0 0;
+  font-size: 12.5px;
+  color: var(--c-ink-soft);
 }
+.purchase-price-regular dd { text-decoration: line-through; }
+.delivery { font-size: 12.5px; color: var(--c-ink-soft); margin: 16px 0 36px; }
+
+/* color — inline purchase-aid, small swatches only, no per-color panel */
+.purchase-color { margin-bottom: 40px; }
+.purchase-color-label { font-size: 11px; letter-spacing: 0.12em; color: var(--c-ink-soft); margin-bottom: 14px; }
+.purchase-color-list { display: flex; gap: 22px; }
+.purchase-color-list li { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.purchase-color-name { font-size: 10.5px; letter-spacing: 0.02em; color: var(--c-ink-soft); }
 .color-swatch {
-  width: 52px;
-  height: 52px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   box-shadow: inset 0 0 0 1px var(--c-line);
 }
@@ -829,17 +837,9 @@ section { position: relative; }
 .color-swatch--kuri { background: var(--peach-soft); }
 .color-swatch--milktea { background: var(--blush-soft); }
 .color-swatch--rainbow { background: linear-gradient(135deg, var(--lavender-soft) 0%, var(--sky-soft) 100%); }
-.color-select-name {
-  font-family: var(--font-en);
-  font-style: italic;
-  font-size: 15px;
-  letter-spacing: 0.03em;
-  color: var(--c-ink);
-}
-.color-select-desc { font-size: 12.5px; color: var(--c-ink-soft); }
 
 /* ==========================================================================
-   12. REVIEWS — [FUNCTIONAL] trust block, single background
+   11. REVIEWS — [FUNCTIONAL] trust block, single background
    ========================================================================== */
 .reviews { padding: var(--section-pad-y) 32px; background: var(--sage-soft); }
 .reviews-track {
@@ -1001,7 +1001,6 @@ section { position: relative; }
   .product-info-grid { grid-template-columns: 1fr; gap: 56px; }
   .footer-top { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
-  .color-select-list { gap: 32px; }
 
   /* floating asymmetric compositions: even out for tablet width */
   .section-grid { grid-template-columns: 1fr 1fr; }
@@ -1009,7 +1008,8 @@ section { position: relative; }
   .our-story-text { padding: 72px 48px; }
   .emotional-story { grid-template-columns: 1fr 1fr; }
   .story-text { padding: 72px 48px; }
-  .purchase-grid { grid-template-columns: 1fr 1fr; }
+  .purchase-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .purchase-media .purchase-visual { width: 100%; margin: 0; }
 }
 
 /* ==========================================================================
@@ -1060,12 +1060,12 @@ section { position: relative; }
   .moment--overlay .moment-image { aspect-ratio: 4 / 5; }
   .reviews-track { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
-  .purchase-grid { grid-template-columns: 1fr; gap: 40px; }
-  .offer-cards { flex-direction: column; }
-  .color-select-list { gap: 28px 20px; }
+  .purchase-grid { grid-template-columns: 1fr; gap: 36px; padding: 0 20px; }
+  .purchase-media .purchase-visual { width: 100%; margin: 0; aspect-ratio: 4 / 4.6; }
+  .purchase-color-list { gap: 16px; }
   .what-is, .interaction, .everyday-moments,
   .product-info, .personality,
-  .purchase, .color-select, .philosophy, .reviews {
+  .philosophy, .reviews {
     padding-left: 20px;
     padding-right: 20px;
   }

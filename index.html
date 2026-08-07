@@ -341,42 +341,67 @@ does YADORI exist", not "what does it do".
 </section>
 
 <!-- ============================================================
-10. PRICE / PRE-ORDER
-This is the conversion line: from here on the page must read as
-functional, not expressive — regular grid, clear price, clear CTA,
-no floating panels or decorative blobs competing with the numbers.
+10. PRICE / PRE-ORDER — この子を迎える
+Single thesis: how to bring YADORI home. Left 55% = one dominant
+product visual, nothing else. Right 45% = one linear reading path —
+name → price → color → CTA. Yellow is the section background only;
+it is never re-used as a card, panel or badge fill.
 ============================================================ -->
 <section class="purchase" id="purchase">
   <div class="purchase-grid">
     <div class="purchase-media reveal-fade">
-      <div class="img-placeholder placeholder-square">
+      <div class="img-placeholder purchase-visual">
         <div class="placeholder-inner">
-          <span class="placeholder-tag">プロダクト画像</span>
-          <!-- Clean single-product shot; add packaging shot if available.
-               Generic stock placeholder imagery is not acceptable for final. -->
+          <span class="placeholder-tag">プロダクト画像（大）</span>
+          <!-- Large, dominant single-product shot — this is the first
+               thing the eye should land on in this section. Allowed to
+               bleed slightly past its own frame; no packaging clutter. -->
         </div>
       </div>
     </div>
 
     <div class="purchase-content reveal">
-      <span class="badge">数量限定</span>
+      <p class="purchase-eyebrow">数量限定</p>
       <h2>YADORI</h2>
+      <p class="purchase-tagline">今日から、そっとそばに。</p>
 
-      <div class="offer-cards">
-        <div class="offer-card offer-card--top">
-          <p class="offer-label">超早割</p>
-          <p class="offer-discount">20%OFF</p>
-          <p class="offer-price">¥7,120（税込）</p>
+      <dl class="purchase-price">
+        <div class="purchase-price-row purchase-price-row--top">
+          <dt>超早割</dt>
+          <dd><span class="price-discount">20%OFF</span><span class="price-amount">¥7,120（税込）</span></dd>
         </div>
-        <div class="offer-card">
-          <p class="offer-label">早割</p>
-          <p class="offer-discount">15%OFF</p>
-          <p class="offer-price">¥7,565（税込）</p>
+        <div class="purchase-price-row">
+          <dt>早割</dt>
+          <dd><span class="price-discount">15%OFF</span><span class="price-amount">¥7,565（税込）</span></dd>
         </div>
-      </div>
-
-      <p class="regular-price">一般販売価格：¥8,900（税込）</p>
+        <div class="purchase-price-regular">
+          <dt>一般販売価格</dt>
+          <dd>¥8,900（税込）</dd>
+        </div>
+      </dl>
       <p class="delivery">お届け予定：2025年12月頃</p>
+
+      <div class="purchase-color">
+        <p class="purchase-color-label">COLOR</p>
+        <ul class="purchase-color-list">
+          <li>
+            <span class="color-swatch color-swatch--mori" aria-hidden="true"></span>
+            <span class="purchase-color-name">MORI</span>
+          </li>
+          <li>
+            <span class="color-swatch color-swatch--kuri" aria-hidden="true"></span>
+            <span class="purchase-color-name">KURI</span>
+          </li>
+          <li>
+            <span class="color-swatch color-swatch--milktea" aria-hidden="true"></span>
+            <span class="purchase-color-name">MILK TEA</span>
+          </li>
+          <li>
+            <span class="color-swatch color-swatch--rainbow" aria-hidden="true"></span>
+            <span class="purchase-color-name">RAINBOW</span>
+          </li>
+        </ul>
+      </div>
 
       <a href="#" class="btn btn-primary">この子を迎える</a>
     </div>
@@ -384,41 +409,7 @@ no floating panels or decorative blobs competing with the numbers.
 </section>
 
 <!-- ============================================================
-11. COLOR SELECT
-Downgraded from a full immersive showcase to a compact purchase-aid:
-four small swatches, one line each. This is information, not a
-fifth art-direction moment.
-============================================================ -->
-<section class="color-select" id="color-select">
-  <div class="color-select-inner reveal">
-    <p class="eyebrow">COLOR — 4色から選べます</p>
-    <ul class="color-select-list">
-      <li class="color-select-item">
-        <span class="color-swatch color-swatch--mori" aria-hidden="true"></span>
-        <span class="color-select-name">MORI</span>
-        <span class="color-select-desc">深緑がかった、森の色。</span>
-      </li>
-      <li class="color-select-item">
-        <span class="color-swatch color-swatch--kuri" aria-hidden="true"></span>
-        <span class="color-select-name">KURI</span>
-        <span class="color-select-desc">あたたかな、栗色。</span>
-      </li>
-      <li class="color-select-item">
-        <span class="color-swatch color-swatch--milktea" aria-hidden="true"></span>
-        <span class="color-select-name">MILK TEA</span>
-        <span class="color-select-desc">やわらかな、ミルクベージュ。</span>
-      </li>
-      <li class="color-select-item">
-        <span class="color-swatch color-swatch--rainbow" aria-hidden="true"></span>
-        <span class="color-select-name">RAINBOW</span>
-        <span class="color-select-desc">少しだけ特別な、限定色。</span>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- ============================================================
-12. REVIEWS
+11. REVIEWS
 CLIENT TO CONFIRM: the quotes below were present in the existing source
 material but have not been verified as genuine purchaser reviews. Do not
 present these as customer testimonials publicly until the client has
@@ -446,7 +437,7 @@ on the page.)
 </section>
 
 <!-- ============================================================
-13. PRODUCT SPEC / CARE / FAQ
+12. PRODUCT SPEC / CARE / FAQ
 ============================================================ -->
 <section class="product-info wave-top" id="product-info">
   <div class="product-info-grid">
@@ -505,7 +496,7 @@ on the page.)
 </section>
 
 <!-- ============================================================
-14. FINAL CTA
+13. FINAL CTA
 ============================================================ -->
 <section class="final-cta" id="final-cta">
   <div class="final-cta-media img-placeholder placeholder-wide">
@@ -524,7 +515,7 @@ on the page.)
 </main>
 
 <!-- ============================================================
-15. FOOTER
+14. FOOTER
 ============================================================ -->
 <footer class="site-footer wave-top" id="site-footer">
   <div class="footer-top">
