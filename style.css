@@ -44,12 +44,23 @@
   --font-jp-brush: "Yuji Syuku", serif;
 
   /* ---- rhythm ---- */
-  --section-pad-y: 120px;
-  --section-pad-y-mobile: 72px;
+  --section-pad-y: 160px;          /* 140–220px band */
+  --section-pad-y-mobile: 84px;
+  --section-pad-major: 220px;      /* major story sections: 180–260px band */
+  --section-pad-major-mobile: 120px;
   --container-w: 1180px;
   --radius-pill: 999px;
   --radius-card: 32px;   /* normal cards: 24 → 32 */
   --radius-soft: 40px;   /* large image containers: 32 → 40 */
+
+  /* ---- floating-composition typography scale ----
+     stronger contrast between graphic headline and supporting text,
+     per the Lady Borden composition grammar. */
+  --fs-headline: clamp(42px, 5vw, 82px);   /* major JP headline */
+  --fs-subhead: clamp(28px, 3vw, 48px);    /* secondary headline */
+  --fs-body: 16px;                          /* 15–18px band */
+  --fs-label: 12px;                         /* 11–13px band */
+  --copy-narrow: 440px;                     /* body copy column: 360–480px */
 }
 
 /* ---- reset ---- */
@@ -73,12 +84,12 @@ section { position: relative; }
 .eyebrow {
   font-family: var(--font-en);
   font-style: italic;
-  font-size: 13.5px;
-  letter-spacing: 0.12em;
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--c-blue-green);
-  opacity: 0.9;
-  margin-bottom: 18px;
+  opacity: 0.85;
+  margin-bottom: 22px;
   display: block;
 }
 .eyebrow-light { color: var(--c-white); opacity: 0.9; }
@@ -209,6 +220,65 @@ section { position: relative; }
 }
 
 /* ==========================================================================
+   FLOATING COMPOSITION — shared utilities
+   Lady Borden reference grammar: floating objects, scroll-reveal breathing,
+   off-canvas organic color panels. Applied additively — no existing class
+   is removed, so nothing above this point needs to change to opt in.
+   ========================================================================== */
+
+/* gentle scroll reveal: translateY + opacity, never a slide-in gimmick */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* opacity-only reveal variant — use on elements that already carry their
+   own positional transform (floating offsets), so the reveal never
+   clobbers that transform when it resolves to translateY(0). */
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-fade.is-visible { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal-fade { opacity: 1; transition: none; }
+}
+
+/* very slow floating drift for decorative objects — never parallax */
+@keyframes floatDrift {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-10px) translateX(4px); }
+}
+.float-slow { animation: floatDrift 6.5s ease-in-out infinite; }
+.float-slow-a { animation-duration: 7.5s; }
+.float-slow-b { animation-duration: 5.5s; animation-delay: -2.4s; }
+.float-slow-c { animation-duration: 6.8s; animation-delay: -4s; }
+@media (prefers-reduced-motion: reduce) {
+  .float-slow, .float-slow-a, .float-slow-b, .float-slow-c { animation: none; }
+}
+
+/* off-canvas organic color panels — support content, never contain it */
+.color-panel {
+  position: absolute;
+  z-index: 0;
+  border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%;
+  pointer-events: none;
+}
+.color-panel--sage { background: var(--sage-soft); }
+.color-panel--peach { background: var(--peach-soft); }
+.color-panel--lavender { background: var(--lavender-soft); }
+.color-panel--cream { background: var(--cream-yellow); }
+
+/* narrow, editorial body-copy column */
+.copy-narrow { max-width: var(--copy-narrow); }
+
+/* ==========================================================================
    01. HEADER
    ========================================================================== */
 .site-header {
@@ -315,14 +385,17 @@ section { position: relative; }
   color: var(--c-white);
 }
 .hero-heading {
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: var(--fs-headline);
   color: var(--c-white);
-  margin-bottom: 22px;
+  margin-bottom: 26px;
+  line-height: 1.18;
+  max-width: 720px;
 }
 .hero-copy {
-  font-size: 16px;
+  font-size: var(--fs-body);
   margin-bottom: 32px;
   opacity: 0.92;
+  max-width: var(--copy-narrow);
 }
 .hero-brandline {
   font-family: var(--font-jp-serif);
@@ -348,12 +421,12 @@ section { position: relative; }
    03. BRAND PHILOSOPHY
    ========================================================================== */
 .philosophy {
-  padding: var(--section-pad-y) 32px;
+  padding: var(--section-pad-major) 32px;
   text-align: center;
   background: var(--bg-main);
 }
 .philosophy-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
-.philosophy-heading { font-size: clamp(24px, 3.4vw, 38px); }
+.philosophy-heading { font-size: var(--fs-subhead); line-height: 1.4; }
 .philosophy .blob-a { width: 260px; height: 260px; top: -60px; left: 6%; }
 .philosophy .blob-b { width: 200px; height: 200px; bottom: -40px; right: 10%; }
 .philosophy .blob-c { width: 160px; height: 160px; top: 30%; right: 30%; }
@@ -361,19 +434,21 @@ section { position: relative; }
 /* ==========================================================================
    04. WHAT IS YADORI
    ========================================================================== */
-.what-is { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
+.what-is { position: relative; padding: var(--section-pad-y) 32px; background: var(--bg-main); }
+.what-is-panel { width: 52vw; height: 62vw; max-height: 640px; top: 8%; right: -14vw; }
 .section-grid {
+  position: relative;
   max-width: var(--container-w);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  grid-template-columns: 0.92fr 1.28fr;
+  gap: 40px;
   align-items: center;
 }
-.section-grid--reverse .text-col { order: 1; }
-.section-grid--reverse .image-col { order: 2; }
-.what-is h2 { font-size: clamp(26px, 3.2vw, 36px); margin-bottom: 28px; }
-.body-copy { font-size: 15px; color: var(--c-ink-soft); }
+.section-grid--reverse .text-col { order: 1; position: relative; z-index: 2; }
+.section-grid--reverse .image-col { order: 2; position: relative; z-index: 1; transform: translate(-4vw, -18px); }
+.what-is h2 { font-size: var(--fs-subhead); margin-bottom: 28px; }
+.body-copy { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 .placeholder-copy {
   border: 1.5px dashed var(--c-taupe);
   background: var(--bg-soft);
@@ -385,8 +460,8 @@ section { position: relative; }
    05. HOW IT RESPONDS
    ========================================================================== */
 .how-it-responds { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
-.section-head { max-width: var(--container-w); margin: 0 auto 64px; text-align: center; }
-.section-head h2 { font-size: clamp(26px, 3.4vw, 40px); }
+.section-head { max-width: var(--container-w); margin: 0 auto 72px; text-align: center; }
+.section-head h2 { font-size: var(--fs-subhead); }
 .steps {
   max-width: var(--container-w);
   margin: 0 auto;
@@ -418,21 +493,25 @@ section { position: relative; }
    text flips to dark ink since the background is now light.
    ========================================================================== */
 .emotional-story {
+  position: relative;
   background: linear-gradient(155deg, var(--peach-soft) 0%, var(--bg-warm) 100%);
   color: var(--c-ink);
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1.2fr 0.8fr;
   align-items: stretch;
 }
-.story-media { border-radius: 0; aspect-ratio: auto; min-height: 520px; }
+.story-media { border-radius: 0 96px 96px 0; aspect-ratio: auto; min-height: 560px; }
 .story-text {
-  padding: 96px 64px;
+  position: relative;
+  z-index: 2;
+  margin-left: -64px;
+  padding: var(--section-pad-major) 64px var(--section-pad-major) 96px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.story-text h2 { color: var(--c-ink); font-size: clamp(24px, 3vw, 32px); margin-bottom: 28px; }
-.story-text p { font-size: 15px; color: var(--c-ink-soft); }
+.story-text h2 { color: var(--c-ink); font-size: var(--fs-subhead); margin-bottom: 28px; }
+.story-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 .story-signature {
   margin-top: 28px;
   font-family: var(--font-jp-serif);
@@ -462,9 +541,10 @@ section { position: relative; }
 }
 /* staggered rhythm so the images read as floating on the backdrop
    rather than four identical, rigidly aligned cards */
-.moment:nth-child(2) { margin-top: 56px; }
-.moment:nth-child(3) { margin-top: 20px; }
-.moment:nth-child(4) { margin-top: 72px; }
+.moment:nth-child(1) { margin-top: 30px; }
+.moment:nth-child(2) { margin-top: 84px; }
+.moment:nth-child(3) { margin-top: 6px; }
+.moment:nth-child(4) { margin-top: 100px; }
 
 /* organic image mask — a little living shape, not a spec card */
 .placeholder-organic {
@@ -499,11 +579,11 @@ section { position: relative; }
   padding: var(--section-pad-y) 32px;
   background: var(--sage-soft);
   display: grid;
-  grid-template-columns: 1fr 0.85fr;
-  gap: 56px;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
   align-items: center;
 }
-.personality-media { position: relative; margin-left: 32px; overflow: visible; }
+.personality-media { position: relative; margin-left: 32px; overflow: visible; transform: translateX(2vw); }
 .callouts { position: absolute; inset: 0; pointer-events: none; }
 
 /* organic speech-bubble callouts with a dotted leader line pointing
@@ -555,22 +635,25 @@ section { position: relative; }
 .callout-line-4::after { left: -4px; }
 
 .personality-text { margin-left: 24px; margin-right: 8px; }
-.personality-text h2 { font-size: clamp(26px, 3.2vw, 38px); margin-bottom: 26px; }
-.personality-text p { font-size: 15px; color: var(--c-ink-soft); }
+.personality-text h2 { font-size: var(--fs-subhead); margin-bottom: 26px; }
+.personality-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 
 /* ==========================================================================
    09. COLLECTION
    ========================================================================== */
 .collection { padding: var(--section-pad-y) 32px; background: var(--bg-main); text-align: center; }
-.collection .section-head h2 { font-size: clamp(26px, 3.2vw, 38px); }
+.collection .section-head h2 { font-size: var(--fs-subhead); }
 .collection-grid {
   max-width: var(--container-w);
-  margin: 56px auto 0;
+  margin: 64px auto 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
   text-align: left;
 }
+.collection-item:nth-child(2) { margin-top: 48px; }
+.collection-item:nth-child(3) { margin-top: 14px; }
+.collection-item:nth-child(4) { margin-top: 66px; }
 .collection-item h3 {
   font-family: var(--font-en);
   font-style: italic;
@@ -587,16 +670,19 @@ section { position: relative; }
 .details { padding: var(--section-pad-y) 32px; background: var(--bg-soft); }
 .detail-block {
   max-width: var(--container-w);
-  margin: 0 auto 96px;
+  margin: 0 auto 112px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
   align-items: center;
 }
 .detail-block:last-of-type { margin-bottom: 24px; }
+.detail-block--reverse { grid-template-columns: 0.85fr 1.15fr; }
 .detail-block--reverse .detail-image { order: 2; }
 .detail-block--reverse .detail-text { order: 1; }
-.detail-text h3 { font-size: clamp(22px, 2.6vw, 28px); }
+.detail-text h3 { font-size: var(--fs-subhead); line-height: 1.4; }
+.detail-image { border-radius: 140px; overflow: hidden; }
+.detail-image .img-placeholder { border-radius: 140px; }
 .color-list { display: flex; flex-direction: column; gap: 10px; font-size: 16px; }
 .color-list li::before {
   content: "";
@@ -618,34 +704,43 @@ section { position: relative; }
    11. OUR STORY
    ========================================================================== */
 .our-story {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.8fr 1.2fr;
   background: var(--lavender-soft);
 }
-.our-story-media { border-radius: 0; aspect-ratio: auto; min-height: 560px; }
+.our-story-panel { width: 46vw; height: 46vw; max-height: 520px; bottom: -18%; right: -12vw; z-index: 1; }
+.our-story-media { border-radius: 0 96px 96px 0; aspect-ratio: auto; min-height: 580px; }
 .our-story-text {
-  padding: 96px 72px;
+  position: relative;
+  z-index: 2;
+  margin-left: -56px;
+  padding: var(--section-pad-major) 96px var(--section-pad-major) 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.our-story-text h2 { font-size: clamp(24px, 3vw, 32px); margin-bottom: 26px; }
-.our-story-text p { font-size: 15px; color: var(--c-ink-soft); }
+.our-story-text h2 { font-size: var(--fs-subhead); margin-bottom: 26px; }
+.our-story-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
 
 /* ==========================================================================
    12. PURCHASE
    ========================================================================== */
 .purchase {
+  position: relative;
   max-width: var(--container-w);
   margin: 0 auto;
   padding: var(--section-pad-y) 32px;
   background: var(--cream-yellow);
-  border-radius: var(--radius-soft);
+  border-radius: 100px;
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 72px;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 56px;
   align-items: center;
+  overflow: visible;
 }
+.purchase-media { position: relative; z-index: 1; transform: translateY(-32px); }
+.purchase-panel { width: 42vw; height: 42vw; max-height: 460px; top: -12%; left: -16vw; z-index: 0; }
 .purchase-content h2 {
   font-family: var(--font-en);
   font-style: italic;
@@ -666,13 +761,13 @@ section { position: relative; }
 .offer-card {
   flex: 1;
   border: none;
-  border-radius: var(--radius-card);
-  padding: 24px;
+  border-radius: 48px;
+  padding: 26px 22px;
   background: var(--c-white);
-  box-shadow: 0 6px 18px rgba(51,46,38,0.06);
+  box-shadow: none;
   text-align: center;
 }
-.offer-card--top { background: var(--bg-warm); box-shadow: 0 8px 22px rgba(51,70,58,0.1); }
+.offer-card--top { background: var(--bg-warm); }
 .offer-label { font-size: 13px; letter-spacing: 0.06em; color: var(--c-ink-soft); margin-bottom: 8px; }
 .offer-discount { font-family: var(--font-jp-serif); font-size: 24px; color: var(--c-deep-green); margin-bottom: 6px; }
 .offer-price { font-size: 15px; }
@@ -701,7 +796,7 @@ section { position: relative; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  gap: 28px;
 }
 .review-quote {
   font-family: var(--font-jp-serif);
@@ -711,6 +806,10 @@ section { position: relative; }
   padding-left: 18px;
   line-height: 1.9;
 }
+.review-quote:nth-child(2) { margin-top: 32px; }
+.review-quote:nth-child(3) { margin-top: 8px; }
+.review-quote:nth-child(4) { margin-top: 40px; }
+.review-quote:nth-child(5) { margin-top: 16px; }
 
 /* ==========================================================================
    14. PRODUCT INFORMATION
@@ -721,7 +820,7 @@ section { position: relative; }
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 56px;
+  gap: 72px;
 }
 .info-col h3 {
   font-size: 19px;
@@ -785,7 +884,7 @@ section { position: relative; }
   text-align: center;
   color: var(--c-white);
 }
-.final-cta-content h2 { color: var(--c-white); font-size: clamp(24px, 3.2vw, 36px); margin-bottom: 36px; }
+.final-cta-content h2 { color: var(--c-white); font-size: var(--fs-subhead); margin-bottom: 36px; }
 
 /* ==========================================================================
    16. FOOTER
@@ -829,29 +928,55 @@ section { position: relative; }
    RESPONSIVE — TABLET
    ========================================================================== */
 @media (max-width: 1024px) {
-  :root { --section-pad-y: 88px; }
+  :root {
+    --section-pad-y: 88px;
+    --section-pad-major: 120px;
+  }
   .steps { grid-template-columns: repeat(2, 1fr); }
   .moments-grid { grid-template-columns: repeat(2, 1fr); }
   .moment:nth-child(2), .moment:nth-child(3), .moment:nth-child(4) { margin-top: 0; }
   .moment:nth-child(2n) { margin-top: 40px; }
   .collection-grid { grid-template-columns: repeat(2, 1fr); }
+  .collection-item:nth-child(n) { margin-top: 0; }
+  .collection-item:nth-child(2n) { margin-top: 32px; }
   .personality { grid-template-columns: 1fr; }
-  .personality-media { margin-left: 0; }
+  .personality-media { margin-left: 0; transform: none; }
   .personality-text { margin-right: 0; }
   .callout { position: static; display: inline-block; margin: 8px 8px 0 0; border-radius: var(--radius-pill); }
   .callouts { position: static; display: flex; flex-wrap: wrap; padding: 20px; }
   .callout-line { display: none; }
   .reviews-track { grid-template-columns: repeat(2, 1fr); }
+  .review-quote:nth-child(n) { margin-top: 0; }
   .product-info-grid { grid-template-columns: 1fr; gap: 56px; }
   .footer-top { grid-template-columns: 1fr; }
   .footer-nav { grid-template-columns: repeat(2, 1fr); }
+
+  /* floating asymmetric compositions: even out for tablet width */
+  .section-grid { grid-template-columns: 1fr 1fr; }
+  .section-grid--reverse .image-col { transform: none; }
+  .detail-block, .detail-block--reverse { grid-template-columns: 1fr 1fr; }
+  .detail-image { border-radius: var(--radius-soft); }
+  .our-story { grid-template-columns: 1fr 1fr; }
+  .our-story-text { margin-left: 0; padding: 72px 48px; }
+  .our-story-media { border-radius: 0; }
+  .emotional-story { grid-template-columns: 1fr 1fr; }
+  .story-text { margin-left: 0; padding: 72px 48px; }
+  .story-media { border-radius: 0; }
+  .purchase { grid-template-columns: 1fr 1fr; border-radius: var(--radius-soft); }
+  .purchase-media { transform: none; }
+  .what-is-panel { width: 60vw; height: 60vw; right: -22vw; }
+  .our-story-panel { width: 56vw; height: 56vw; right: -18vw; }
+  .purchase-panel { width: 50vw; height: 50vw; left: -22vw; }
 }
 
 /* ==========================================================================
    RESPONSIVE — MOBILE
    ========================================================================== */
 @media (max-width: 640px) {
-  :root { --section-pad-y: var(--section-pad-y-mobile); }
+  :root {
+    --section-pad-y: var(--section-pad-y-mobile);
+    --section-pad-major: var(--section-pad-major-mobile);
+  }
 
   .nav { display: none; }
   .header-cta { display: none; }
@@ -886,8 +1011,12 @@ section { position: relative; }
   .detail-block--reverse .detail-text {
     order: initial;
   }
-  .story-text, .our-story-text { padding: 56px 24px; }
-  .story-media, .our-story-media { min-height: 320px; }
+  .story-text, .our-story-text { padding: 56px 24px; margin-left: 0; }
+  .story-media, .our-story-media { min-height: 320px; border-radius: 0; }
+  .detail-image { border-radius: var(--radius-card); }
+  .purchase-media { transform: none; }
+  .section-grid--reverse .image-col { transform: none; }
+  .what-is-panel, .our-story-panel, .purchase-panel { display: none; }
 
   .steps { grid-template-columns: 1fr; gap: 48px; }
   .moments-grid { grid-template-columns: 1fr; gap: 48px; }
