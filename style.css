@@ -84,7 +84,7 @@ body {
   line-height: 1.9;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -624,8 +624,8 @@ section { position: relative; }
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(460px, 58vw, 760px);
-  height: clamp(460px, 58vw, 760px);
+  width: clamp(760px, 60vw, 1200px);
+  aspect-ratio: 1.3 / 1;
   clip-path: url(#mask-haruta-field);
   transform: translate(-56%, -50%) rotate(0deg) scale(1) scale(var(--shape-pulse, 1));
   background: var(--bg-warm);
@@ -772,8 +772,12 @@ section { position: relative; }
   padding: var(--section-pad-major) 32px;
 }
 .story-media { flex: 1 1 60%; display: flex; align-items: center; justify-content: center; min-width: 0; }
-.story-haruta { width: 100%; max-width: 640px; }
-.story-field-wrap { width: 62vw; max-width: 620px; aspect-ratio: 16 / 9; }
+/* the visual composition is intentionally allowed to outgrow the text
+   column's own reading width — it is a HARUTA-scale field, not a
+   content-column image, so it is sized off the viewport, not off any
+   max-width ceiling. */
+.story-haruta { position: relative; width: min(68vw, 1280px); }
+.story-field-wrap { width: clamp(760px, 64vw, 1280px); aspect-ratio: 16 / 9; }
 .story-field { width: 100%; height: 100%; }
 .story-float {
   --rot: -7deg;
@@ -1029,10 +1033,15 @@ section { position: relative; }
   display: flex;
   align-items: center;
   gap: 32px;
-  min-height: 640px;
+  min-height: 760px;
   padding: var(--section-pad-major) 0 var(--section-pad-major) 7vw;
   background: var(--sage-soft);
-  overflow: hidden;
+  /* was overflow:hidden — that directly contradicted the design intent
+     of a shape that extends past the section's own right edge. body
+     carries overflow-x:clip so this never creates a horizontal
+     scrollbar; this section itself must stay visible so the shape can
+     actually bleed past its box the way the HARUTA reference does. */
+  overflow: visible;
 }
 .personality-text { position: relative; z-index: 2; width: 38vw; max-width: 460px; flex-shrink: 0; }
 .personality-text h2 {
@@ -1055,23 +1064,32 @@ section { position: relative; }
   margin-bottom: 0;
 }
 
+/* previously relied on height:100% of a flex row that only had
+   min-height (not height) with align-items:center — percentage heights
+   against an indefinite-height flex container resolve to auto, and
+   since this element's only content is position:absolute (out of
+   flow), that collapsed it to 0px. aspect-ratio gives it a real
+   intrinsic height derived from its own resolved width instead, so the
+   section actually reserves the vertical space the shape needs. */
 .personality-portrait {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
   min-width: 0;
-  height: 100%;
+  aspect-ratio: 5 / 4;
 }
 /* the wrapper handles the one-time reveal, the inner .haruta-field
    handles its own continuous breathing loop — same split used
-   everywhere in the HARUTA system so the two transforms never collide */
+   everywhere in the HARUTA system so the two transforms never collide.
+   Landscape-ish 5:4 (not the previous portrait-oriented 4:5) keeps the
+   shape from becoming excessively tall once it's sized off the
+   viewport instead of a fixed pixel ceiling. */
 .personality-field-wrap {
   position: absolute;
   z-index: 0;
-  width: 50vw;
-  max-width: 760px;
-  aspect-ratio: 4 / 5;
-  right: -4vw;
+  width: clamp(760px, 58vw, 1180px);
+  aspect-ratio: 5 / 4;
+  right: -6vw;
   top: 50%;
   transform: translateY(-50%);
 }
@@ -1355,7 +1373,7 @@ section { position: relative; }
   }
   .interaction-stage { min-height: auto; }
   .interaction-visual { width: 58vw; }
-  .interaction-shape { width: 66vw; height: 66vw; }
+  .interaction-shape { width: 66vw; }
   .interaction-state[data-slot] { opacity: 0 !important; pointer-events: none; }
   .personality { flex-direction: column; text-align: center; gap: 56px; padding: var(--section-pad-major) 32px; }
   .personality-text { width: 100%; max-width: 520px; margin: 0 auto; }
@@ -1422,7 +1440,7 @@ section { position: relative; }
   .our-story-media { padding: 24px; }
 
   .interaction-visual { width: 74vw; }
-  .interaction-shape { width: 84vw; height: 84vw; }
+  .interaction-shape { width: 84vw; }
   .interaction-selector { gap: 22px; }
   .personality { padding: var(--section-pad-major) 20px; }
   .personality-text h2 { font-size: clamp(38px, 10vw, 52px); }
