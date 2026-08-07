@@ -240,7 +240,7 @@ section { position: relative; }
    ========================================================================== */
 .yadori-mask--arch { clip-path: url(#mask-soft-arch); }
 .yadori-mask--diagonal { clip-path: url(#mask-soft-diagonal); }
-.yadori-mask--diagonal.yadori-mask--reverse { transform: scaleX(-1); }
+.yadori-mask--diagonal-reverse { clip-path: url(#mask-soft-diagonal-reverse); }
 .yadori-mask--window { clip-path: url(#mask-organic-window); }
 
 /* reveal-through-mask: images enter via their own shape compressing and
