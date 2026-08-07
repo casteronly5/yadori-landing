@@ -55,6 +55,21 @@
     <clipPath id="mask-haruta-field" clipPathUnits="objectBoundingBox">
       <path d="M0.05,0.34 C0.01,0.54 0.02,0.72 0.11,0.83 C0.16,0.9 0.23,0.93 0.3,0.88 C0.4,0.83 0.44,0.97 0.6,1.02 C0.76,1.07 0.89,0.97 0.95,0.84 C1,0.75 1,0.58 0.99,0.44 C0.98,0.27 0.91,0.09 0.74,0.03 C0.54,-0.05 0.29,-0.03 0.15,0.08 C0.08,0.14 0.05,0.21 0.05,0.34 Z" />
     </clipPath>
+    <!-- second HARUTA-family silhouette — same design language (large
+         arcs, one deliberate concave notch, an edge that overflows its
+         own box) but a genuinely different shape, not a rotated copy of
+         mask-haruta-field. Bulge sits bottom-left, notch top-left,
+         overflow on the right and slightly top/bottom. -->
+    <clipPath id="mask-haruta-field-b" clipPathUnits="objectBoundingBox">
+      <path d="M0.95,0.28 C1.02,0.46 1.01,0.62 0.93,0.74 C0.88,0.82 0.8,0.78 0.72,0.85 C0.6,0.95 0.42,1.04 0.26,0.98 C0.1,0.92 0.02,0.78 0.02,0.6 C0.02,0.44 0.05,0.28 0.16,0.18 C0.28,0.07 0.46,-0.04 0.64,0 C0.8,0.03 0.9,0.14 0.95,0.28 Z" />
+    </clipPath>
+    <!-- third HARUTA-family silhouette — an inward pinch on the right
+         edge instead of the left, overflow along the bottom. Used to
+         give HOW IT RESPONDS its own distinct contour per state instead
+         of reusing the same field shape everywhere. -->
+    <clipPath id="mask-haruta-field-c" clipPathUnits="objectBoundingBox">
+      <path d="M0.3,0.02 C0.5,-0.05 0.72,-0.02 0.85,0.1 C0.95,0.19 0.92,0.33 0.85,0.42 C0.78,0.5 0.82,0.58 0.9,0.64 C1.02,0.73 1,0.88 0.86,0.95 C0.68,1.04 0.42,1.02 0.24,0.92 C0.08,0.83 0,0.65 0.02,0.48 C0.04,0.3 0.12,0.1 0.3,0.02 Z" />
+    </clipPath>
   </defs>
 </svg>
 
@@ -639,16 +654,17 @@ on the page.)
     const data = [
       // 01 touch — open, relaxed, at rest
       { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
-        shapeScale: 1, shapeRotate: '0deg', breathing: false },
-      // 02 curl — pulls in tighter, a real compression
+        shapeScale: 1, shapeRotate: '0deg', shapeMask: 'mask-haruta-field', breathing: false },
+      // 02 curl — pulls in tighter, a real compression, and a genuinely
+      // different contour (not the same shape rotated) to sell the change
       { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
-        shapeScale: 0.8, shapeRotate: '-4deg', breathing: false },
+        shapeScale: 0.8, shapeRotate: '-4deg', shapeMask: 'mask-haruta-field-b', breathing: false },
       // 03 calm — holds the tighter form, only a slow breathing pulse moves
       { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)',
-        shapeScale: 0.84, shapeRotate: '-2deg', breathing: true },
-      // 04 reopen — loosens back open, slightly larger than at rest
+        shapeScale: 0.84, shapeRotate: '-2deg', shapeMask: 'mask-haruta-field-c', breathing: true },
+      // 04 reopen — loosens back open, contour eases back toward 01's shape
       { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)',
-        shapeScale: 1.08, shapeRotate: '3deg', breathing: false }
+        shapeScale: 1.08, shapeRotate: '3deg', shapeMask: 'mask-haruta-field', breathing: false }
     ];
 
     data.forEach((s, i) => {
@@ -680,6 +696,7 @@ on the page.)
         }
       });
       shape.style.background = s.shape;
+      shape.style.clipPath = 'url(#' + s.shapeMask + ')';
       shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(' + s.shapeScale + ') scale(var(--shape-pulse, 1))';
       shape.classList.toggle('is-breathing', !!s.breathing);
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
