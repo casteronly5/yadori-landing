@@ -922,28 +922,30 @@ section { position: relative; }
               width 1s cubic-bezier(0.22, 1, 0.36, 1),
               opacity 0.8s ease;
 }
-/* the frame keeps its own fixed 16:9 ratio; the mask class (one of the
-   three reusable families, rotated per slide via the data below) is
-   what actually shapes it — a scaled-down slide reads as its own mask
-   gently contracted, and scaling back up to slot 0 reads as the same
-   mask expanding into its full active form */
+/* the frame keeps its own fixed 16:9 ratio — only the mask (the visual
+   clip, not the source frame) changes between preview and active. Every
+   slide carries a light touch of the same shape family (the original,
+   gentler mask-organic-window) so previews read as quietly-shaped
+   frames rather than plain cards; only the active slide upgrades to the
+   bolder mask-moments-window below. */
 .moment-slide-image {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 18px 30px rgba(51, 46, 38, 0.12);
-  transition: border-radius 0.7s ease, box-shadow 0.7s ease;
-}
-/* the HARUTA treatment (irregular mask, breathing pulse) is reserved for
-   whichever slide currently sits in the active slot — previews stay a
-   plain simple frame so the carousel reads as parallel, not decorated */
-.moment-slide[data-slot="0"] .moment-slide-image {
   border-radius: 0;
-  box-shadow: none;
   overflow: visible;
   clip-path: url(#mask-organic-window);
+  filter: drop-shadow(0 12px 20px rgba(51, 46, 38, 0.1));
+  transition: filter 0.7s ease;
+}
+/* the HARUTA treatment (bold irregular mask, breathing pulse) is
+   reserved for whichever slide currently sits in the active slot —
+   previews keep the lighter mask-organic-window above so the carousel
+   still reads as parallel, not decorated, while the active slide is
+   unmistakably a designed irregular window rather than a rounded
+   rectangle even at this wide 16:9 ratio. */
+.moment-slide[data-slot="0"] .moment-slide-image {
+  clip-path: url(#mask-moments-window);
   filter: drop-shadow(0 20px 34px rgba(51, 46, 38, 0.14));
   transform: scale(var(--field-scale, 1));
   animation: harutaFieldBreathe 9s ease-in-out infinite;

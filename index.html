@@ -68,6 +68,22 @@
     <clipPath id="mask-haruta-field-c" clipPathUnits="objectBoundingBox">
       <path d="M-0.05,0.35 C0.05,0.08 0.32,-0.06 0.55,0.02 C0.72,0.08 0.7,0.26 0.86,0.32 C1.02,0.38 1.08,0.55 0.98,0.72 C0.86,0.92 0.6,1.05 0.34,0.98 C0.12,0.92 -0.06,0.72 -0.08,0.5 C-0.09,0.44 -0.07,0.4 -0.05,0.35 Z" />
     </clipPath>
+
+    <!-- Everyday Moments active-slide mask — mask-organic-window's curve
+         amplitude (control points only ~0.03-0.05 off the 0/1 edges) is
+         too subtle once stretched across a wide 16:9 frame: the box
+         itself is short, so a small dip that reads as "organic" on a
+         square photo flattens into what looks like a plain rounded
+         rectangle on a landscape one. Same family (smooth cubic curves,
+         soft, large-radius, controlled — no noisy multi-lobe blob) but
+         with much bigger control-point offsets (0.15-0.25 of box size,
+         not 0.03-0.05), so the silhouette still reads clearly on a wide
+         frame: one big convex arc across the top-left, one distinct
+         concave step cut into the right side (not a smooth taper — an
+         actual inward corner), and an asymmetric bottom-left bulge. */
+    <clipPath id="mask-moments-window" clipPathUnits="objectBoundingBox">
+      <path d="M-0.04,0.3 C-0.02,0.05 0.28,-0.08 0.56,-0.02 C0.8,0.03 0.82,0.22 0.98,0.26 C1.14,0.3 0.94,0.5 0.8,0.48 C0.68,0.46 0.62,0.7 0.7,0.86 C0.78,1.02 0.5,1.08 0.26,0.98 C0.06,0.9 -0.07,0.7 -0.08,0.5 C-0.09,0.42 -0.07,0.36 -0.04,0.3 Z" />
+    </clipPath>
   </defs>
 </svg>
 
