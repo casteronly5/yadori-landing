@@ -116,14 +116,15 @@
 </section>
 
 <!-- ============================================================
-05. HOW IT RESPONDS
-Sequential / scroll-linked composition rather than 4 equal cards: a
-single pinned product visual whose state crossfades as each step
-scrolls through the center of the viewport, with the section's own
-background tinting cream → pink → green → cream underneath it.
-Photo direction: each of the 4 states needs its own distinct photo
-showing the product actually mid-transition — no reusing one frame
-across states.
+05. HOW IT RESPONDS — [EXPRESSIVE] one thesis: motion.
+One product, four continuous states. Not four feature cards — the
+product itself is the protagonist, floating in front of a single
+soft organic shape that never contains it. A quiet auto-play cycles
+01→02→03→04 (~2.2s/state); the step numbers below double as manual
+controls. The closing line is deliberately pulled out of STEP 04 so
+it reads as the sequence's own conclusion, not more step copy.
+Photo direction: each state needs its own distinct photo of the
+product actually mid-transition — no reusing one frame across states.
 ============================================================ -->
 <section class="interaction" id="how-it-responds">
   <div class="section-head reveal">
@@ -131,46 +132,34 @@ across states.
     <h2>触れると、<br>どうなるの？</h2>
   </div>
 
-  <div class="interaction-scroller">
-    <div class="interaction-visual" aria-hidden="true">
-      <div class="interaction-state interaction-state-1 is-active img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">STEP 01</span></div>
+  <div class="interaction-stage reveal-fade">
+    <span class="interaction-shape" id="interactionShape" aria-hidden="true"></span>
+
+    <div class="interaction-visual" id="interactionVisual">
+      <div class="interaction-state is-active img-placeholder" data-state="1">
+        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（触れた直後）</span></div>
       </div>
-      <div class="interaction-state interaction-state-2 img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">STEP 02</span></div>
+      <div class="interaction-state img-placeholder" data-state="2">
+        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（丸くなる）</span></div>
       </div>
-      <div class="interaction-state interaction-state-3 img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">STEP 03</span></div>
+      <div class="interaction-state img-placeholder" data-state="3">
+        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（落ち着く）</span></div>
       </div>
-      <div class="interaction-state interaction-state-4 img-placeholder placeholder-square">
-        <div class="placeholder-inner"><span class="placeholder-tag">STEP 04</span></div>
+      <div class="interaction-state img-placeholder" data-state="4">
+        <div class="placeholder-inner"><span class="placeholder-tag">YADORI（ひらく）</span></div>
       </div>
-      <span class="interaction-thread" aria-hidden="true"></span>
     </div>
 
-    <ol class="interaction-steps">
-      <li class="interaction-step is-current" data-step="1" data-tint="cream">
-        <span class="step-number">01</span>
-        <h3>そっと触れると…</h3>
-        <p>少しだけ身体を丸めます。</p>
-      </li>
-      <li class="interaction-step" data-step="2" data-tint="pink">
-        <span class="step-number">02</span>
-        <h3>もう一度触れると…</h3>
-        <p>きゅっと、まんまるに。</p>
-      </li>
-      <li class="interaction-step" data-step="3" data-tint="green">
-        <span class="step-number">03</span>
-        <h3>しばらくすると…</h3>
-        <p>ゆっくり落ち着きます。</p>
-      </li>
-      <li class="interaction-step" data-step="4" data-tint="cream">
-        <span class="step-number">04</span>
-        <h3>また、ひらいていきます</h3>
-        <p>この子には、この子のペースがあります。</p>
-      </li>
-    </ol>
+    <div class="interaction-text" id="interactionText">
+      <span class="interaction-step-num" id="interactionStepNum">01</span>
+      <h3 id="interactionStepTitle">そっと触れると…</h3>
+      <p id="interactionStepBody">少しだけ身体を丸めます。</p>
+    </div>
+
+    <div class="interaction-selector" id="interactionSelector" role="tablist" aria-label="状態を選択"></div>
   </div>
+
+  <p class="interaction-closing reveal">この子には、<br>この子のペースがあります。</p>
 </section>
 
 <!-- ============================================================
@@ -247,37 +236,43 @@ script at the bottom of this file — see #momentsCarousel init.
 </section>
 
 <!-- ============================================================
-08. PRODUCT PERSONALITY
+08. CHARACTER PORTRAIT — [EXPRESSIVE] one thesis: personality.
+Sanctioned overlap zone. This is the character's formal introduction,
+not a spec sheet — so the product is no longer a small circular
+placeholder tucked in a corner. It's a large, direct portrait that
+occupies most of the right side and can partially run past the
+section edge, sized to counterbalance the oversized headline. A
+single offset organic shape breaks the sage field toward the right
+so the section never reads as one flat colored box.
 ============================================================ -->
 <section class="personality" id="personality">
-  <!-- Brand-personality statement first — the feature list is kept to a
-       few quiet, small-print tags near the product so it never competes
-       with the headline. The full spec lives in TOUCH / SIZE / COLOR. -->
   <div class="personality-text reveal">
     <h2>ちょっと、<br>臆病です。</h2>
-    <p>
+    <p class="personality-group personality-group--1">
       触れると、少し丸くなる。<br>
       もう少し触れると、<br>
-      きゅっと身体を小さくする。<br>
-      でも、<br>
-      ずっと丸まっているわけではありません。<br>
-      少し待つと、<br>
-      またゆっくり、<br>
-      ひらいていきます。<br>
+      きゅっと身体を小さくする。
+    </p>
+    <p class="personality-group personality-group--2">
+      でも、ずっと丸まっているわけではありません。<br>
+      少し待つと、またゆっくり、<br>
+      ひらいていきます。
+    </p>
+    <p class="personality-group personality-group--3">
       急がなくていい。<br>
-      この子には、<br>
-      この子のペースがあるから。
+      この子には、この子のペースがあるから。
     </p>
   </div>
 
-  <div class="personality-media reveal-fade">
-    <div class="img-placeholder placeholder-square personality-ball">
-      <div class="placeholder-inner"><span class="placeholder-tag">プロダクト画像</span></div>
+  <div class="personality-portrait reveal-fade">
+    <span class="personality-portrait-shape" aria-hidden="true"></span>
+    <div class="img-placeholder personality-portrait-image">
+      <div class="placeholder-inner"><span class="placeholder-tag">YADORI ポートレート（大）</span></div>
     </div>
     <ul class="personality-notes" aria-label="プロダクトの特徴（補足）">
-      <li>やわらかい毛並み</li>
-      <li>触れると動く</li>
-      <li>手のひらサイズ</li>
+      <li>やわらかい毛並み —</li>
+      <li>触れると動く —</li>
+      <li>手のひらサイズ —</li>
     </ul>
   </div>
 </section>
@@ -573,33 +568,72 @@ on the page.)
     revealTargets.forEach(el => el.classList.add('is-visible'));
   }
 
-  // Interaction section (#how-it-responds): as each step scrolls through
-  // the vertical center of the viewport, crossfade the pinned product
-  // visual to the matching state and gently tint the section background.
-  // This is a scroll-*position* effect, not a scroll-*speed* one — no
-  // parallax, just "whichever step is centered is the active one".
-  const interactionSection = document.querySelector('.interaction');
-  const interactionSteps = document.querySelectorAll('.interaction-step');
-  const interactionStates = document.querySelectorAll('.interaction-state');
-  const interactionTints = {
-    cream: 'var(--bg-soft)',
-    pink: 'var(--blush-soft)',
-    green: 'var(--sage-soft)'
-  };
-  if (interactionSection && interactionSteps.length && 'IntersectionObserver' in window) {
-    const interactionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const step = entry.target.dataset.step;
-        interactionSteps.forEach(el => el.classList.remove('is-current'));
-        entry.target.classList.add('is-current');
-        interactionStates.forEach(el => el.classList.remove('is-active'));
-        document.querySelector('.interaction-state-' + step)?.classList.add('is-active');
-        interactionSection.style.backgroundColor = interactionTints[entry.target.dataset.tint] || '';
-      });
-    }, { threshold: 0, rootMargin: '-42% 0px -42% 0px' });
-    interactionSteps.forEach(el => interactionObserver.observe(el));
-  }
+  // How It Responds (#how-it-responds): one product, four continuous
+  // states. A quiet auto-play steps 01→02→03→04 on a slow timer; clicking
+  // a step number jumps there directly and restarts the timer so the
+  // sequence keeps breathing on its own after a user pauses to look.
+  (function () {
+    const stage = document.querySelector('.interaction-stage');
+    if (!stage) return;
+    const shape = document.getElementById('interactionShape');
+    const states = document.querySelectorAll('.interaction-state');
+    const selector = document.getElementById('interactionSelector');
+    const numEl = document.getElementById('interactionStepNum');
+    const titleEl = document.getElementById('interactionStepTitle');
+    const bodyEl = document.getElementById('interactionStepBody');
+
+    const data = [
+      { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)' },
+      { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)' },
+      { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)' },
+      { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)' }
+    ];
+
+    data.forEach((s, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'interaction-selector-btn';
+      btn.textContent = s.num;
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-label', 'STEP ' + s.num);
+      btn.addEventListener('click', () => goTo(i, true));
+      selector.appendChild(btn);
+    });
+    const buttons = selector.querySelectorAll('.interaction-selector-btn');
+
+    let current = 0;
+    let timer = null;
+
+    function render() {
+      const s = data[current];
+      states.forEach((el, i) => el.classList.toggle('is-active', i === current));
+      states[current].style.transform = s.transform;
+      shape.style.background = s.shape;
+      buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
+      numEl.textContent = s.num;
+      titleEl.textContent = s.title;
+      bodyEl.textContent = s.body;
+      bodyEl.style.display = s.body ? '' : 'none';
+    }
+
+    function goTo(index, manual) {
+      current = (index + data.length) % data.length;
+      render();
+      if (manual) restart();
+    }
+
+    function tick() {
+      goTo(current + 1, false);
+    }
+
+    function restart() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(tick, 2300);
+    }
+
+    render();
+    restart();
+  })();
 
   // Everyday Moments (#everyday-moments): a quiet editorial carousel —
   // one active scene centered and dominant, previous/next scenes only
