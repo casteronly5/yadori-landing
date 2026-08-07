@@ -651,10 +651,20 @@ section { position: relative; }
   75% { --shape-pulse: 0.997; }
 }
 
+/* was clamp(340,46vw,600) — at that size the opaque product-placeholder
+   box (.interaction-state, z-index:1, sitting ON TOP of the organic
+   .interaction-shape at z-index:0) was nearly the same size as the
+   shape behind it, so it covered almost the entire shape and left only
+   thin rotated slivers of the organic curve visible — reading as the
+   shape itself being "cut" with hard straight edges. Shrunk so the box
+   stays clearly smaller than the shape's rendered size at every one of
+   the 4 states, so the shape's full silhouette is visible all the way
+   around it — the box floats IN FRONT of a fully-visible shape instead
+   of nearly covering it. */
 .interaction-visual {
   position: relative;
   z-index: 1;
-  width: clamp(340px, 46vw, 600px);
+  width: clamp(240px, 32vw, 420px);
   aspect-ratio: 1 / 1;
 }
 /* the same four photos always exist on screen: the active one is large,
