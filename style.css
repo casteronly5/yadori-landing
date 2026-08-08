@@ -1262,9 +1262,12 @@ section { position: relative; }
      shape already extends to, so more of the shape naturally shows
      past the boundary — about a 55-60px reveal, well under the ~30%
      of the shape's own size ceiling. Text keeps a real gap above this
-     new edge — verified via live screenshot, not by formula. */
+     new edge — verified via live screenshot, not by formula.
+     Follow-up: top/bottom padding each cut a further 10% (220→198,
+     12→11px) — the green canvas only, nothing else in this rule or
+     any other element touched. */
   min-height: 660px;
-  padding: var(--section-pad-major) 0 12px 7vw;
+  padding: 198px 0 11px 7vw;
   background: var(--sage-soft);
   /* was overflow:hidden — that directly contradicted the design intent
      of a shape that extends past the section's own right edge. body
@@ -1351,12 +1354,24 @@ section { position: relative; }
 .personality-field-wrap {
   position: absolute;
   z-index: 0;
-  /* +30% over the previous clamp(680px,52vw,1060px), same reasoning as
-     .story-haruta — the shape now reaches toward the headline instead
-     of sitting as a smaller block off to the side. Anchored right/top
-     unchanged, so it only grows further left/down, staying inside the
-     section (which already allows bleed, see the overflow note above). */
-  width: clamp(884px, 67.6vw, 1378px);
+  /* BUG FIX (real bug, not a cache issue — confirmed against the live
+     site at a 2600px-wide viewport): the previous clamp(884px,67.6vw,
+     1378px) sizing was independent of .personality-portrait's own
+     width, which is flex-content-driven and grows past the field's
+     1378px ceiling on wide desktop screens. Once the portrait grows
+     wider than the field, it also grows TALLER than the field (same
+     5:4 ratio on both) — which flips the "field is taller than
+     portrait" assumption the top:0 crossing effect below depends on,
+     and the shape's bottom edge lands well ABOVE the section's own
+     bottom edge instead of past it. No overlap at all, exactly the
+     flat seam reported.
+     Fix: size the field as a PERCENTAGE of its own containing block
+     (.personality-portrait, which is position:relative) instead of
+     viewport units. 107.5% keeps the same visual proportions this was
+     tuned at, but now scales 1:1 with the portrait at every viewport
+     width — the field is always exactly 7.5% taller than the portrait,
+     so the crossing math below never breaks. */
+  width: 107.5%;
   aspect-ratio: 5 / 4;
   right: 0;
   /* top:0, not bottom:0 — this is the load-bearing change for the
@@ -1364,12 +1379,12 @@ section { position: relative; }
      (which only moves with padding-top, never touched), the shape's
      absolute position becomes fully independent of .personality's
      padding-bottom. Since this shape is taller than the portrait box
-     (same 5:4 ratio, greater width), its bottom edge now naturally
-     hangs below the portrait's own bottom — and shrinking
-     .personality's padding-bottom simply trims how much green canvas
-     sits below that fixed point, letting more of the shape's own lower
-     portion show against .sense beneath it. The shape itself never
-     moves; only the canvas around it does. */
+     (now guaranteed at every width, see width comment above), its
+     bottom edge naturally hangs below the portrait's own bottom — and
+     shrinking .personality's padding-bottom simply trims how much
+     green canvas sits below that fixed point, letting more of the
+     shape's own lower portion show against .sense beneath it. The
+     shape itself never moves; only the canvas around it does. */
   top: 0;
 }
 /* field-b's own notch sits on the right side of its box by default —
