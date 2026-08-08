@@ -637,14 +637,21 @@ section { position: relative; }
    the shape's own bounding box past interaction-stage's left edge by
    ~110px at desktop widths. This size keeps even that widest state's
    full outer edge inside the stage's own box. */
+/* aspect-ratio matches the source SVG's own viewBox (1043 x 1030) instead
+   of an arbitrary 1.3/1 — a non-square box stretches the clip-path
+   non-uniformly even with no scale() applied at all, which is exactly
+   the kind of unintended redraw the user asked to eliminate. Only
+   rotation now differs per state (see the JS data array); the box itself
+   must stay proportioned like the original file so every state is a
+   literal copy, just turned. */
 .interaction-shape {
   position: absolute;
   top: 50%;
   left: 50%;
   width: clamp(680px, 49vw, 980px);
-  aspect-ratio: 1.3 / 1;
-  clip-path: url(#mask-haruta-field);
-  transform: translate(-56%, -50%) rotate(0deg) scale(1) scale(var(--shape-pulse, 1));
+  aspect-ratio: 1043 / 1030;
+  clip-path: url(#mask-haruta-vector-1);
+  transform: translate(-56%, -50%) rotate(0deg) scale(var(--shape-pulse, 1));
   background: var(--bg-warm);
   transition: background-color 1.6s ease, transform 1.9s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 0;
@@ -1126,7 +1133,13 @@ section { position: relative; }
   position: relative;
   z-index: 2;
   width: 38vw;
-  max-width: 460px;
+  /* 460px was tighter than the h2's own font-size clamp (up to 92px)
+     needs for "ちょっと、" (5 characters) to fit on one line — at the
+     upper end of that clamp, 460px was only ~1 character of slack, so
+     it wrapped mid-word into an extra line with a single trailing kana.
+     460px was sized for "臆病です。" (4 chars) alone; widened so the
+     longer first line fits too. */
+  max-width: 540px;
   flex-shrink: 0;
   align-self: flex-start;
   padding-top: clamp(20px, 4vw, 56px);
@@ -1158,13 +1171,19 @@ section { position: relative; }
    below). align-self:flex-end drops this flex item toward the bottom of
    the row — paired with the text's flex-start above, the two elements
    sit on opposite corners instead of a single centered line. */
+/* was align-self:flex-end (shape anchored to the bottom of the 760px
+   row) — with the text pinned to flex-start above, that put the shape
+   noticeably lower than the text block instead of reading as the same
+   "row" of content. flex-start now matches the text's own anchor, so
+   the two sit at the same vertical starting position; the poster still
+   reads as text-left/shape-right since the horizontal split is unchanged. */
 .personality-portrait {
   position: relative;
   z-index: 1;
   flex: 1 1 auto;
   min-width: 0;
   aspect-ratio: 5 / 4;
-  align-self: flex-end;
+  align-self: flex-start;
 }
 /* the wrapper handles the one-time reveal, the inner .haruta-field
    handles its own continuous breathing loop — same split used
