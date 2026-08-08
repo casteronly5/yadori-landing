@@ -1353,6 +1353,39 @@ section { position: relative; }
 }
 
 /* ==========================================================================
+   07c. TOUCH / SIZE — [FUNCTIONAL] product-understanding, not brand
+   emotion. Two plain photo groups side by side, each with one caption
+   line. Deliberately NOT organic-shaped and NOT three equal SaaS-style
+   feature cards — a straightforward photo-caption pairing matching how
+   product pages actually present touch/size/scale.
+   ========================================================================== */
+.sense { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
+.sense-grid {
+  max-width: var(--container-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 64px;
+  align-items: start;
+}
+.sense-label {
+  font-family: var(--font-jp-serif);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--c-ink);
+  margin-bottom: 22px;
+}
+.sense-photo { aspect-ratio: 4 / 5; border-radius: var(--radius-card); }
+.sense-photo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.sense-photo-row .sense-photo { aspect-ratio: 3 / 4; }
+.sense-caption {
+  margin-top: 22px;
+  font-size: var(--fs-body);
+  color: var(--c-ink-soft);
+  line-height: 1.8;
+}
+
+/* ==========================================================================
    08b. CHOICE BRIDGE — [QUIET] the last content gap: turns "picking a
    color" into "recognizing yourself in one", right before Our Story.
    Same minimal centered-text pattern as .philosophy / .brand-note —
@@ -1495,11 +1528,6 @@ section { position: relative; }
 }
 .purchase-price-regular dd { text-decoration: line-through; }
 .delivery { font-size: 12.5px; color: var(--c-ink-soft); margin: 16px 0 36px; }
-
-/* restores the touch/size understanding this decision zone was missing —
-   one plain sentence, no card, no icon — VARIATION is already covered
-   by the color swatches directly below. */
-.purchase-sense { font-size: 14.5px; line-height: 1.9; color: var(--c-ink-soft); margin: -20px 0 32px; }
 
 /* color — inline purchase-aid, small swatches only, no per-color panel */
 .purchase-color { margin-bottom: 40px; }

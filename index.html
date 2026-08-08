@@ -411,6 +411,31 @@ without changing this structure. One floating word sits on its contour.
 </section>
 
 <!-- ============================================================
+07c. TOUCH / SIZE — [FUNCTIONAL] product-understanding, not brand
+emotion. Two plain photo+caption pairs, side by side: one large touch
+close-up, three small size-in-context shots sharing one caption. No
+organic shapes here on purpose — clarity is the job, not atmosphere.
+============================================================ -->
+<section class="sense" id="sense">
+  <div class="sense-grid">
+    <div class="sense-group sense-group--touch">
+      <p class="sense-label">触り心地</p>
+      <div class="img-placeholder sense-photo sense-photo--touch" data-label="質感クローズアップ（指で毛並みに触れる）"></div>
+      <p class="sense-caption">何度でも触れたくなる、<br>やわらかな毛並み。</p>
+    </div>
+    <div class="sense-group sense-group--size">
+      <p class="sense-label">サイズ感</p>
+      <div class="sense-photo-row">
+        <div class="img-placeholder sense-photo" data-label="手のひらに乗せた様子"></div>
+        <div class="img-placeholder sense-photo" data-label="マグカップと並べた比較"></div>
+        <div class="img-placeholder sense-photo" data-label="バッグに入れた様子"></div>
+      </div>
+      <p class="sense-caption">手のひらにぴったりの、<br>ちょうどいいサイズ。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
 07b. CHOICE BRIDGE — [QUIET] the last content gap: turns "picking a
 color" into "recognizing yourself in one". Short text bridge only,
 same minimal pattern as the other quiet transition statements — no
@@ -499,11 +524,6 @@ it is never re-used as a card, panel or badge fill.
       </dl>
       <p class="delivery">お届け予定：2025年12月頃</p>
 
-      <p class="purchase-sense">
-        ふわふわとした毛並みが、そっと手になじみます。<br>
-        手のひらより少し大きい、抱きしめやすいサイズ感。
-      </p>
-
       <div class="purchase-color">
         <p class="purchase-color-label">COLOR</p>
         <ul class="purchase-color-list">
@@ -532,13 +552,13 @@ it is never re-used as a card, panel or badge fill.
 </section>
 
 <!-- ============================================================
-11. REVIEWS
-CLIENT TO CONFIRM: the quotes below were present in the existing source
-material but have not been verified as genuine purchaser reviews. Do not
-present these as customer testimonials publicly until the client has
-confirmed/approved them. (Kept as a code comment only — must not render
-on the page.)
-============================================================ -->
+11. REVIEWS — DISABLED. This section's own comment said the quotes
+below were unverified and "must not render on the page", but the
+markup was left live anyway — that contradiction is exactly what
+read as the brand-story copy and the reviews section blurring
+together. Turned into a real comment now so nothing renders. Restore
+by uncommenting once the client supplies actual approved reviews.
+
 <section class="reviews wave-top" id="reviews">
   <div class="reviews-track reveal" aria-label="お客様の声">
     <blockquote class="review-quote">
@@ -558,6 +578,7 @@ on the page.)
     </blockquote>
   </div>
 </section>
+============================================================ -->
 
 <!-- ============================================================
 12. PRODUCT SPEC / CARE / FAQ
