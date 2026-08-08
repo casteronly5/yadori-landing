@@ -59,11 +59,25 @@
          with a distinct "cut" or "bite". No aggressive concave notch;
          the character comes from scale, asymmetry and an edge that
          overflows the box, not from a deliberate crease. -->
+    <!-- These paths previously carried control points below 0 or above 1
+         (e.g. -0.1, 1.06) — in objectBoundingBox space that's not "just a
+         bit of intentional bleed", it's a request to paint outside the
+         element's own box. Whether that ever became visible depended on
+         whether the positioned box happened to sit flush against a
+         container/viewport edge — for .story-haruta (left:0) and
+         .interaction-shape (near the stage edge) it did, producing a
+         hard flat straight cut wherever the render ran out of room,
+         which reads as exactly the kind of clipping the shape must never
+         show. Every point below is the same silhouette, linearly
+         rescaled so the full path stays inside [0.02, 0.98] on both
+         axes — the shape can no longer require anything outside its own
+         box, so it renders completely regardless of how the container is
+         positioned. -->
     <clipPath id="mask-haruta-field" clipPathUnits="objectBoundingBox">
-      <path d="M-0.04,0.4 C-0.02,0.12 0.22,-0.06 0.5,-0.04 C0.8,-0.02 1.02,0.14 1.04,0.42 C1.06,0.66 0.92,0.88 0.66,0.98 C0.4,1.08 0.08,0.96 -0.02,0.7 C-0.06,0.6 -0.05,0.5 -0.04,0.4 Z" />
+      <path d="M0.04,0.41 C0.05,0.17 0.26,0.02 0.50,0.04 C0.76,0.05 0.95,0.19 0.96,0.42 C0.98,0.63 0.86,0.81 0.64,0.90 C0.41,0.98 0.14,0.88 0.05,0.66 C0.02,0.58 0.03,0.49 0.04,0.41 Z" />
     </clipPath>
     <clipPath id="mask-haruta-field-b" clipPathUnits="objectBoundingBox">
-      <path d="M0.56,-0.04 C0.84,-0.08 1.04,0.1 1.02,0.36 C1,0.58 0.86,0.6 0.8,0.74 C0.74,0.88 0.82,1.02 0.64,1.06 C0.4,1.1 0.1,1 -0.02,0.78 C-0.1,0.62 -0.02,0.46 0.1,0.34 C0.2,0.24 0.16,0.1 0.3,0.02 C0.38,-0.02 0.46,-0.03 0.56,-0.04 Z" />
+      <path d="M0.58,0.05 C0.81,0.02 0.98,0.17 0.96,0.38 C0.95,0.56 0.83,0.57 0.78,0.69 C0.73,0.80 0.79,0.91 0.64,0.95 C0.44,0.98 0.19,0.90 0.09,0.72 C0.02,0.59 0.09,0.46 0.19,0.36 C0.27,0.28 0.24,0.17 0.36,0.10 C0.42,0.07 0.49,0.06 0.58,0.05 Z" />
     </clipPath>
     <clipPath id="mask-haruta-field-c" clipPathUnits="objectBoundingBox">
       <path d="M-0.05,0.35 C0.05,0.08 0.32,-0.06 0.55,0.02 C0.72,0.08 0.7,0.26 0.86,0.32 C1.02,0.38 1.08,0.55 0.98,0.72 C0.86,0.92 0.6,1.05 0.34,0.98 C0.12,0.92 -0.06,0.72 -0.08,0.5 C-0.09,0.44 -0.07,0.4 -0.05,0.35 Z" />
@@ -81,8 +95,27 @@
          frame: one big convex arc across the top-left, one distinct
          concave step cut into the right side (not a smooth taper — an
          actual inward corner), and an asymmetric bottom-left bulge. -->
+    <!-- User-supplied vector shape (Vector.svg, real design-tool export,
+         not hand-approximated), normalized from its 1043x1030 viewBox into
+         objectBoundingBox units and clamped into [0.02, 0.98] the same way
+         as the three masks above, so it's guaranteed to render completely
+         inside its own box. Used across all four HOW IT RESPONDS states —
+         same silhouette, differentiated only by the per-state color and
+         rotation the JS already applies, per the reuse-a-shape-family
+         approach used everywhere else on the site. -->
+    <clipPath id="mask-haruta-vector-1" clipPathUnits="objectBoundingBox">
+      <path d="M0.14,0.17 C0.25,0.05 0.46,0.02 0.60,0.12 C0.71,0.21 0.85,0.19 0.91,0.33 C0.98,0.47 0.91,0.62 0.80,0.70 C0.72,0.76 0.72,0.89 0.57,0.94 C0.42,0.98 0.32,0.88 0.20,0.81 C0.08,0.74 0.02,0.61 0.06,0.47 C0.10,0.34 0.05,0.27 0.14,0.17 Z" />
+    </clipPath>
+
+    <!-- same problem as the two masks above: the original had points down
+         to -0.09 and up to 1.14. .moment-slide sits inside .moments-carousel,
+         which needs overflow:hidden to hide the queued slides off to the
+         sides — so any part of THIS mask that required painting outside
+         its own box was being hard-clipped by that overflow, which is
+         exactly the flat straight edge seen on the active slide's left
+         side. Rescaled to the same [0.02, 0.98] bounds, same silhouette. -->
     <clipPath id="mask-moments-window" clipPathUnits="objectBoundingBox">
-      <path d="M-0.04,0.3 C-0.02,0.05 0.28,-0.08 0.56,-0.02 C0.8,0.03 0.82,0.22 0.98,0.26 C1.14,0.3 0.94,0.5 0.8,0.48 C0.68,0.46 0.62,0.7 0.7,0.86 C0.78,1.02 0.5,1.08 0.26,0.98 C0.06,0.9 -0.07,0.7 -0.08,0.5 C-0.09,0.42 -0.07,0.36 -0.04,0.3 Z" />
+      <path d="M0.06,0.33 C0.07,0.13 0.31,0.02 0.53,0.07 C0.71,0.11 0.73,0.27 0.86,0.30 C0.98,0.33 0.82,0.50 0.71,0.48 C0.62,0.47 0.57,0.67 0.64,0.80 C0.70,0.93 0.48,0.98 0.29,0.90 C0.14,0.83 0.04,0.69 0.03,0.50 C0.02,0.43 0.04,0.38 0.06,0.33 Z" />
     </clipPath>
   </defs>
 </svg>
@@ -191,7 +224,7 @@ product actually mid-transition — no reusing one frame across states.
   </div>
 
   <div class="interaction-stage reveal-fade">
-    <span class="interaction-shape" id="interactionShape" aria-hidden="true"></span>
+    <span class="interaction-shape" id="interactionShape" aria-hidden="true" style="clip-path: url(#mask-haruta-vector-1);"></span>
 
     <!-- data-label per state: 触れた直後 / 丸くなる / 落ち着く / ひらく —
          each needs its own photo of the product mid-transition, no
@@ -650,30 +683,28 @@ on the page.)
     const titleEl = document.getElementById('interactionStepTitle');
     const bodyEl = document.getElementById('interactionStepBody');
 
-    // shapeScaleX/shapeScaleY are independent so each state reads as a
-    // genuinely different silhouette (open+wide vs. tight+round), not
-    // the same proportions at a different size. 04 deliberately reuses
-    // 01's mask but at a different scale/rotation so it echoes rather
-    // than repeats the opening state.
+    // All four states now share one clip-path (the user-supplied vector
+    // shape, mask-haruta-vector-1) instead of four separately hand-drawn
+    // masks — each state is differentiated only by color and rotation
+    // angle, same silhouette every time. shapeScaleX/shapeScaleY still
+    // vary per state so the proportions (wide vs. round) keep changing too.
     const data = [
       // 01 touch — open, relaxed, noticeably WIDE/horizontal
       { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
-        shapeScaleX: 1.18, shapeScaleY: 0.86, shapeRotate: '0deg', shapeMask: 'mask-haruta-field', breathing: false },
+        shapeScaleX: 1.18, shapeScaleY: 0.86, shapeRotate: '0deg', shapeMask: 'mask-haruta-vector-1', breathing: false },
       // 02 curl — a real compression toward round, not just "smaller":
-      // scaleX drops hard while scaleY barely moves, plus a different
-      // contour (field-b) so the change is unmistakable even in a
-      // static screenshot
+      // scaleX drops hard while scaleY barely moves
       { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
-        shapeScaleX: 0.62, shapeScaleY: 0.98, shapeRotate: '-8deg', shapeMask: 'mask-haruta-field-b', breathing: false },
+        shapeScaleX: 0.62, shapeScaleY: 0.98, shapeRotate: '-8deg', shapeMask: 'mask-haruta-vector-1', breathing: false },
       // 03 calm — settled, balanced proportions between 01's wide and
       // 02's round, only the slow breathing pulse moves
       { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)',
-        shapeScaleX: 0.88, shapeScaleY: 0.9, shapeRotate: '2deg', shapeMask: 'mask-haruta-field-c', breathing: true },
+        shapeScaleX: 0.88, shapeScaleY: 0.9, shapeRotate: '2deg', shapeMask: 'mask-haruta-vector-1', breathing: true },
       // 04 reopen — wide again like 01, but a different rotation and a
       // slightly smaller, less extreme stretch so it echoes 01 without
       // being a literal repeat of it
       { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)',
-        shapeScaleX: 1.05, shapeScaleY: 0.96, shapeRotate: '6deg', shapeMask: 'mask-haruta-field', breathing: false }
+        shapeScaleX: 1.05, shapeScaleY: 0.96, shapeRotate: '6deg', shapeMask: 'mask-haruta-vector-1', breathing: false }
     ];
 
     data.forEach((s, i) => {
