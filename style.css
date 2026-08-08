@@ -1274,17 +1274,32 @@ section { position: relative; }
      (198→158, 11→9, 660→528) — same "canvas only" rule, width/left
      padding/text/shape untouched.
      Follow-up 3: padding-top REVERTED back to 158px (was cut to 95px,
-     now undone). Reason: .personality-field-wrap is anchored top:0 to
+     now undone). Reason: .personality-field-wrap was anchored top:0 to
      .personality-portrait, and portrait's own top position is exactly
      "this section's padding-top" (align-self:flex-start, no other
-     offset) — so padding-top is not actually independent of the shape;
-     shrinking it moves the shape's on-screen position by the same
-     amount, which is not an acceptable side effect. padding-bottom and
-     min-height have no such coupling (they don't affect portrait's top
-     at all) so those stay at the smaller follow-up-3 values (9→5,
-     528→317) with zero effect on the shape's position. */
+     offset) — so padding-top was not actually independent of the shape;
+     shrinking it moved the shape's on-screen position by the same
+     amount. padding-bottom and min-height have no such coupling (they
+     don't affect portrait's top at all) so those stay at the smaller
+     follow-up-3 values (9→5, 528→317) with zero effect on the shape's
+     position.
+     Follow-up 4 (permanent structural fix, so this class of bug can't
+     recur): --pt below is the single source of truth for padding-top,
+     currently 158px — the exact value the shape was originally anchored
+     at. .personality-field-wrap's own top offset (see that rule) is now
+     defined as calc(158px - var(--pt)), which algebraically cancels
+     --pt out of the shape's final on-screen position no matter what
+     --pt is changed to later: shape's absolute top = section top +
+     var(--pt) [portrait's own offset] + (158px - var(--pt)) [shape's
+     compensating offset] = section top + 158px, always. From now on,
+     --pt can be freely changed to resize the green canvas's top edge —
+     the shape is structurally decoupled and will never move again as a
+     side effect. padding-bottom is deliberately NOT decoupled the same
+     way — that one is the intended dial for how much of the shape
+     visibly crosses into .sense, per the earlier "canvas only" design. */
+  --pt: 158px;
   min-height: 317px;
-  padding: 158px 0 5px 7vw;
+  padding: var(--pt) 0 5px 7vw;
   background: var(--sage-soft);
   /* was overflow:hidden — that directly contradicted the design intent
      of a shape that extends past the section's own right edge. body
@@ -1391,18 +1406,22 @@ section { position: relative; }
   width: 107.5%;
   aspect-ratio: 5 / 4;
   right: 0;
-  /* top:0, not bottom:0 — this is the load-bearing change for the
-     Character-to-Sense seam. Anchored to .personality-portrait's TOP
-     (which only moves with padding-top, never touched), the shape's
-     absolute position becomes fully independent of .personality's
-     padding-bottom. Since this shape is taller than the portrait box
-     (now guaranteed at every width, see width comment above), its
-     bottom edge naturally hangs below the portrait's own bottom — and
-     shrinking .personality's padding-bottom simply trims how much
-     green canvas sits below that fixed point, letting more of the
-     shape's own lower portion show against .sense beneath it. The
-     shape itself never moves; only the canvas around it does. */
-  top: 0;
+  /* top offset is NOT 0 anymore — this is the permanent decoupling fix.
+     .personality-portrait's own top position moves 1:1 with
+     .personality's --pt (padding-top) custom property, since portrait
+     is align-self:flex-start with no other offset. A plain top:0 here
+     would inherit that same movement, which is exactly the bug that
+     kept recurring: editing the green canvas's top padding dragged the
+     shape along with it. calc(158px - var(--pt)) cancels --pt out
+     algebraically — shape's absolute top = section top + var(--pt) +
+     (158px - var(--pt)) = section top + 158px, permanently, no matter
+     what --pt is changed to. 158px is the shape's original, approved
+     anchor point; it does not need to change when --pt changes.
+     padding-bottom is intentionally NOT given the same treatment — the
+     shape's bottom edge is still meant to move relative to .sense as
+     padding-bottom shrinks (that's the whole point of the seam-crossing
+     effect above), so only the top axis needed decoupling. */
+  top: calc(158px - var(--pt));
 }
 /* field-b's own notch sits on the right side of its box by default —
    scaleX(-1) mirrors it onto the left side instead, so the concave cut
