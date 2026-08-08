@@ -1068,15 +1068,33 @@ section { position: relative; }
 .moments-text-wrap[data-align="right"] { right: 9%; }
 .moments-text {
   position: relative;
+  z-index: 1;
   max-width: 360px;
   padding: 30px 34px;
-  background: var(--bg-main);
-  border-radius: var(--radius-soft);
-  box-shadow: 0 20px 40px rgba(51, 46, 38, 0.16);
+  /* the card's own background/rounded-rect frame moved to ::before below
+     (see that rule for why) — this element no longer paints a background
+     or gets clipped itself, so its text is never cut by the organic mask. */
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
   pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.5s ease, transform 0.5s ease;
+}
+/* the requested organic-SVG "frame": a separate layer behind the text,
+   generously oversized (inset is negative on every side) so the blob's
+   own concave notches always fall well outside the text block instead
+   of cutting into it — clip-path here only shapes this background
+   layer, never the real copy sitting on top of it. */
+.moments-text::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -28px -40px;
+  background: var(--bg-main);
+  clip-path: url(#mask-haruta-vector-1);
+  box-shadow: 0 20px 40px rgba(51, 46, 38, 0.16);
 }
 .moments-text.is-swapping { opacity: 0; transform: translateY(10px); }
 .moments-number {
@@ -1105,7 +1123,7 @@ section { position: relative; }
   color: var(--c-blue-green);
   margin-bottom: 16px;
 }
-.moments-text h3 { font-size: clamp(30px, 3vw, 48px); margin-bottom: 16px; }
+.moments-text h3 { font-size: clamp(24px, 2.4vw, 38px); margin-bottom: 16px; }
 .moments-text p { font-size: 16px; color: var(--c-ink-soft); }
 
 .moments-dots { display: flex; justify-content: center; gap: 10px; margin-top: 48px; }
