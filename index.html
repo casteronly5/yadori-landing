@@ -684,25 +684,26 @@ on the page.)
     const bodyEl = document.getElementById('interactionStepBody');
 
     // All four states are the SAME vector shape (mask-haruta-vector-1,
-    // the user-supplied SVG) with no scaleX/scaleY distortion, and now
-    // also no rotation difference at all — per explicit correction, the
-    // shape must never visibly rotate, not even instantly while hidden.
-    // Every state sits at the exact same fixed angle; switching states
-    // is a pure crossfade (fade out state N, fade in state N+1) with
-    // only the fill color changing underneath.
+    // the user-supplied SVG) with no scaleX/scaleY distortion. Each state
+    // has its OWN fixed angle (0/-90/180/270) — but the angle change is
+    // NEVER animated: the shape fades to fully invisible, the angle and
+    // color are swapped instantly while nothing is visible, then it
+    // fades back in at the new angle. So the eye only ever sees a
+    // fade-out followed by a fade-in — the rotation itself is never
+    // seen happening.
     const data = [
       // 01 touch
       { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
         shapeRotate: '0deg', shapeMask: 'mask-haruta-vector-1', breathing: false },
       // 02 curl
       { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
-        shapeRotate: '0deg', shapeMask: 'mask-haruta-vector-1', breathing: false },
+        shapeRotate: '-90deg', shapeMask: 'mask-haruta-vector-1', breathing: false },
       // 03 calm
       { num: '03', title: 'しばらくすると…', body: 'ゆっくり落ち着きます。', shape: 'var(--sage-soft)', transform: 'scale(0.74) rotate(1deg) translateY(6px)',
-        shapeRotate: '0deg', shapeMask: 'mask-haruta-vector-1', breathing: true },
+        shapeRotate: '180deg', shapeMask: 'mask-haruta-vector-1', breathing: true },
       // 04 reopen
       { num: '04', title: 'また、ひらいていきます', body: '', shape: 'var(--lavender-soft)', transform: 'scale(1.06) rotate(-1deg) translateY(-10px)',
-        shapeRotate: '0deg', shapeMask: 'mask-haruta-vector-1', breathing: false }
+        shapeRotate: '270deg', shapeMask: 'mask-haruta-vector-1', breathing: false }
     ];
 
     data.forEach((s, i) => {
