@@ -1273,16 +1273,18 @@ section { position: relative; }
      Follow-up 2: whole canvas scaled to 80% of the follow-up-1 values
      (198→158, 11→9, 660→528) — same "canvas only" rule, width/left
      padding/text/shape untouched.
-     Follow-up 3: top/bottom padding + min-height cut a further 40% off
-     the follow-up-2 values (158→95, 9→5, 528→317) — same rule, nothing
-     else touched. Note: the section's actual rendered height is driven
-     mostly by .personality-portrait's own content height (~900-1500px
-     depending on viewport, untouched here), so padding going this low
-     only shaves the total height by the padding amount itself — it
-     won't make the whole green box 40% shorter on its own, since the
-     portrait/shape were explicitly kept off-limits. */
+     Follow-up 3: padding-top REVERTED back to 158px (was cut to 95px,
+     now undone). Reason: .personality-field-wrap is anchored top:0 to
+     .personality-portrait, and portrait's own top position is exactly
+     "this section's padding-top" (align-self:flex-start, no other
+     offset) — so padding-top is not actually independent of the shape;
+     shrinking it moves the shape's on-screen position by the same
+     amount, which is not an acceptable side effect. padding-bottom and
+     min-height have no such coupling (they don't affect portrait's top
+     at all) so those stay at the smaller follow-up-3 values (9→5,
+     528→317) with zero effect on the shape's position. */
   min-height: 317px;
-  padding: 95px 0 5px 7vw;
+  padding: 158px 0 5px 7vw;
   background: var(--sage-soft);
   /* was overflow:hidden — that directly contradicted the design intent
      of a shape that extends past the section's own right edge. body
