@@ -610,7 +610,11 @@ section { position: relative; }
 .what-is .section-grid--reverse .image-col { margin-left: -7vw; }
 .what-is-shape {
   display: block;
-  width: 116%;
+  /* 116% → 104%: further step of the same height-overflow fix noted
+     above, this time as part of the page-wide ~1-screen-height pass —
+     still comfortably bigger than its own grid cell so the bleed reads
+     the same, just a shorter overall section. */
+  width: 104%;
   max-width: none;
   aspect-ratio: 6 / 5;
   clip-path: url(#mask-organic-window);
@@ -629,14 +633,19 @@ section { position: relative; }
   padding: var(--section-pad-y) 32px;
   background: var(--bg-soft);
 }
-.section-head { max-width: var(--container-w); margin: 0 auto 72px; text-align: center; }
+.section-head { max-width: var(--container-w); margin: 0 auto 56px; text-align: center; }
 .section-head h2 { font-size: var(--fs-subhead); }
 
 .interaction-stage {
   position: relative;
   max-width: var(--container-w);
   margin: 0 auto;
-  min-height: 660px;
+  /* 660 → 580: this min-height was well past what the stage's actual
+     content (product visual + text + selector) needs, so
+     justify-content:center was padding empty air evenly above/below —
+     part of the page-wide "too spread out" audit. Content still fits
+     with real room to spare at 580. */
+  min-height: 580px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -713,10 +722,13 @@ section { position: relative; }
 .interaction-visual {
   position: relative;
   z-index: 1;
-  /* raised from clamp(240,32vw,420) so the product reads as this
-     screen's actual protagonist rather than a small object floating
-     in a large field — still safely inside the shape's silhouette. */
-  width: clamp(280px, 37vw, 460px);
+  /* ceiling pulled back from 460 to 380: at desktop widths this box (in
+     normal flow, unlike the absolutely-positioned .interaction-shape
+     behind it) was the single biggest driver of .interaction-stage's
+     actual content height — min-height alone couldn't trim the section
+     because content was already taller than the min-height floor. This
+     still reads as the clear protagonist against the field behind it. */
+  width: clamp(260px, 30vw, 380px);
   aspect-ratio: 1 / 1;
 }
 /* the same four photos always exist on screen: the active one is large,
@@ -773,7 +785,7 @@ section { position: relative; }
 .interaction-text {
   position: relative;
   z-index: 1;
-  margin-top: 40px;
+  margin-top: 28px;
   max-width: 420px;
   text-align: center;
 }
@@ -794,7 +806,7 @@ section { position: relative; }
   z-index: 1;
   display: flex;
   gap: 30px;
-  margin-top: 36px;
+  margin-top: 26px;
 }
 .interaction-selector-btn {
   background: none;
@@ -824,7 +836,7 @@ section { position: relative; }
 .interaction-closing {
   position: relative;
   max-width: 420px;
-  margin: 64px auto 0;
+  margin: 32px auto 0;
   text-align: center;
   font-size: clamp(18px, 1.8vw, 22px);
   font-weight: 500;
@@ -876,13 +888,20 @@ section { position: relative; }
   position: relative;
   background: var(--bg-main);
   color: var(--c-ink);
-  padding: var(--section-pad-major) 0;
+  /* was var(--section-pad-major) (220px) top+bottom — this single big
+     HARUTA shape didn't need the same padding budget as a content-heavy
+     section like Character; part of the page-wide ~1-screen-height
+     audit. */
+  padding: 150px 0;
   overflow: visible;
 }
 .story-canvas {
   position: relative;
   width: 100%;
-  min-height: clamp(620px, 44vw, 820px);
+  /* clamp ceiling/floor both pulled down (620/44vw/820 → 540/38vw/700) —
+     the shape read as taller than one screen once section padding is
+     counted; still comfortably fits the field + copy at every width. */
+  min-height: clamp(540px, 38vw, 700px);
 }
 /* left:-8vw deliberately reintroduces a controlled off-canvas bleed
    (previously trimmed to left:0 to fix an earlier overflow issue) —
@@ -1226,11 +1245,26 @@ section { position: relative; }
    ========================================================================== */
 .personality {
   position: relative;
+  /* raised above .sense (which follows it in normal flow) so the field
+     shape — whose own position never changes — visibly sits on top of
+     the seam once this canvas is shortened enough that its edge rises
+     past the shape's already-existing lower edge. One of the site's
+     explicit "vertical overlap" spots. */
+  z-index: 2;
   display: flex;
   align-items: stretch;
   gap: 4px;
-  min-height: 760px;
-  padding: var(--section-pad-major) 0 var(--section-pad-major) 7vw;
+  /* min-height + bottom padding both cut (760→660, 220→12px) — pure
+     canvas resize, nothing else moved. The shape is now anchored via
+     top:0 on .personality-field-wrap (see that rule), so its own
+     position is fixed regardless of this padding; shrinking the green
+     canvas just moves this section's own bottom edge up past where the
+     shape already extends to, so more of the shape naturally shows
+     past the boundary — about a 55-60px reveal, well under the ~30%
+     of the shape's own size ceiling. Text keeps a real gap above this
+     new edge — verified via live screenshot, not by formula. */
+  min-height: 660px;
+  padding: var(--section-pad-major) 0 12px 7vw;
   background: var(--sage-soft);
   /* was overflow:hidden — that directly contradicted the design intent
      of a shape that extends past the section's own right edge. body
@@ -1319,13 +1353,24 @@ section { position: relative; }
   z-index: 0;
   /* +30% over the previous clamp(680px,52vw,1060px), same reasoning as
      .story-haruta — the shape now reaches toward the headline instead
-     of sitting as a smaller block off to the side. Anchored right/bottom
-     unchanged, so it only grows further left/up, staying inside the
+     of sitting as a smaller block off to the side. Anchored right/top
+     unchanged, so it only grows further left/down, staying inside the
      section (which already allows bleed, see the overflow note above). */
   width: clamp(884px, 67.6vw, 1378px);
   aspect-ratio: 5 / 4;
   right: 0;
-  bottom: 0;
+  /* top:0, not bottom:0 — this is the load-bearing change for the
+     Character-to-Sense seam. Anchored to .personality-portrait's TOP
+     (which only moves with padding-top, never touched), the shape's
+     absolute position becomes fully independent of .personality's
+     padding-bottom. Since this shape is taller than the portrait box
+     (same 5:4 ratio, greater width), its bottom edge now naturally
+     hangs below the portrait's own bottom — and shrinking
+     .personality's padding-bottom simply trims how much green canvas
+     sits below that fixed point, letting more of the shape's own lower
+     portion show against .sense beneath it. The shape itself never
+     moves; only the canvas around it does. */
+  top: 0;
 }
 /* field-b's own notch sits on the right side of its box by default —
    scaleX(-1) mirrors it onto the left side instead, so the concave cut
@@ -1359,6 +1404,9 @@ section { position: relative; }
    feature cards — a straightforward photo-caption pairing matching how
    product pages actually present touch/size/scale.
    ========================================================================== */
+/* no manual margin needed — this sits directly after .personality in
+   normal flow, so shortening that section's own canvas (see above) is
+   what closes the gap; this section's own box never moves. */
 .sense { padding: var(--section-pad-y) 32px; background: var(--bg-main); }
 .sense-grid {
   max-width: var(--container-w);
@@ -1375,7 +1423,11 @@ section { position: relative; }
   color: var(--c-ink);
   margin-bottom: 22px;
 }
-.sense-photo { aspect-ratio: 4 / 5; border-radius: var(--radius-card); }
+/* 4/5 → 4/4.3: the touch photo was the tallest thing in this section by
+   a wide margin (its column drives the whole row's height, since
+   align-items:start), pushing the section well past one screen; a
+   shorter close-up crop still reads fine for a texture shot. */
+.sense-photo { aspect-ratio: 4 / 4.3; border-radius: var(--radius-card); }
 .sense-photo-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .sense-photo-row .sense-photo { aspect-ratio: 3 / 4; }
 .sense-caption {
@@ -1478,7 +1530,11 @@ section { position: relative; }
   width: 112%;
   max-width: none;
   margin: -56px 0 -56px -12%;
-  aspect-ratio: 4 / 5;
+  /* 4/5 → 4/4.6: this visual was the tallest thing on the row and set
+     the whole section's height; a slightly less elongated crop still
+     reads as the dominant product shot while bringing the section
+     closer to the page-wide ~1-screen-height target. */
+  aspect-ratio: 4 / 4.6;
   border: none;
   border-radius: 18px;
   background: linear-gradient(135deg, var(--bg-soft), var(--sage-soft) 140%);
