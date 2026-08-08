@@ -1297,9 +1297,14 @@ section { position: relative; }
      side effect. padding-bottom is deliberately NOT decoupled the same
      way — that one is the intended dial for how much of the shape
      visibly crosses into .sense, per the earlier "canvas only" design. */
-  --pt: 158px;
-  min-height: 317px;
-  padding: var(--pt) 0 5px 7vw;
+  /* Follow-up 5: --pt and padding-bottom/min-height cut a further 30%
+     off the follow-up-3 values (158→111, 5→4, 317→222) — canvas only.
+     Safe this time: --pt now feeds through the decoupling calc() on
+     .personality-field-wrap (see that rule), so the shape's on-screen
+     position stays exactly where it was — verified live, not assumed. */
+  --pt: 111px;
+  min-height: 222px;
+  padding: var(--pt) 0 4px 7vw;
   background: var(--sage-soft);
   /* was overflow:hidden — that directly contradicted the design intent
      of a shape that extends past the section's own right edge. body
