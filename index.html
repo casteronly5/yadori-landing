@@ -749,6 +749,7 @@ by uncommenting once the client supplies actual approved reviews.
     const shape = document.getElementById('interactionShape');
     const states = document.querySelectorAll('.interaction-state');
     const selector = document.getElementById('interactionSelector');
+    const textEl = document.getElementById('interactionText');
     const numEl = document.getElementById('interactionStepNum');
     const titleEl = document.getElementById('interactionStepTitle');
     const bodyEl = document.getElementById('interactionStepBody');
@@ -762,8 +763,13 @@ by uncommenting once the client supplies actual approved reviews.
     // fade-out followed by a fade-in — the rotation itself is never
     // seen happening.
     const data = [
-      // 01 touch
-      { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--bg-warm)', transform: 'scale(1) rotate(0deg) translateY(0)',
+      // 01 touch — was var(--bg-warm) (#F3EEE8), a near-neutral cream
+      // that read as almost invisible against this section's own
+      // bg-soft background, next to 02/03/04's clearly saturated milk
+      // pastels. Switched to sky-soft so all four states now use one of
+      // the site's four milk-pastel colors (sky/blush/sage/lavender) at
+      // matching visual weight.
+      { num: '01', title: 'そっと触れると…', body: '少しだけ身体を丸めます。', shape: 'var(--sky-soft)', transform: 'scale(1) rotate(0deg) translateY(0)',
         shapeRotate: '0deg', shapeMask: 'mask-haruta-vector-1', breathing: false },
       // 02 curl
       { num: '02', title: 'もう一度触れると…', body: 'きゅっと、まんまるに。', shape: 'var(--blush-soft)', transform: 'scale(0.86) rotate(-3deg) translateY(14px)',
@@ -784,6 +790,16 @@ by uncommenting once the client supplies actual approved reviews.
       btn.setAttribute('role', 'tab');
       btn.setAttribute('aria-label', 'STEP ' + s.num);
       btn.addEventListener('click', () => goTo(i, true));
+      // Hover preview: entering a number stops autoplay and locks the
+      // stage on that state (fading in via the same shape+text fade
+      // render() already does); leaving resumes autoplay from there.
+      // clearInterval (not clearTimeout) so a mid-hover autoplay tick
+      // can never fire and yank the state back mid-preview.
+      btn.addEventListener('mouseenter', () => {
+        if (timer) { clearInterval(timer); timer = null; }
+        goTo(i, false);
+      });
+      btn.addEventListener('mouseleave', () => { restart(); });
       selector.appendChild(btn);
     });
     const buttons = selector.querySelectorAll('.interaction-selector-btn');
@@ -816,24 +832,35 @@ by uncommenting once the client supplies actual approved reviews.
         shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(var(--shape-pulse, 1))';
         shape.classList.toggle('is-breathing', !!s.breathing);
       };
+      // text now fades in the same beat as the shape instead of
+      // swapping instantly mid-fade-out — same content, just applied
+      // inside the shared timer below rather than synchronously here.
+      const applyText = () => {
+        numEl.textContent = s.num;
+        titleEl.textContent = s.title;
+        bodyEl.textContent = s.body;
+        bodyEl.style.display = s.body ? '' : 'none';
+      };
 
       if (firstRender) {
         applyShape();
+        applyText();
         firstRender = false;
       } else {
         clearTimeout(shape._fadeTimer);
         shape.style.opacity = '0';
+        textEl.style.opacity = '0';
         shape._fadeTimer = setTimeout(() => {
           applyShape();
-          requestAnimationFrame(() => { shape.style.opacity = '1'; });
+          applyText();
+          requestAnimationFrame(() => {
+            shape.style.opacity = '1';
+            textEl.style.opacity = '1';
+          });
         }, 300);
       }
 
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
-      numEl.textContent = s.num;
-      titleEl.textContent = s.title;
-      bodyEl.textContent = s.body;
-      bodyEl.style.display = s.body ? '' : 'none';
     }
 
     function goTo(index, manual) {

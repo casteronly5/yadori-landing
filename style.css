@@ -788,6 +788,10 @@ section { position: relative; }
   margin-top: 28px;
   max-width: 420px;
   text-align: center;
+  /* fades in the same 300ms beat as .interaction-shape's own opacity
+     transition (driven together from one JS timer) so the copy no
+     longer swaps instantly mid-fade — both read as one synced change. */
+  transition: opacity 0.3s ease;
 }
 .interaction-step-num {
   display: block;
