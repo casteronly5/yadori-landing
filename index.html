@@ -178,12 +178,8 @@
 <!-- ============================================================
 03. BRAND PHILOSOPHY
 ============================================================ -->
-<!-- reveal moved from .philosophy-inner up to the section itself: the
-     whole wave-clipped card (curve included) now rises + fades in as one
-     piece on scroll, instead of only the text inside it animating while
-     the curved edge sat there static from first paint. -->
-<section class="philosophy wave-top reveal" id="philosophy">
-  <div class="philosophy-inner">
+<section class="philosophy wave-top" id="philosophy">
+  <div class="philosophy-inner reveal">
     <p class="eyebrow">feelings find a place</p>
     <h2 class="philosophy-heading">言えなかった言葉も、<br>こぼれなかった涙も。</h2>
   </div>
@@ -229,17 +225,8 @@ product actually mid-transition — no reusing one frame across states.
 ============================================================ -->
 <section class="interaction" id="how-it-responds">
   <div class="section-head reveal">
-    <!-- eyebrow removed per request. The two lines that used to sit on
-         separate rows of one static h2 now play as a one-time sequence
-         instead: line 1 fades in, holds, fades out; line 2 fades in —
-         triggered once when .section-head gets .is-visible (same
-         IntersectionObserver already driving every other .reveal on the
-         page), not tied to live scroll position. Both spans are
-         absolutely stacked on one line so the swap never shifts layout. -->
-    <h2 class="interaction-heading-sequence">
-      <span class="seq-line seq-line--1">触れると、</span>
-      <span class="seq-line seq-line--2">どうなるの？</span>
-    </h2>
+    <p class="eyebrow">HOW IT RESPONDS</p>
+    <h2>触れると、<br>どうなるの？</h2>
   </div>
 
   <div class="interaction-stage reveal-fade">
