@@ -1302,7 +1302,18 @@ section { position: relative; }
   background: var(--lavender-soft);
 }
 .our-story-media { display: flex; align-items: center; padding: 48px; }
-.our-story-media-frame { width: 100%; }
+/* switched from the plain "window" clip-path family to the same organic
+   HARUTA blob (mask-haruta-vector-1) used by the Character Poster
+   section right before this one, per request to match that section's
+   character. aspect-ratio matches the source SVG's own proportions
+   (1043/1030) so the shape isn't stretched; border:none for the same
+   reason every other masked element needs it (see the note above). */
+.our-story-media-frame {
+  width: 100%;
+  aspect-ratio: 1043 / 1030;
+  clip-path: url(#mask-haruta-vector-1);
+  border: none;
+}
 .our-story-text {
   position: relative;
   z-index: 1;
