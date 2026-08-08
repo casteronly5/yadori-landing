@@ -853,10 +853,10 @@ section { position: relative; }
   clip-path: url(#mask-haruta-field-b);
   background: var(--bg-warm);
 }
-/* sits on the field's own notch, rotated within the 4-8deg range,
-   out of the text's own vertical flow */
+/* was rotated 6deg — that tilt had no real purpose (not actually
+   matching the organic shape's edge), so it now sits flat/straight. */
 .story-float {
-  --rot: 6deg;
+  --rot: 0deg;
   left: auto;
   top: auto;
   right: 8%;
@@ -1236,8 +1236,9 @@ section { position: relative; }
 
 /* sits on the notch itself (shape's left/upper area after the mirror
    and the bottom-right relocation), out of the text's own vertical flow */
+/* was rotated -5deg — same reason as .story-float, removed. */
 .personality-float {
-  --rot: -5deg;
+  --rot: 0deg;
   left: 4%;
   top: 10%;
   bottom: auto;
