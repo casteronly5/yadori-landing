@@ -838,14 +838,20 @@ section { position: relative; }
    quiet, card-free pattern as .philosophy, just taller — a real
    60-80vh breathing room so the page visibly slows down here.
    ========================================================================== */
+/* flat bg-main read as a dead blank box between two colored sections
+   (interaction's bg-soft above, emotional-story's bg-main below) — a
+   soft top-to-bottom gradient carries the previous section's color
+   through instead, so this reads as a deliberate quiet fade rather
+   than empty leftover space. Still just a background tint, no shape,
+   no card. */
 .brand-note {
-  min-height: 70vh;
+  min-height: 62vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--section-pad-major) 32px;
-  background: var(--bg-main);
+  padding: var(--section-pad-y) 32px;
+  background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-main) 42%, var(--bg-main) 100%);
 }
 .brand-note-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
 .brand-note-heading {
@@ -1352,13 +1358,16 @@ section { position: relative; }
    Same minimal centered-text pattern as .philosophy / .brand-note —
    no card, no new section weight.
    ========================================================================== */
+/* same fix as .brand-note: gradient carries personality's sage into
+   Our Story's lavender through this quiet zone instead of sitting as
+   a flat blank cream box between two colored sections. */
 .choice-note {
   padding: var(--section-pad-y) 32px;
   text-align: center;
-  background: var(--bg-main);
+  background: linear-gradient(180deg, var(--sage-soft) 0%, var(--bg-main) 34%, var(--bg-main) 66%, var(--lavender-soft) 100%);
 }
 .choice-note-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
-.choice-note-heading { font-size: var(--fs-subhead); line-height: 1.6; font-weight: 500; color: var(--c-ink); }
+.choice-note-heading { font-size: var(--fs-subhead); line-height: 1.6; font-weight: 500; color: var(--c-ink); margin-top: 4px; }
 
 /* ==========================================================================
    09. OUR STORY — [QUIET] the closing emotional beat
