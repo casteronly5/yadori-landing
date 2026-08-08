@@ -717,6 +717,7 @@ on the page.)
 
     let current = 0;
     let timer = null;
+    let firstRender = true;
 
     function render() {
       const s = data[current];
@@ -731,10 +732,30 @@ on the page.)
           el.style.transform = '';
         }
       });
-      shape.style.background = s.shape;
-      shape.style.clipPath = 'url(#' + s.shapeMask + ')';
-      shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(var(--shape-pulse, 1))';
-      shape.classList.toggle('is-breathing', !!s.breathing);
+
+      // Apply the shape's color/mask/rotation for this state. The angle
+      // change itself must never be visible mid-motion, so it is only
+      // ever written while the shape is fully transparent (see below) —
+      // there is no transform transition anymore, just an instant snap.
+      const applyShape = () => {
+        shape.style.background = s.shape;
+        shape.style.clipPath = 'url(#' + s.shapeMask + ')';
+        shape.style.transform = 'translate(-56%, -50%) rotate(' + s.shapeRotate + ') scale(var(--shape-pulse, 1))';
+        shape.classList.toggle('is-breathing', !!s.breathing);
+      };
+
+      if (firstRender) {
+        applyShape();
+        firstRender = false;
+      } else {
+        clearTimeout(shape._fadeTimer);
+        shape.style.opacity = '0';
+        shape._fadeTimer = setTimeout(() => {
+          applyShape();
+          requestAnimationFrame(() => { shape.style.opacity = '1'; });
+        }, 300);
+      }
+
       buttons.forEach((b, i) => b.classList.toggle('is-active', i === current));
       numEl.textContent = s.num;
       titleEl.textContent = s.title;

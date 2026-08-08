@@ -653,7 +653,12 @@ section { position: relative; }
   clip-path: url(#mask-haruta-vector-1);
   transform: translate(-56%, -50%) rotate(0deg) scale(var(--shape-pulse, 1));
   background: var(--bg-warm);
-  transition: background-color 1.6s ease, transform 1.9s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 1;
+  /* state changes no longer animate the rotation/transform itself (that
+     read as the shape "spinning" between states) — instead the shape
+     fades out, snaps instantly to the next state's angle/color while
+     invisible, then fades back in. Only opacity crossfades here. */
+  transition: opacity 0.55s ease;
   z-index: 0;
   pointer-events: none;
 }
