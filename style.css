@@ -910,20 +910,13 @@ section { position: relative; }
 .moments-carousel.is-dragging { cursor: grabbing; }
 .moments-carousel:focus-visible { box-shadow: 0 0 0 2px var(--c-line); }
 
-/* one soft organic shape behind the active photo — offset, never a
-   frame, crossfades color as the active scene changes */
+/* removed per explicit request: this section goes back to a plain 16:9
+   carousel with no organic background shape behind it. JS still sets
+   this element's background color per active scene, which is harmless
+   on a hidden element — kept in the DOM rather than deleted so nothing
+   downstream errors, just never painted. */
 .moments-shape {
-  position: absolute;
-  z-index: 0;
-  top: 50%;
-  left: 50%;
-  width: clamp(360px, 64vw, 820px);
-  height: 72%;
-  transform: translate(-50%, -46%);
-  border-radius: 42% 58% 55% 45% / 50% 45% 55% 50%;
-  background: var(--sage-soft);
-  transition: background-color 0.9s ease;
-  pointer-events: none;
+  display: none;
 }
 
 .moments-track { position: relative; z-index: 1; height: 100%; }
@@ -940,34 +933,27 @@ section { position: relative; }
               width 1s cubic-bezier(0.22, 1, 0.36, 1),
               opacity 0.8s ease;
 }
-/* the frame keeps its own fixed 16:9 ratio — only the mask (the visual
-   clip, not the source frame) changes between preview and active. Every
-   slide carries a light touch of the same shape family (the original,
-   gentler mask-organic-window) so previews read as quietly-shaped
-   frames rather than plain cards; only the active slide upgrades to the
-   bolder mask-moments-window below. */
+/* reverted to a plain traditional 16:9 frame per explicit request — no
+   clip-path on any slide (preview or active), just a normal rounded
+   rectangle. Same border-radius the rest of the site uses for a
+   straightforward image container (--radius-soft), not the HARUTA
+   organic-mask family. */
 .moment-slide-image {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   border: none;
-  border-radius: 0;
-  overflow: visible;
-  clip-path: url(#mask-organic-window);
-  filter: drop-shadow(0 12px 20px rgba(51, 46, 38, 0.1));
-  transition: filter 0.7s ease;
+  border-radius: var(--radius-soft);
+  overflow: hidden;
+  box-shadow: 0 18px 30px rgba(51, 46, 38, 0.12);
+  transition: box-shadow 0.7s ease;
 }
-/* the HARUTA treatment (bold irregular mask, breathing pulse) is
-   reserved for whichever slide currently sits in the active slot —
-   previews keep the lighter mask-organic-window above so the carousel
-   still reads as parallel, not decorated, while the active slide is
-   unmistakably a designed irregular window rather than a rounded
-   rectangle even at this wide 16:9 ratio. */
+/* active slide keeps a slightly stronger shadow to read as "in focus"
+   but is otherwise the same plain frame as the previews — no separate
+   mask, no breathing animation (that belonged to the organic-shape
+   treatment this section no longer uses). */
 .moment-slide[data-slot="0"] .moment-slide-image {
-  clip-path: url(#mask-moments-window);
-  filter: drop-shadow(0 20px 34px rgba(51, 46, 38, 0.14));
-  transform: scale(var(--field-scale, 1));
-  animation: harutaFieldBreathe 9s ease-in-out infinite;
+  box-shadow: 0 24px 40px rgba(51, 46, 38, 0.16);
 }
 .moment-slide-float {
   position: absolute;
