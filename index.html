@@ -171,7 +171,7 @@
     <h1 class="hero-heading">触れたら、<br>そっと返してくれる。</h1>
     <p class="hero-copy">言葉はいらない。<br>ただ触れるだけの、小さなやりとり。</p>
     <p class="hero-brandline">yadori.<br><span class="brush-accent">気持ちのとなり。</span></p>
-    <a href="#purchase" class="btn btn-primary">この子を迎える</a>
+    <a href="#purchase" class="btn btn-primary btn-primary--lg">この子を迎える</a>
   </div>
 </section>
 
@@ -192,16 +192,22 @@
   <div class="section-grid section-grid--reverse">
     <div class="text-col reveal">
       <h2>YADORIという、<br>小さな居場所。</h2>
-      <!-- CLIENT TO PROVIDE: brand intro copy. Existing site's approved
-           YADORI description was not found in the supplied source data —
-           needs one approved paragraph answering "what is YADORI". -->
-      <p class="body-copy placeholder-copy"></p>
+      <!-- The one content gap between the hero (feeling) and this
+           section's own headline (positioning): a single, short,
+           literal answer to "what actually is this thing" before the
+           page moves on to how it behaves. -->
+      <p class="body-copy">
+        YADORIは、<br>
+        触れると小さく応えてくれる、<br>
+        インタラクティブぬいぐるみです。
+      </p>
     </div>
     <div class="image-col reveal-fade">
       <!-- data-label: 単体プロダクト画像 — Photo direction: front or 3/4
            angle, clean single shot, product resting softly / gently
-           floating. No visible label until real photography exists. -->
-      <div class="img-placeholder placeholder-portrait" data-label="単体プロダクト画像"></div>
+           floating. Flat color fill until real photography exists,
+           same convention as the HARUTA shapes elsewhere on the site. -->
+      <span class="what-is-shape" aria-hidden="true" data-label="単体プロダクト画像"></span>
     </div>
   </div>
 </section>
@@ -250,6 +256,26 @@ product actually mid-transition — no reusing one frame across states.
 </section>
 
 <!-- ============================================================
+05b. BRAND PHILOSOPHY (WHY SO LITTLE) — [QUIET] the one content gap
+between "how it responds" and the night-time emotional beat below:
+turns "does very little" into the actual value, not a missing
+feature. Same quiet pattern as the earlier philosophy statement —
+centered text, no card — just taller breathing room so the page
+visibly slows down here before the emotional turn.
+============================================================ -->
+<section class="brand-note wave-top" id="brand-note">
+  <div class="brand-note-inner reveal">
+    <p class="eyebrow">WHY SO LITTLE</p>
+    <h2 class="brand-note-heading">
+      話しかけなくていい。<br>
+      答えを求めなくていい。<br>
+      ただ触れると、<br>
+      少しだけ返してくれる。
+    </h2>
+  </div>
+</section>
+
+<!-- ============================================================
 06. EMOTIONAL STORY — [QUIET] HARUTA composition: one large irregular
 night-scene window defines the whole section, not a card or a colored
 panel. The section background stays plain milk/white — that emptiness
@@ -269,7 +295,7 @@ word, is enough to carry the composition.
      text" composition. Data-label only — no visible placeholder text;
      the field is a flat color fill (real photography can replace the
      fill later without changing this structure). -->
-<section class="emotional-story wave-top" id="emotional-story">
+<section class="emotional-story" id="emotional-story">
   <div class="story-canvas">
     <div class="haruta-scene story-haruta">
       <!-- outer wrapper handles the one-time scroll reveal (compressed →
@@ -385,6 +411,23 @@ without changing this structure. One floating word sits on its contour.
 </section>
 
 <!-- ============================================================
+07b. CHOICE BRIDGE — [QUIET] the last content gap: turns "picking a
+color" into "recognizing yourself in one". Short text bridge only,
+same minimal pattern as the other quiet transition statements — no
+new section weight, no card.
+============================================================ -->
+<section class="choice-note wave-top" id="choice-note">
+  <div class="choice-note-inner reveal">
+    <p class="choice-note-heading">
+      選ぶのは、<br>
+      色だけではありません。<br>
+      いまのあなたに似た気配を、<br>
+      迎え入れること。
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
 09. OUR STORY
 The final emotional beat before the page turns to purchase logic —
 one real scene, one core brand paragraph, generous whitespace. No
@@ -413,6 +456,7 @@ does YADORI exist", not "what does it do".
       毎日の支えになれば嬉しい。<br>
       それが、yadori. に込めた想いです。
     </p>
+    <p class="our-story-promise">今日という一日を、いっしょに。</p>
   </div>
 </section>
 
@@ -453,6 +497,11 @@ it is never re-used as a card, panel or badge fill.
         </div>
       </dl>
       <p class="delivery">お届け予定：2025年12月頃</p>
+
+      <p class="purchase-sense">
+        ふわふわとした毛並みが、そっと手になじみます。<br>
+        手のひらより少し大きい、抱きしめやすいサイズ感。
+      </p>
 
       <div class="purchase-color">
         <p class="purchase-color-label">COLOR</p>
@@ -578,7 +627,7 @@ on the page.)
   <div class="final-cta-media img-placeholder placeholder-wide" data-label="クロージング画像"></div>
   <div class="final-cta-content reveal">
     <h2>あなたが触れたくなったとき、<br>そっと、となりに。</h2>
-    <a href="#purchase" class="btn btn-primary">この子を迎える</a>
+    <a href="#purchase" class="btn btn-primary btn-primary--lg">この子を迎える</a>
   </div>
 </section>
 

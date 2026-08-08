@@ -137,6 +137,14 @@ section { position: relative; }
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(51, 70, 58, 0.14);
 }
+/* slightly more presence for the two bookend CTAs (hero + closing)
+   while staying the same restrained pill shape/color as every other
+   button on the site — size only, no new visual language. */
+.btn-primary--lg {
+  height: 54px;
+  padding: 0 50px;
+  font-size: 15.5px;
+}
 
 /* ---- image placeholder system ---- */
 .img-placeholder {
@@ -588,12 +596,25 @@ section { position: relative; }
   animation: floatBreath 7.5s ease-in-out infinite;
 }
 .what-is h2 { font-size: var(--fs-subhead); margin-bottom: 28px; }
-.body-copy { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
+.body-copy { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); line-height: 1.9; }
 .placeholder-copy {
   border: 1.5px dashed var(--c-taupe);
   background: var(--bg-soft);
   border-radius: var(--radius-card);
   padding: 22px;
+}
+/* pull the shape in close to the text column and let it run past its
+   own grid cell so the two read as one composition, not an isolated
+   text-left / shape-right split; a soft window mask (not the bolder
+   HARUTA bite used elsewhere) keeps this screen gentle */
+.what-is .section-grid--reverse .image-col { margin-left: -7vw; }
+.what-is-shape {
+  display: block;
+  width: 116%;
+  max-width: none;
+  aspect-ratio: 6 / 5;
+  clip-path: url(#mask-organic-window);
+  background: var(--sky-soft);
 }
 
 /* ==========================================================================
@@ -615,7 +636,7 @@ section { position: relative; }
   position: relative;
   max-width: var(--container-w);
   margin: 0 auto;
-  min-height: 720px;
+  min-height: 660px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -648,7 +669,12 @@ section { position: relative; }
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(680px, 49vw, 980px);
+  /* pulled in from clamp(680,49vw,980) — at that size the field read
+     as the dominant "big blob card" rather than atmosphere behind the
+     product; still kept clearly larger than .interaction-visual below
+     so its full silhouette stays visible (avoids the occlusion issue
+     documented further down), just less of a standalone protagonist. */
+  width: clamp(620px, 45vw, 900px);
   aspect-ratio: 1043 / 1030;
   clip-path: url(#mask-haruta-vector-1);
   transform: translate(-56%, -50%) rotate(0deg) scale(var(--shape-pulse, 1));
@@ -687,7 +713,10 @@ section { position: relative; }
 .interaction-visual {
   position: relative;
   z-index: 1;
-  width: clamp(240px, 32vw, 420px);
+  /* raised from clamp(240,32vw,420) so the product reads as this
+     screen's actual protagonist rather than a small object floating
+     in a large field — still safely inside the shape's silhouette. */
+  width: clamp(280px, 37vw, 460px);
   aspect-ratio: 1 / 1;
 }
 /* the same four photos always exist on screen: the active one is large,
@@ -804,6 +833,29 @@ section { position: relative; }
 }
 
 /* ==========================================================================
+   05b. BRAND PHILOSOPHY (WHY SO LITTLE) — [QUIET] the content bridge
+   between "how it responds" and the night-time emotional beat. Same
+   quiet, card-free pattern as .philosophy, just taller — a real
+   60-80vh breathing room so the page visibly slows down here.
+   ========================================================================== */
+.brand-note {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--section-pad-major) 32px;
+  background: var(--bg-main);
+}
+.brand-note-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.brand-note-heading {
+  font-size: clamp(30px, 3.6vw, 50px);
+  line-height: 1.75;
+  font-weight: 500;
+  color: var(--c-ink);
+}
+
+/* ==========================================================================
    06. EMOTIONAL STORY — [QUIET] the site's clearest HARUTA composition:
    ONE big shape + big negative space + a little text, built as a single
    relative canvas rather than a two-column split. The field is
@@ -826,17 +878,19 @@ section { position: relative; }
   width: 100%;
   min-height: clamp(620px, 44vw, 820px);
 }
-/* left:0 keeps the field's full outer edge inside the canvas — no part
-   of it crosses the canvas/viewport boundary. Width is scaled down by
-   the same 8vw that used to bleed past the edge, so the shape's RIGHT
-   edge (the side that matters for the text-overlap relationship below)
-   lands at exactly the same position as before: only the overflowing
-   left portion was trimmed, not the notch-facing side. */
+/* left:-8vw deliberately reintroduces a controlled off-canvas bleed
+   (previously trimmed to left:0 to fix an earlier overflow issue) —
+   this design pass explicitly asks the field to read as a visual
+   field entering the frame rather than a fully-contained "big bean".
+   body's overflow-x:clip (used safely elsewhere for the same effect,
+   e.g. .personality-portrait / .our-story-media) keeps this from
+   creating a horizontal scrollbar; the shape's right edge only moves
+   8vw closer to the text, still leaving a healthy overlap. */
 .story-haruta {
   position: absolute;
   z-index: 1;
   top: 50%;
-  left: 0;
+  left: -8vw;
   transform: translateY(-50%);
   /* +30% over the previous clamp(760px,58vw,1160px) — the shape was
      reading as smaller/secondary next to the text; enlarged so it now
@@ -961,11 +1015,14 @@ section { position: relative; }
   transition: box-shadow 0.7s ease;
 }
 /* active slide keeps a slightly stronger shadow to read as "in focus"
-   but is otherwise the same plain frame as the previews — no separate
-   mask, no breathing animation (that belonged to the organic-shape
-   treatment this section no longer uses). */
+   otherwise the same plain frame as the previews, plus one gentle
+   organic crop reserved for the active slide only — the soft window
+   mask (not the bolder HARUTA family used elsewhere), so it reads as
+   a quiet crop rather than reverting to a plain rounded rectangle. */
 .moment-slide[data-slot="0"] .moment-slide-image {
   box-shadow: 0 24px 40px rgba(51, 46, 38, 0.16);
+  clip-path: url(#mask-organic-window);
+  border-radius: 0;
 }
 .moment-slide-float {
   position: absolute;
@@ -1290,6 +1347,20 @@ section { position: relative; }
 }
 
 /* ==========================================================================
+   08b. CHOICE BRIDGE — [QUIET] the last content gap: turns "picking a
+   color" into "recognizing yourself in one", right before Our Story.
+   Same minimal centered-text pattern as .philosophy / .brand-note —
+   no card, no new section weight.
+   ========================================================================== */
+.choice-note {
+  padding: var(--section-pad-y) 32px;
+  text-align: center;
+  background: var(--bg-main);
+}
+.choice-note-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.choice-note-heading { font-size: var(--fs-subhead); line-height: 1.6; font-weight: 500; color: var(--c-ink); }
+
+/* ==========================================================================
    09. OUR STORY — [QUIET] the closing emotional beat
    One real photo, one paragraph, generous whitespace. Single section
    background, no floating panel behind the image, no overlap: this is
@@ -1301,15 +1372,19 @@ section { position: relative; }
   grid-template-columns: 0.9fr 1.1fr;
   background: var(--lavender-soft);
 }
-.our-story-media { display: flex; align-items: center; padding: 48px; }
+.our-story-media { display: flex; align-items: center; padding: 48px; overflow: visible; }
 /* switched from the plain "window" clip-path family to the same organic
    HARUTA blob (mask-haruta-vector-1) used by the Character Poster
    section right before this one, per request to match that section's
    character. aspect-ratio matches the source SVG's own proportions
    (1043/1030) so the shape isn't stretched; border:none for the same
-   reason every other masked element needs it (see the note above). */
+   reason every other masked element needs it (see the note above).
+   width raised 115% + centered negative margin: Story needs one real
+   visual protagonist, not a shape that reads as mere decoration next
+   to the text. */
 .our-story-media-frame {
-  width: 100%;
+  width: 115%;
+  margin-left: -7.5%;
   aspect-ratio: 1043 / 1030;
   clip-path: url(#mask-haruta-vector-1);
   border: none;
@@ -1323,8 +1398,15 @@ section { position: relative; }
   justify-content: center;
 }
 .our-story-text--delayed.reveal { transition-delay: 0.22s; }
-.our-story-text h2 { font-size: var(--fs-subhead); margin-bottom: 26px; }
+.our-story-text h2 { font-size: var(--fs-subhead); margin-bottom: 34px; }
 .our-story-text p { font-size: var(--fs-body); color: var(--c-ink-soft); max-width: var(--copy-narrow); }
+.our-story-promise {
+  margin-top: 28px;
+  font-family: var(--font-jp-serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--c-deep-green);
+}
 
 /* ==========================================================================
    10. PRICE / PRE-ORDER — [FUNCTIONAL] one thesis: この子を迎える
@@ -1404,6 +1486,11 @@ section { position: relative; }
 }
 .purchase-price-regular dd { text-decoration: line-through; }
 .delivery { font-size: 12.5px; color: var(--c-ink-soft); margin: 16px 0 36px; }
+
+/* restores the touch/size understanding this decision zone was missing —
+   one plain sentence, no card, no icon — VARIATION is already covered
+   by the color swatches directly below. */
+.purchase-sense { font-size: 14.5px; line-height: 1.9; color: var(--c-ink-soft); margin: -20px 0 32px; }
 
 /* color — inline purchase-aid, small swatches only, no per-color panel */
 .purchase-color { margin-bottom: 40px; }
@@ -1503,7 +1590,7 @@ section { position: relative; }
 /* ==========================================================================
    14. FINAL CTA — [QUIET] sanctioned overlap: image edge-bleeds under text
    ========================================================================== */
-.final-cta { position: relative; min-height: 60vh; display: flex; align-items: center; overflow: hidden; }
+.final-cta { position: relative; min-height: 72vh; display: flex; align-items: center; overflow: hidden; }
 .final-cta-media { position: absolute; inset: 0; border-radius: 0; aspect-ratio: auto; }
 .final-cta-media::after {
   content: "";
