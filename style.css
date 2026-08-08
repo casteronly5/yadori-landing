@@ -1081,12 +1081,24 @@ section { position: relative; }
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.5s ease, transform 0.5s ease;
+  /* the 4 scenes have different copy lengths (state 03 "SLOW DAYS" is
+     the shortest — 2-line title + 2-line body vs. the others' 3-line
+     body), so the box used to shrink-wrap to a different height per
+     scene, making the ::before blob noticeably smaller for the short
+     ones and letting their own text nearly spill past its edge. A fixed
+     min-height (sized to the tallest scene, 01) plus vertical centering
+     keeps the blob the same size across all 4 states. */
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 /* the requested organic-SVG "frame": a separate layer behind the text,
    generously oversized (inset is negative on every side) so the blob's
    own concave notches always fall well outside the text block instead
    of cutting into it — clip-path here only shapes this background
-   layer, never the real copy sitting on top of it. */
+   layer, never the real copy sitting on top of it. Opacity lowered 30%
+   (1 → 0.7) per request, so the shape reads a little quieter/softer. */
 .moments-text::before {
   content: '';
   position: absolute;
@@ -1095,6 +1107,7 @@ section { position: relative; }
   background: var(--bg-main);
   clip-path: url(#mask-haruta-vector-1);
   box-shadow: 0 20px 40px rgba(51, 46, 38, 0.16);
+  opacity: 0.7;
 }
 .moments-text.is-swapping { opacity: 0; transform: translateY(10px); }
 .moments-number {
@@ -1366,8 +1379,10 @@ section { position: relative; }
 }
 .purchase-price-row dt { font-size: 13px; letter-spacing: 0.04em; color: var(--c-ink-soft); }
 .purchase-price-row dd { display: flex; align-items: baseline; gap: 14px; }
+/* both rows now share one font-size — the top row (超早割) used to be
+   set larger (25px vs 19px) than 早割's, which read as inconsistent
+   rather than intentionally emphasized. */
 .price-discount { font-family: var(--font-jp-serif); font-size: 19px; color: var(--c-deep-green); }
-.purchase-price-row--top .price-discount { font-size: 25px; }
 .price-amount { font-size: 14.5px; color: var(--c-ink); }
 .purchase-price-regular {
   display: flex;
