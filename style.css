@@ -838,7 +838,14 @@ section { position: relative; }
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  width: clamp(760px, 58vw, 1160px);
+  /* +30% over the previous clamp(760px,58vw,1160px) — the shape was
+     reading as smaller/secondary next to the text; enlarged so it now
+     reaches (and slightly passes under) the text column, making the
+     shape the dominant element and the copy read as an annotation
+     sitting on top of it, not a separate equal-weight column. Still
+     vertically centered on the canvas, so it stays fully contained —
+     nothing gets cropped by the section edges. */
+  width: clamp(988px, 75.4vw, 1508px);
 }
 .story-field-wrap { width: 100%; aspect-ratio: 16 / 9; }
 /* field-b's own concave dimple sits on the right side of its box — with
@@ -1216,7 +1223,12 @@ section { position: relative; }
 .personality-field-wrap {
   position: absolute;
   z-index: 0;
-  width: clamp(680px, 52vw, 1060px);
+  /* +30% over the previous clamp(680px,52vw,1060px), same reasoning as
+     .story-haruta — the shape now reaches toward the headline instead
+     of sitting as a smaller block off to the side. Anchored right/bottom
+     unchanged, so it only grows further left/up, staying inside the
+     section (which already allows bleed, see the overflow note above). */
+  width: clamp(884px, 67.6vw, 1378px);
   aspect-ratio: 5 / 4;
   right: 0;
   bottom: 0;
