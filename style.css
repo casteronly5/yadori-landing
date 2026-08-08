@@ -1263,11 +1263,17 @@ section { position: relative; }
      past the boundary — about a 55-60px reveal, well under the ~30%
      of the shape's own size ceiling. Text keeps a real gap above this
      new edge — verified via live screenshot, not by formula.
-     Follow-up: top/bottom padding each cut a further 10% (220→198,
+     Follow-up 1: top/bottom padding each cut a further 10% (220→198,
      12→11px) — the green canvas only, nothing else in this rule or
-     any other element touched. */
-  min-height: 660px;
-  padding: 198px 0 11px 7vw;
+     any other element touched.
+     Follow-up 2: whole canvas scaled to 80% of the follow-up-1 values
+     (198→158, 11→9, 660→528) — same "canvas only" rule, width/left
+     padding/text/shape untouched. This does shrink the shape's visible
+     crossing into .sense a bit further (9px of padding instead of 11),
+     but the crossing itself still holds since the shape's own fixed
+     position never moved. */
+  min-height: 528px;
+  padding: 158px 0 9px 7vw;
   background: var(--sage-soft);
   /* was overflow:hidden — that directly contradicted the design intent
      of a shape that extends past the section's own right edge. body
