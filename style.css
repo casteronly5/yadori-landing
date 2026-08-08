@@ -1038,15 +1038,30 @@ section { position: relative; }
 .moments-arrow--prev { left: 1%; }
 .moments-arrow--next { right: 1%; }
 
-/* text only ever describes the active scene — asymmetric alignment
-   alternates left/right edge of the stage from scene to scene */
-.moments-text-wrap { display: flex; margin-top: 56px; }
-.moments-text-wrap[data-align="left"] { justify-content: flex-start; }
-.moments-text-wrap[data-align="right"] { justify-content: flex-end; }
+/* text now overlaps the active photo's own top corner instead of
+   sitting in its own row below it — per explicit request, roughly 3/4
+   of the card sits on the image, 1/4 hangs off past its edge, so the
+   two read as one subject rather than an image + a separate caption
+   block. .moments-text-wrap is taken out of normal flow (position:
+   absolute) so .moments-stage's height collapses to the carousel+dots;
+   asymmetric left/right alignment is kept — it now picks which top
+   corner of the image the card overlaps, alternating scene to scene. */
+.moments-text-wrap {
+  position: absolute;
+  z-index: 5;
+  top: 7%;
+  pointer-events: none;
+}
+.moments-text-wrap[data-align="left"] { left: 9%; }
+.moments-text-wrap[data-align="right"] { right: 9%; }
 .moments-text {
   position: relative;
-  max-width: 420px;
-  padding-top: 8px;
+  max-width: 360px;
+  padding: 30px 34px;
+  background: var(--bg-main);
+  border-radius: var(--radius-soft);
+  box-shadow: 0 20px 40px rgba(51, 46, 38, 0.16);
+  pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -1056,7 +1071,12 @@ section { position: relative; }
   position: absolute;
   top: -34px;
   left: -6px;
-  z-index: -1;
+  /* was z-index:-1, which worked while .moments-text had no background
+     of its own — now that it's an opaque card (see above), a negative
+     z-index here would paint this behind that background and disappear
+     entirely. 0 keeps it behind the h3/p text that follow in the DOM
+     (still just a faint watermark) but above the card's own background. */
+  z-index: 0;
   font-family: var(--font-en);
   font-style: italic;
   font-size: clamp(64px, 8vw, 108px);
